@@ -29,6 +29,7 @@ using RichardsTech.Sensors;
 using RichardsTech.Sensors.Devices.HTS221;
 using RichardsTech.Sensors.Devices.LPS25H;
 using RichardsTech.Sensors.Devices.LSM9DS1;
+using System.IO;
 
 namespace Emmellsoft.IoT.Rpi.SenseHat
 {
@@ -39,17 +40,32 @@ namespace Emmellsoft.IoT.Rpi.SenseHat
 	{
 		private const byte DeviceAddress = 0x46;
 
-		private static readonly Task<ISenseHat> _getSenseHatTask = GetSenseHatTask();
+		private static Task<ISenseHat> _getSenseHatTask;
 
-		/// <summary>
-		/// Creates the SenseHat object.
-		/// </summary>
-		public static Task<ISenseHat> GetSenseHat()
+        /// <summary>
+        /// Creates the SenseHat object.
+        /// </summary>
+        public static Task<ISenseHat> GetSenseHat()
+        {
+            return GetSenseHat(ignoreFaultySensors: false);
+        }
+
+        public static Task<ISenseHat> GetSenseHat(bool ignoreFaultySensors)
 		{
-			return _getSenseHatTask;
-		}
+            if (_getSenseHatTask == null)
+            {
+                _getSenseHatTask = OpenSenseHatAsync(ignoreFaultySensors);
+            }
 
-		private static async Task<ISenseHat> GetSenseHatTask()
+			return _getSenseHatTask;
+        }
+
+        public static Task<ISenseHat> OpenSenseHatAsync()
+        {
+            return OpenSenseHatAsync(ignoreFaultySensors: false);
+        }
+
+        public static async Task<ISenseHat> OpenSenseHatAsync(bool ignoreFaultySensors)
 		{
 			MainI2CDevice mainI2CDevice = await CreateDisplayJoystickI2CDevice().ConfigureAwait(false);
 
@@ -74,6 +90,11 @@ namespace Emmellsoft.IoT.Rpi.SenseHat
 			};
 
 			I2cDevice i2CDevice = await I2cDevice.FromIdAsync(collection[0].Id, settings);
+
+            if (i2CDevice == null)
+            {
+                throw new IOException("Error opening SenseHat I2C device");
+            }
 
 			return new MainI2CDevice(i2CDevice);
 		}

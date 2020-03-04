@@ -334,7 +334,7 @@
       "System.Buffers/4.0.0": {
         "type": "package",
         "compile": {
-          "lib/netstandard1.1/_._": {}
+          "lib/netstandard1.1/System.Buffers.dll": {}
         },
         "runtime": {
           "lib/netstandard1.1/System.Buffers.dll": {}
@@ -511,7 +511,7 @@
       "System.Diagnostics.DiagnosticSource/4.0.0": {
         "type": "package",
         "compile": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/System.Diagnostics.DiagnosticSource.dll": {}
         },
         "runtime": {
           "lib/netstandard1.3/System.Diagnostics.DiagnosticSource.dll": {}
@@ -1323,7 +1323,7 @@
           "System.Runtime": "4.1.0"
         },
         "compile": {
-          "ref/netstandard1.0/_._": {}
+          "ref/netstandard1.0/System.Reflection.Emit.ILGeneration.dll": {}
         },
         "runtime": {
           "lib/netcore50/System.Reflection.Emit.ILGeneration.dll": {}
@@ -1344,7 +1344,7 @@
           "System.Runtime": "4.1.0"
         },
         "compile": {
-          "ref/netstandard1.0/_._": {}
+          "ref/netstandard1.0/System.Reflection.Emit.Lightweight.dll": {}
         },
         "runtime": {
           "lib/netcore50/System.Reflection.Emit.Lightweight.dll": {}
@@ -1684,7 +1684,7 @@
           "System.Text.Encoding": "4.0.11"
         },
         "compile": {
-          "ref/netstandard1.4/_._": {}
+          "ref/netstandard1.4/System.Security.Cryptography.Cng.dll": {}
         },
         "runtimeTargets": {
           "runtimes/win/lib/netstandard1.4/System.Security.Cryptography.Cng.dll": {
@@ -1997,7 +1997,7 @@
       "System.Threading.Tasks.Extensions/4.0.0": {
         "type": "package",
         "compile": {
-          "lib/portable-net45+win8+wp8+wpa81/_._": {}
+          "lib/portable-net45+win8+wp8+wpa81/System.Threading.Tasks.Extensions.dll": {}
         },
         "runtime": {
           "lib/portable-net45+win8+wp8+wpa81/System.Threading.Tasks.Extensions.dll": {}
@@ -2142,11 +2142,7 @@
       },
       "RPi.SenseHat/1.0.0": {
         "type": "project",
-        "framework": "UAP,Version=v10.0.10240",
-        "dependencies": {
-          "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
-          "RTIMULibCS": "1.0.0"
-        }
+        "framework": "Unsupported,Version=v0.0"
       },
       "RTIMULibCS/1.0.0": {
         "type": "project",
@@ -2737,7 +2733,7 @@
       "System.Buffers/4.0.0": {
         "type": "package",
         "compile": {
-          "lib/netstandard1.1/_._": {}
+          "lib/netstandard1.1/System.Buffers.dll": {}
         },
         "runtime": {
           "lib/netstandard1.1/System.Buffers.dll": {}
@@ -2910,7 +2906,7 @@
       "System.Diagnostics.DiagnosticSource/4.0.0": {
         "type": "package",
         "compile": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/System.Diagnostics.DiagnosticSource.dll": {}
         },
         "runtime": {
           "lib/netstandard1.3/System.Diagnostics.DiagnosticSource.dll": {}
@@ -3638,7 +3634,7 @@
           "System.Runtime": "4.1.0"
         },
         "compile": {
-          "ref/netstandard1.0/_._": {}
+          "ref/netstandard1.0/System.Reflection.Emit.ILGeneration.dll": {}
         },
         "runtime": {
           "lib/netcore50/System.Reflection.Emit.ILGeneration.dll": {}
@@ -3653,7 +3649,7 @@
           "System.Runtime": "4.1.0"
         },
         "compile": {
-          "ref/netstandard1.0/_._": {}
+          "ref/netstandard1.0/System.Reflection.Emit.Lightweight.dll": {}
         },
         "runtime": {
           "lib/netcore50/System.Reflection.Emit.Lightweight.dll": {}
@@ -3957,7 +3953,7 @@
           "System.Text.Encoding": "4.0.11"
         },
         "compile": {
-          "ref/netstandard1.4/_._": {}
+          "ref/netstandard1.4/System.Security.Cryptography.Cng.dll": {}
         },
         "runtime": {
           "runtimes/win/lib/netstandard1.4/System.Security.Cryptography.Cng.dll": {}
@@ -4265,7 +4261,7 @@
       "System.Threading.Tasks.Extensions/4.0.0": {
         "type": "package",
         "compile": {
-          "lib/portable-net45+win8+wp8+wpa81/_._": {}
+          "lib/portable-net45+win8+wp8+wpa81/System.Threading.Tasks.Extensions.dll": {}
         },
         "runtime": {
           "lib/portable-net45+win8+wp8+wpa81/System.Threading.Tasks.Extensions.dll": {}
@@ -4405,11 +4401,7 @@
       },
       "RPi.SenseHat/1.0.0": {
         "type": "project",
-        "framework": "UAP,Version=v10.0.10240",
-        "dependencies": {
-          "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
-          "RTIMULibCS": "1.0.0"
-        }
+        "framework": "Unsupported,Version=v0.0"
       },
       "RTIMULibCS/1.0.0": {
         "type": "project",
@@ -5036,7 +5028,7 @@
       "System.Buffers/4.0.0": {
         "type": "package",
         "compile": {
-          "lib/netstandard1.1/_._": {}
+          "lib/netstandard1.1/System.Buffers.dll": {}
         },
         "runtime": {
           "lib/netstandard1.1/System.Buffers.dll": {}
@@ -5209,7 +5201,7 @@
       "System.Diagnostics.DiagnosticSource/4.0.0": {
         "type": "package",
         "compile": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/System.Diagnostics.DiagnosticSource.dll": {}
         },
         "runtime": {
           "lib/netstandard1.3/System.Diagnostics.DiagnosticSource.dll": {}
@@ -5937,7 +5929,7 @@
           "System.Runtime": "4.1.0"
         },
         "compile": {
-          "ref/netstandard1.0/_._": {}
+          "ref/netstandard1.0/System.Reflection.Emit.ILGeneration.dll": {}
         },
         "runtime": {
           "runtimes/aot/lib/netcore50/_._": {}
@@ -5952,7 +5944,7 @@
           "System.Runtime": "4.1.0"
         },
         "compile": {
-          "ref/netstandard1.0/_._": {}
+          "ref/netstandard1.0/System.Reflection.Emit.Lightweight.dll": {}
         },
         "runtime": {
           "runtimes/aot/lib/netcore50/_._": {}
@@ -6256,7 +6248,7 @@
           "System.Text.Encoding": "4.0.11"
         },
         "compile": {
-          "ref/netstandard1.4/_._": {}
+          "ref/netstandard1.4/System.Security.Cryptography.Cng.dll": {}
         },
         "runtime": {
           "runtimes/win/lib/netstandard1.4/System.Security.Cryptography.Cng.dll": {}
@@ -6564,7 +6556,7 @@
       "System.Threading.Tasks.Extensions/4.0.0": {
         "type": "package",
         "compile": {
-          "lib/portable-net45+win8+wp8+wpa81/_._": {}
+          "lib/portable-net45+win8+wp8+wpa81/System.Threading.Tasks.Extensions.dll": {}
         },
         "runtime": {
           "lib/portable-net45+win8+wp8+wpa81/System.Threading.Tasks.Extensions.dll": {}
@@ -6704,11 +6696,7 @@
       },
       "RPi.SenseHat/1.0.0": {
         "type": "project",
-        "framework": "UAP,Version=v10.0.10240",
-        "dependencies": {
-          "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
-          "RTIMULibCS": "1.0.0"
-        }
+        "framework": "Unsupported,Version=v0.0"
       },
       "RTIMULibCS/1.0.0": {
         "type": "project",
@@ -7308,7 +7296,7 @@
       "System.Buffers/4.0.0": {
         "type": "package",
         "compile": {
-          "lib/netstandard1.1/_._": {}
+          "lib/netstandard1.1/System.Buffers.dll": {}
         },
         "runtime": {
           "lib/netstandard1.1/System.Buffers.dll": {}
@@ -7481,7 +7469,7 @@
       "System.Diagnostics.DiagnosticSource/4.0.0": {
         "type": "package",
         "compile": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/System.Diagnostics.DiagnosticSource.dll": {}
         },
         "runtime": {
           "lib/netstandard1.3/System.Diagnostics.DiagnosticSource.dll": {}
@@ -8209,7 +8197,7 @@
           "System.Runtime": "4.1.0"
         },
         "compile": {
-          "ref/netstandard1.0/_._": {}
+          "ref/netstandard1.0/System.Reflection.Emit.ILGeneration.dll": {}
         },
         "runtime": {
           "lib/netcore50/System.Reflection.Emit.ILGeneration.dll": {}
@@ -8224,7 +8212,7 @@
           "System.Runtime": "4.1.0"
         },
         "compile": {
-          "ref/netstandard1.0/_._": {}
+          "ref/netstandard1.0/System.Reflection.Emit.Lightweight.dll": {}
         },
         "runtime": {
           "lib/netcore50/System.Reflection.Emit.Lightweight.dll": {}
@@ -8528,7 +8516,7 @@
           "System.Text.Encoding": "4.0.11"
         },
         "compile": {
-          "ref/netstandard1.4/_._": {}
+          "ref/netstandard1.4/System.Security.Cryptography.Cng.dll": {}
         },
         "runtime": {
           "runtimes/win/lib/netstandard1.4/System.Security.Cryptography.Cng.dll": {}
@@ -8836,7 +8824,7 @@
       "System.Threading.Tasks.Extensions/4.0.0": {
         "type": "package",
         "compile": {
-          "lib/portable-net45+win8+wp8+wpa81/_._": {}
+          "lib/portable-net45+win8+wp8+wpa81/System.Threading.Tasks.Extensions.dll": {}
         },
         "runtime": {
           "lib/portable-net45+win8+wp8+wpa81/System.Threading.Tasks.Extensions.dll": {}
@@ -8976,11 +8964,7 @@
       },
       "RPi.SenseHat/1.0.0": {
         "type": "project",
-        "framework": "UAP,Version=v10.0.10240",
-        "dependencies": {
-          "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
-          "RTIMULibCS": "1.0.0"
-        }
+        "framework": "Unsupported,Version=v0.0"
       },
       "RTIMULibCS/1.0.0": {
         "type": "project",
@@ -9616,7 +9600,7 @@
       "System.Buffers/4.0.0": {
         "type": "package",
         "compile": {
-          "lib/netstandard1.1/_._": {}
+          "lib/netstandard1.1/System.Buffers.dll": {}
         },
         "runtime": {
           "lib/netstandard1.1/System.Buffers.dll": {}
@@ -9789,7 +9773,7 @@
       "System.Diagnostics.DiagnosticSource/4.0.0": {
         "type": "package",
         "compile": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/System.Diagnostics.DiagnosticSource.dll": {}
         },
         "runtime": {
           "lib/netstandard1.3/System.Diagnostics.DiagnosticSource.dll": {}
@@ -10517,7 +10501,7 @@
           "System.Runtime": "4.1.0"
         },
         "compile": {
-          "ref/netstandard1.0/_._": {}
+          "ref/netstandard1.0/System.Reflection.Emit.ILGeneration.dll": {}
         },
         "runtime": {
           "runtimes/aot/lib/netcore50/_._": {}
@@ -10532,7 +10516,7 @@
           "System.Runtime": "4.1.0"
         },
         "compile": {
-          "ref/netstandard1.0/_._": {}
+          "ref/netstandard1.0/System.Reflection.Emit.Lightweight.dll": {}
         },
         "runtime": {
           "runtimes/aot/lib/netcore50/_._": {}
@@ -10836,7 +10820,7 @@
           "System.Text.Encoding": "4.0.11"
         },
         "compile": {
-          "ref/netstandard1.4/_._": {}
+          "ref/netstandard1.4/System.Security.Cryptography.Cng.dll": {}
         },
         "runtime": {
           "runtimes/win/lib/netstandard1.4/System.Security.Cryptography.Cng.dll": {}
@@ -11144,7 +11128,7 @@
       "System.Threading.Tasks.Extensions/4.0.0": {
         "type": "package",
         "compile": {
-          "lib/portable-net45+win8+wp8+wpa81/_._": {}
+          "lib/portable-net45+win8+wp8+wpa81/System.Threading.Tasks.Extensions.dll": {}
         },
         "runtime": {
           "lib/portable-net45+win8+wp8+wpa81/System.Threading.Tasks.Extensions.dll": {}
@@ -11284,11 +11268,7 @@
       },
       "RPi.SenseHat/1.0.0": {
         "type": "project",
-        "framework": "UAP,Version=v10.0.10240",
-        "dependencies": {
-          "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
-          "RTIMULibCS": "1.0.0"
-        }
+        "framework": "Unsupported,Version=v0.0"
       },
       "RTIMULibCS/1.0.0": {
         "type": "project",
@@ -11888,7 +11868,7 @@
       "System.Buffers/4.0.0": {
         "type": "package",
         "compile": {
-          "lib/netstandard1.1/_._": {}
+          "lib/netstandard1.1/System.Buffers.dll": {}
         },
         "runtime": {
           "lib/netstandard1.1/System.Buffers.dll": {}
@@ -12061,7 +12041,7 @@
       "System.Diagnostics.DiagnosticSource/4.0.0": {
         "type": "package",
         "compile": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/System.Diagnostics.DiagnosticSource.dll": {}
         },
         "runtime": {
           "lib/netstandard1.3/System.Diagnostics.DiagnosticSource.dll": {}
@@ -12789,7 +12769,7 @@
           "System.Runtime": "4.1.0"
         },
         "compile": {
-          "ref/netstandard1.0/_._": {}
+          "ref/netstandard1.0/System.Reflection.Emit.ILGeneration.dll": {}
         },
         "runtime": {
           "lib/netcore50/System.Reflection.Emit.ILGeneration.dll": {}
@@ -12804,7 +12784,7 @@
           "System.Runtime": "4.1.0"
         },
         "compile": {
-          "ref/netstandard1.0/_._": {}
+          "ref/netstandard1.0/System.Reflection.Emit.Lightweight.dll": {}
         },
         "runtime": {
           "lib/netcore50/System.Reflection.Emit.Lightweight.dll": {}
@@ -13108,7 +13088,7 @@
           "System.Text.Encoding": "4.0.11"
         },
         "compile": {
-          "ref/netstandard1.4/_._": {}
+          "ref/netstandard1.4/System.Security.Cryptography.Cng.dll": {}
         },
         "runtime": {
           "runtimes/win/lib/netstandard1.4/System.Security.Cryptography.Cng.dll": {}
@@ -13416,7 +13396,7 @@
       "System.Threading.Tasks.Extensions/4.0.0": {
         "type": "package",
         "compile": {
-          "lib/portable-net45+win8+wp8+wpa81/_._": {}
+          "lib/portable-net45+win8+wp8+wpa81/System.Threading.Tasks.Extensions.dll": {}
         },
         "runtime": {
           "lib/portable-net45+win8+wp8+wpa81/System.Threading.Tasks.Extensions.dll": {}
@@ -13556,11 +13536,7 @@
       },
       "RPi.SenseHat/1.0.0": {
         "type": "project",
-        "framework": "UAP,Version=v10.0.10240",
-        "dependencies": {
-          "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
-          "RTIMULibCS": "1.0.0"
-        }
+        "framework": "Unsupported,Version=v0.0"
       },
       "RTIMULibCS/1.0.0": {
         "type": "project",
@@ -14196,7 +14172,7 @@
       "System.Buffers/4.0.0": {
         "type": "package",
         "compile": {
-          "lib/netstandard1.1/_._": {}
+          "lib/netstandard1.1/System.Buffers.dll": {}
         },
         "runtime": {
           "lib/netstandard1.1/System.Buffers.dll": {}
@@ -14369,7 +14345,7 @@
       "System.Diagnostics.DiagnosticSource/4.0.0": {
         "type": "package",
         "compile": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/System.Diagnostics.DiagnosticSource.dll": {}
         },
         "runtime": {
           "lib/netstandard1.3/System.Diagnostics.DiagnosticSource.dll": {}
@@ -15097,7 +15073,7 @@
           "System.Runtime": "4.1.0"
         },
         "compile": {
-          "ref/netstandard1.0/_._": {}
+          "ref/netstandard1.0/System.Reflection.Emit.ILGeneration.dll": {}
         },
         "runtime": {
           "runtimes/aot/lib/netcore50/_._": {}
@@ -15112,7 +15088,7 @@
           "System.Runtime": "4.1.0"
         },
         "compile": {
-          "ref/netstandard1.0/_._": {}
+          "ref/netstandard1.0/System.Reflection.Emit.Lightweight.dll": {}
         },
         "runtime": {
           "runtimes/aot/lib/netcore50/_._": {}
@@ -15416,7 +15392,7 @@
           "System.Text.Encoding": "4.0.11"
         },
         "compile": {
-          "ref/netstandard1.4/_._": {}
+          "ref/netstandard1.4/System.Security.Cryptography.Cng.dll": {}
         },
         "runtime": {
           "runtimes/win/lib/netstandard1.4/System.Security.Cryptography.Cng.dll": {}
@@ -15724,7 +15700,7 @@
       "System.Threading.Tasks.Extensions/4.0.0": {
         "type": "package",
         "compile": {
-          "lib/portable-net45+win8+wp8+wpa81/_._": {}
+          "lib/portable-net45+win8+wp8+wpa81/System.Threading.Tasks.Extensions.dll": {}
         },
         "runtime": {
           "lib/portable-net45+win8+wp8+wpa81/System.Threading.Tasks.Extensions.dll": {}
@@ -15864,11 +15840,7 @@
       },
       "RPi.SenseHat/1.0.0": {
         "type": "project",
-        "framework": "UAP,Version=v10.0.10240",
-        "dependencies": {
-          "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
-          "RTIMULibCS": "1.0.0"
-        }
+        "framework": "Unsupported,Version=v0.0"
       },
       "RTIMULibCS/1.0.0": {
         "type": "project",
@@ -22048,12 +22020,12 @@
     },
     "RPi.SenseHat/1.0.0": {
       "type": "project",
-      "path": "../RPi.SenseHat/project.json",
+      "path": "../RPi.SenseHat/RPi.SenseHat.csproj",
       "msbuildProject": "../RPi.SenseHat/RPi.SenseHat.csproj"
     },
     "RTIMULibCS/1.0.0": {
       "type": "project",
-      "path": "../RTIMULibCS/project.json",
+      "path": "../RTIMULibCS/RTIMULibCS.csproj",
       "msbuildProject": "../RTIMULibCS/RTIMULibCS.csproj"
     }
   },
@@ -22064,19 +22036,19 @@
     "UAP,Version=v10.0.10240": []
   },
   "packageFolders": {
-    "C:\\Users\\Mattias\\.nuget\\packages\\": {}
+    "C:\\Users\\olof.OLOFDOM\\.nuget\\packages\\": {}
   },
   "project": {
     "restore": {
-      "projectUniqueName": "C:\\Projects\\GitHub\\Emmellsoft\\RPi.SenseHat\\RPi.SenseHat\\RPi.SenseHat.Demo\\RPi.SenseHat.Demo.csproj",
+      "projectUniqueName": "C:\\Users\\olof.OLOFDOM\\Source\\Repos\\emmellsoft\\RPi.SenseHat\\RPi.SenseHat\\RPi.SenseHat.Demo\\RPi.SenseHat.Demo.csproj",
       "projectName": "RPi.SenseHat.Demo",
-      "projectPath": "C:\\Projects\\GitHub\\Emmellsoft\\RPi.SenseHat\\RPi.SenseHat\\RPi.SenseHat.Demo\\RPi.SenseHat.Demo.csproj",
-      "projectJsonPath": "C:\\Projects\\GitHub\\Emmellsoft\\RPi.SenseHat\\RPi.SenseHat\\RPi.SenseHat.Demo\\project.json",
-      "packagesPath": "C:\\Users\\Mattias\\.nuget\\packages\\",
-      "outputPath": "C:\\Projects\\GitHub\\Emmellsoft\\RPi.SenseHat\\RPi.SenseHat\\RPi.SenseHat.Demo\\obj\\",
+      "projectPath": "C:\\Users\\olof.OLOFDOM\\Source\\Repos\\emmellsoft\\RPi.SenseHat\\RPi.SenseHat\\RPi.SenseHat.Demo\\RPi.SenseHat.Demo.csproj",
+      "projectJsonPath": "C:\\Users\\olof.OLOFDOM\\Source\\Repos\\emmellsoft\\RPi.SenseHat\\RPi.SenseHat\\RPi.SenseHat.Demo\\project.json",
+      "packagesPath": "C:\\Users\\olof.OLOFDOM\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\olof.OLOFDOM\\Source\\Repos\\emmellsoft\\RPi.SenseHat\\RPi.SenseHat\\RPi.SenseHat.Demo\\obj\\",
       "projectStyle": "ProjectJson",
       "configFilePaths": [
-        "C:\\Users\\Mattias\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\olof.OLOFDOM\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "sources": {
@@ -22086,18 +22058,18 @@
       "frameworks": {
         "uap10.0.10240": {
           "projectReferences": {
-            "C:\\Projects\\GitHub\\Emmellsoft\\RPi.SenseHat\\RPi.SenseHat\\RPi.SenseHat\\RPi.SenseHat.csproj": {
-              "projectPath": "C:\\Projects\\GitHub\\Emmellsoft\\RPi.SenseHat\\RPi.SenseHat\\RPi.SenseHat\\RPi.SenseHat.csproj"
+            "C:\\Users\\olof.OLOFDOM\\Source\\Repos\\emmellsoft\\RPi.SenseHat\\RPi.SenseHat\\RPi.SenseHat\\RPi.SenseHat.csproj": {
+              "projectPath": "C:\\Users\\olof.OLOFDOM\\Source\\Repos\\emmellsoft\\RPi.SenseHat\\RPi.SenseHat\\RPi.SenseHat\\RPi.SenseHat.csproj"
             },
-            "C:\\Projects\\GitHub\\Emmellsoft\\RPi.SenseHat\\RPi.SenseHat\\RTIMULibCS\\RTIMULibCS.csproj": {
-              "projectPath": "C:\\Projects\\GitHub\\Emmellsoft\\RPi.SenseHat\\RPi.SenseHat\\RTIMULibCS\\RTIMULibCS.csproj"
+            "C:\\Users\\olof.OLOFDOM\\Source\\Repos\\emmellsoft\\RPi.SenseHat\\RPi.SenseHat\\RTIMULibCS\\RTIMULibCS.csproj": {
+              "projectPath": "C:\\Users\\olof.OLOFDOM\\Source\\Repos\\emmellsoft\\RPi.SenseHat\\RPi.SenseHat\\RTIMULibCS\\RTIMULibCS.csproj"
             }
           }
         }
       }
     },
     "dependencies": {
-      "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2"
+      "Microsoft.NETCore.UniversalWindowsPlatform": "[5.2.2, )"
     },
     "frameworks": {
       "uap10.0.10240": {}
@@ -22122,5 +22094,124 @@
         "#import": []
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1201",
+      "level": "Error",
+      "message": "Project RPi.SenseHat is not compatible with uap10.0.10240 (UAP,Version=v10.0.10240). Project RPi.SenseHat supports: uap10.0.15063 (UAP,Version=v10.0.15063)",
+      "libraryId": "RPi.SenseHat",
+      "targetGraphs": [
+        "UAP,Version=v10.0.10240"
+      ]
+    },
+    {
+      "code": "NU1201",
+      "level": "Error",
+      "message": "Project RPi.SenseHat is not compatible with uap10.0.10240 (UAP,Version=v10.0.10240) / win10-arm. Project RPi.SenseHat supports: uap10.0.15063 (UAP,Version=v10.0.15063)",
+      "libraryId": "RPi.SenseHat",
+      "targetGraphs": [
+        "UAP,Version=v10.0.10240/win10-arm"
+      ]
+    },
+    {
+      "code": "NU1201",
+      "level": "Error",
+      "message": "Project RPi.SenseHat is not compatible with uap10.0.10240 (UAP,Version=v10.0.10240) / win10-arm-aot. Project RPi.SenseHat supports: uap10.0.15063 (UAP,Version=v10.0.15063)",
+      "libraryId": "RPi.SenseHat",
+      "targetGraphs": [
+        "UAP,Version=v10.0.10240/win10-arm-aot"
+      ]
+    },
+    {
+      "code": "NU1203",
+      "level": "Error",
+      "message": "System.Reflection.Emit.Lightweight 4.0.1 provides a compile-time reference assembly for System.Reflection.Emit.Lightweight on UAP,Version=v10.0.10240, but there is no run-time assembly compatible with win10-arm-aot.",
+      "libraryId": "System.Reflection.Emit.Lightweight",
+      "targetGraphs": [
+        "UAP,Version=v10.0.10240/win10-arm-aot"
+      ]
+    },
+    {
+      "code": "NU1203",
+      "level": "Error",
+      "message": "System.Reflection.Emit.ILGeneration 4.0.1 provides a compile-time reference assembly for System.Reflection.Emit.ILGeneration on UAP,Version=v10.0.10240, but there is no run-time assembly compatible with win10-arm-aot.",
+      "libraryId": "System.Reflection.Emit.ILGeneration",
+      "targetGraphs": [
+        "UAP,Version=v10.0.10240/win10-arm-aot"
+      ]
+    },
+    {
+      "code": "NU1201",
+      "level": "Error",
+      "message": "Project RPi.SenseHat is not compatible with uap10.0.10240 (UAP,Version=v10.0.10240) / win10-x64. Project RPi.SenseHat supports: uap10.0.15063 (UAP,Version=v10.0.15063)",
+      "libraryId": "RPi.SenseHat",
+      "targetGraphs": [
+        "UAP,Version=v10.0.10240/win10-x64"
+      ]
+    },
+    {
+      "code": "NU1201",
+      "level": "Error",
+      "message": "Project RPi.SenseHat is not compatible with uap10.0.10240 (UAP,Version=v10.0.10240) / win10-x64-aot. Project RPi.SenseHat supports: uap10.0.15063 (UAP,Version=v10.0.15063)",
+      "libraryId": "RPi.SenseHat",
+      "targetGraphs": [
+        "UAP,Version=v10.0.10240/win10-x64-aot"
+      ]
+    },
+    {
+      "code": "NU1203",
+      "level": "Error",
+      "message": "System.Reflection.Emit.Lightweight 4.0.1 provides a compile-time reference assembly for System.Reflection.Emit.Lightweight on UAP,Version=v10.0.10240, but there is no run-time assembly compatible with win10-x64-aot.",
+      "libraryId": "System.Reflection.Emit.Lightweight",
+      "targetGraphs": [
+        "UAP,Version=v10.0.10240/win10-x64-aot"
+      ]
+    },
+    {
+      "code": "NU1203",
+      "level": "Error",
+      "message": "System.Reflection.Emit.ILGeneration 4.0.1 provides a compile-time reference assembly for System.Reflection.Emit.ILGeneration on UAP,Version=v10.0.10240, but there is no run-time assembly compatible with win10-x64-aot.",
+      "libraryId": "System.Reflection.Emit.ILGeneration",
+      "targetGraphs": [
+        "UAP,Version=v10.0.10240/win10-x64-aot"
+      ]
+    },
+    {
+      "code": "NU1201",
+      "level": "Error",
+      "message": "Project RPi.SenseHat is not compatible with uap10.0.10240 (UAP,Version=v10.0.10240) / win10-x86. Project RPi.SenseHat supports: uap10.0.15063 (UAP,Version=v10.0.15063)",
+      "libraryId": "RPi.SenseHat",
+      "targetGraphs": [
+        "UAP,Version=v10.0.10240/win10-x86"
+      ]
+    },
+    {
+      "code": "NU1201",
+      "level": "Error",
+      "message": "Project RPi.SenseHat is not compatible with uap10.0.10240 (UAP,Version=v10.0.10240) / win10-x86-aot. Project RPi.SenseHat supports: uap10.0.15063 (UAP,Version=v10.0.15063)",
+      "libraryId": "RPi.SenseHat",
+      "targetGraphs": [
+        "UAP,Version=v10.0.10240/win10-x86-aot"
+      ]
+    },
+    {
+      "code": "NU1203",
+      "level": "Error",
+      "message": "System.Reflection.Emit.Lightweight 4.0.1 provides a compile-time reference assembly for System.Reflection.Emit.Lightweight on UAP,Version=v10.0.10240, but there is no run-time assembly compatible with win10-x86-aot.",
+      "libraryId": "System.Reflection.Emit.Lightweight",
+      "targetGraphs": [
+        "UAP,Version=v10.0.10240/win10-x86-aot"
+      ]
+    },
+    {
+      "code": "NU1203",
+      "level": "Error",
+      "message": "System.Reflection.Emit.ILGeneration 4.0.1 provides a compile-time reference assembly for System.Reflection.Emit.ILGeneration on UAP,Version=v10.0.10240, but there is no run-time assembly compatible with win10-x86-aot.",
+      "libraryId": "System.Reflection.Emit.ILGeneration",
+      "targetGraphs": [
+        "UAP,Version=v10.0.10240/win10-x86-aot"
+      ]
+    }
+  ]
 }
