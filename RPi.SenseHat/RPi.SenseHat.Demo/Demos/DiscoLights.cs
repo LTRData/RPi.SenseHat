@@ -22,7 +22,7 @@
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-using Windows.UI;
+using System.Drawing;
 using Emmellsoft.IoT.Rpi.SenseHat;
 
 namespace RPi.SenseHat.Demo.Demos
@@ -32,7 +32,7 @@ namespace RPi.SenseHat.Demo.Demos
 	/// </summary>
 	public class DiscoLights : SenseHatDemo
 	{
-		private static readonly Random Random = new Random();
+		private static readonly Random Random = new();
 		private ColorMode _currentMode;
 
 		private enum ColorMode
@@ -158,7 +158,7 @@ namespace RPi.SenseHat.Demo.Demos
 					if (sparkle)
 					{
 						// This pixel should start a new sparkle.
-						pixel = Colors.White;
+						pixel = Color.White;
 					}
 					else
 					{
@@ -167,7 +167,7 @@ namespace RPi.SenseHat.Demo.Demos
 						if (lastIntensity <= 10)
 						{
 							// Quite dark -- be pitch black.
-							pixel = Colors.Black;
+							pixel = Color.Black;
 						}
 						else
 						{

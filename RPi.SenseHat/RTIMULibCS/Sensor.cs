@@ -37,6 +37,7 @@ namespace RichardsTech.Sensors
 
 		public virtual void Dispose()
 		{
+			GC.SuppressFinalize(this);
 		}
 
 		/// <summary>

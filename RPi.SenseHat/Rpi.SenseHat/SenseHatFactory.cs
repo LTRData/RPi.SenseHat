@@ -21,22 +21,20 @@
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using System;
-using System.Threading.Tasks;
-using Windows.Devices.Enumeration;
-using Windows.Devices.I2c;
 using RichardsTech.Sensors;
 using RichardsTech.Sensors.Devices.HTS221;
 using RichardsTech.Sensors.Devices.LPS25H;
 using RichardsTech.Sensors.Devices.LSM9DS1;
+using System.Device.I2c;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Emmellsoft.IoT.Rpi.SenseHat
 {
-	/// <summary>
-	/// Factory for creating the ISenseHat object.
-	/// </summary>
-	public static class SenseHatFactory
+    /// <summary>
+    /// Factory for creating the ISenseHat object.
+    /// </summary>
+    public static class SenseHatFactory
 	{
 		private const byte DeviceAddress = 0x46;
 
@@ -47,26 +45,16 @@ namespace Emmellsoft.IoT.Rpi.SenseHat
         /// </summary>
         public static Task<ISenseHat> GetSenseHat()
         {
-            return GetSenseHat(ignoreFaultySensors: false);
-        }
-
-        public static Task<ISenseHat> GetSenseHat(bool ignoreFaultySensors)
-		{
             if (_getSenseHatTask == null)
             {
-                _getSenseHatTask = OpenSenseHatAsync(ignoreFaultySensors);
+                _getSenseHatTask = OpenSenseHatAsync();
             }
 
 			return _getSenseHatTask;
         }
 
-        public static Task<ISenseHat> OpenSenseHatAsync()
+        public async static Task<ISenseHat> OpenSenseHatAsync()
         {
-            return OpenSenseHatAsync(ignoreFaultySensors: false);
-        }
-
-        public static async Task<ISenseHat> OpenSenseHatAsync(bool ignoreFaultySensors)
-		{
 			MainI2CDevice mainI2CDevice = await CreateDisplayJoystickI2CDevice().ConfigureAwait(false);
 
 			ImuSensor imuSensor = await CreateImuSensor().ConfigureAwait(false);
@@ -80,16 +68,7 @@ namespace Emmellsoft.IoT.Rpi.SenseHat
 
 		private static async Task<MainI2CDevice> CreateDisplayJoystickI2CDevice()
 		{
-			string aqsFilter = I2cDevice.GetDeviceSelector();
-
-			DeviceInformationCollection collection = await DeviceInformation.FindAllAsync(aqsFilter);
-
-			I2cConnectionSettings settings = new I2cConnectionSettings(DeviceAddress)
-			{
-				BusSpeed = I2cBusSpeed.StandardMode
-			};
-
-			I2cDevice i2CDevice = await I2cDevice.FromIdAsync(collection[0].Id, settings);
+			var i2CDevice = await Task.Run(() => I2cDevice.Create(new(1, DeviceAddress)));
 
             if (i2CDevice == null)
             {

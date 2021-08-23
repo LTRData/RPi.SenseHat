@@ -23,8 +23,7 @@
 
 using System;
 using System.Threading.Tasks;
-using Windows.Devices.Enumeration;
-using Windows.Devices.I2c;
+using System.Device.I2c;
 
 namespace RichardsTech.Sensors.Devices.HTS221
 {
@@ -50,16 +49,17 @@ namespace RichardsTech.Sensors.Devices.HTS221
 			_i2CAddress = i2CAddress;
 		}
 
-		public override void Dispose()
+        public override void Dispose()
 		{
-			base.Dispose();
 			_i2CDevice.Dispose();
+			base.Dispose();
+			GC.SuppressFinalize(this);
 		}
 
         protected override async Task<bool> InitDeviceAsync()
 		{
 			await ConnectToI2CDevices();
-
+			
 			I2CSupport.Write(_i2CDevice, HTS221Defines.CTRL1, 0x87, "Failed to set HTS221 CTRL_REG_1");
 
 			I2CSupport.Write(_i2CDevice, HTS221Defines.AV_CONF, 0x1b, "Failed to set HTS221 AV_CONF");
@@ -123,20 +123,7 @@ namespace RichardsTech.Sensors.Devices.HTS221
 		{
 			try
 			{
-				string aqsFilter = I2cDevice.GetDeviceSelector("I2C1");
-
-				DeviceInformationCollection collection = await DeviceInformation.FindAllAsync(aqsFilter);
-				if (collection.Count == 0)
-				{
-					throw new SensorException("I2C device not found");
-				}
-
-				I2cConnectionSettings i2CSettings = new I2cConnectionSettings(_i2CAddress)
-				{
-					BusSpeed = I2cBusSpeed.FastMode
-				};
-
-				_i2CDevice = await I2cDevice.FromIdAsync(collection[0].Id, i2CSettings);
+				_i2CDevice = await Task.Run(() => I2cDevice.Create(new(1, _i2CAddress)));
 			}
 			catch (Exception exception)
 			{

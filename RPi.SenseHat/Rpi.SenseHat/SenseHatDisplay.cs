@@ -24,7 +24,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+#if WINRT_COLOR_TYPE
 using Windows.UI;
+#else
+using System.Drawing;
+#endif
 
 namespace Emmellsoft.IoT.Rpi.SenseHat
 {
@@ -150,7 +154,7 @@ namespace Emmellsoft.IoT.Rpi.SenseHat
 
 		public void Clear()
 		{
-			Fill(Colors.Black);
+			Fill(default);
 		}
 
 		public void Fill(Color color)
@@ -350,19 +354,15 @@ namespace Emmellsoft.IoT.Rpi.SenseHat
 
 		private void UpdateDirectionParameters()
 		{
-			bool leftToRight;
-			bool topToBottom;
-			bool flipAxis;
+            PixelSupport.ConvertDirectionParameters(
+                _direction,
+                _flipHorizontal,
+                _flipVertical,
+                out bool leftToRight,
+                out bool topToBottom,
+                out bool flipAxis);
 
-			PixelSupport.ConvertDirectionParameters(
-				_direction,
-				_flipHorizontal,
-				_flipVertical,
-				out leftToRight,
-				out topToBottom,
-				out flipAxis);
-
-			if (leftToRight)
+            if (leftToRight)
 			{
 				_xStart = 0;
 				_xStop = 8;

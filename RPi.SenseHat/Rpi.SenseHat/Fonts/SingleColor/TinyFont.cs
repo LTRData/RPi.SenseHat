@@ -23,7 +23,7 @@
 
 using System;
 using System.Linq;
-#if NETFX_CORE
+#if WINRT_COLOR_TYPE
 using Windows.UI;
 #else
 using System.Drawing;
@@ -63,7 +63,7 @@ namespace Emmellsoft.IoT.Rpi.SenseHat.Fonts.SingleColor
 			Font = SingleColorFont.Deserialize(fontBytes);
 		}
 
-		public void Write(ISenseHatDisplay display, string twoCharText, Color color, int offsetY = 0)
+		public static void Write(ISenseHatDisplay display, string twoCharText, Color color, int offsetY = 0)
 		{
 			SingleColorCharacter[] chars = Font.GetChars(twoCharText).ToArray();
 

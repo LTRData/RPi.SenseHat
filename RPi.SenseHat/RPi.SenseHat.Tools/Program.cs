@@ -53,7 +53,7 @@ namespace Emmellsoft.IoT.Rpi.SenseHat.Tools
 			var path = Path.GetFullPath(Path.Combine(dir ?? string.Empty, relativeImagePath));
 			var fontImageUri = new Uri(path);
 
-			MultiColorFont font = MultiColorFont.LoadFromImage(fontImageUri, symbols, Color.Transparent).Result;
+			MultiColorFont font = MultiColorFont.LoadFromImage(NativePixelSupport.GetPixels(fontImageUri).Result, symbols, Color.Transparent);
 			var chars = font.GetChars().ToArray();
 			var widths = chars.Select(c => c.Width).ToArray();
 		}

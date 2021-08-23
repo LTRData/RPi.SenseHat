@@ -23,8 +23,7 @@
 
 using System;
 using System.Threading.Tasks;
-using Windows.Devices.Enumeration;
-using Windows.Devices.I2c;
+using System.Device.I2c;
 
 namespace RichardsTech.Sensors.Devices.LPS25H
 {
@@ -48,8 +47,9 @@ namespace RichardsTech.Sensors.Devices.LPS25H
 
 		public override void Dispose()
 		{
-			base.Dispose();
 			_i2CDevice.Dispose();
+			base.Dispose();
+			GC.SuppressFinalize(this);
 		}
 
 		protected override async Task<bool> InitDeviceAsync()
@@ -71,20 +71,7 @@ namespace RichardsTech.Sensors.Devices.LPS25H
 		{
 			try
 			{
-				string aqsFilter = I2cDevice.GetDeviceSelector("I2C1");
-
-				DeviceInformationCollection collection = await DeviceInformation.FindAllAsync(aqsFilter);
-				if (collection.Count == 0)
-				{
-					throw new SensorException("I2C device not found");
-				}
-
-				I2cConnectionSettings i2CSettings = new I2cConnectionSettings(_i2CAddress)
-				{
-					BusSpeed = I2cBusSpeed.FastMode
-				};
-
-				_i2CDevice = await I2cDevice.FromIdAsync(collection[0].Id, i2CSettings);
+				_i2CDevice = await Task.Run(() => I2cDevice.Create(new(1, _i2CAddress)));
 			}
 			catch (Exception exception)
 			{

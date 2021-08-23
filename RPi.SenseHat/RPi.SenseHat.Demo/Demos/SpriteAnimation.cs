@@ -22,7 +22,7 @@
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-using Windows.UI;
+using System.Drawing;
 using Emmellsoft.IoT.Rpi.SenseHat;
 using Emmellsoft.IoT.Rpi.SenseHat.Sprites;
 
@@ -46,7 +46,7 @@ namespace RPi.SenseHat.Demo.Demos
 			var imageUri = new Uri("ms-appx:///Assets/MiniMario.png");
 
 			// Get the pixels of the animation frames.
-			Color[,] pixels = PixelSupport.GetPixels(imageUri).Result;
+			Color[,] pixels = NativePixelSupport.GetPixels(imageUri).Result;
 
 			// Create a sprite map from the pixels.
 			var spriteMap = new SpriteMap(pixels);

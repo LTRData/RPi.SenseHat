@@ -22,7 +22,7 @@
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-using Windows.Devices.I2c;
+using System.Device.I2c;
 
 namespace Emmellsoft.IoT.Rpi.SenseHat
 {

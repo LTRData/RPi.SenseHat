@@ -22,7 +22,7 @@
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-using Windows.Devices.I2c;
+using System.Device.I2c;
 
 namespace RichardsTech.Sensors
 {
@@ -69,18 +69,13 @@ namespace RichardsTech.Sensors
 
 				device.WriteRead(addr, data);
 
-				switch (byteOrder)
-				{
-					case ByteOrder.BigEndian:
-						return (UInt16)((data[0] << 8) | data[1]);
-
-					case ByteOrder.LittleEndian:
-						return (UInt16)((data[1] << 8) | data[0]);
-
-					default:
-						throw new SensorException($"Unsupported byte order {byteOrder}");
-				}
-			}
+                return byteOrder switch
+                {
+                    ByteOrder.BigEndian => (UInt16)((data[0] << 8) | data[1]),
+                    ByteOrder.LittleEndian => (UInt16)((data[1] << 8) | data[0]),
+                    _ => throw new SensorException($"Unsupported byte order {byteOrder}"),
+                };
+            }
 			catch (Exception exception)
 			{
 				throw new SensorException(exceptionMessage, exception);
@@ -97,18 +92,13 @@ namespace RichardsTech.Sensors
 
 				device.WriteRead(addr, data);
 
-				switch (byteOrder)
-				{
-					case ByteOrder.BigEndian:
-						return (UInt32)((data[0] << 16) | (data[1] << 8) | data[2]);
-
-					case ByteOrder.LittleEndian:
-						return (UInt32)((data[2] << 16) | (data[1] << 8) | data[0]);
-
-					default:
-						throw new SensorException($"Unsupported byte order {byteOrder}");
-				}
-			}
+                return byteOrder switch
+                {
+                    ByteOrder.BigEndian => (UInt32)((data[0] << 16) | (data[1] << 8) | data[2]),
+                    ByteOrder.LittleEndian => (UInt32)((data[2] << 16) | (data[1] << 8) | data[0]),
+                    _ => throw new SensorException($"Unsupported byte order {byteOrder}"),
+                };
+            }
 			catch (Exception exception)
 			{
 				throw new SensorException(exceptionMessage, exception);
@@ -125,18 +115,13 @@ namespace RichardsTech.Sensors
 
 				device.WriteRead(addr, data);
 
-				switch (byteOrder)
-				{
-					case ByteOrder.BigEndian:
-						return (UInt32)((data[0] << 24) | (data[1] << 16) | (data[2] << 8) | data[3]);
-
-					case ByteOrder.LittleEndian:
-						return (UInt32)((data[3] << 24) | (data[2] << 16) | (data[1] << 8) | data[0]);
-
-					default:
-						throw new SensorException($"Unsupported byte order {byteOrder}");
-				}
-			}
+                return byteOrder switch
+                {
+                    ByteOrder.BigEndian => (UInt32)((data[0] << 24) | (data[1] << 16) | (data[2] << 8) | data[3]),
+                    ByteOrder.LittleEndian => (UInt32)((data[3] << 24) | (data[2] << 16) | (data[1] << 8) | data[0]),
+                    _ => throw new SensorException($"Unsupported byte order {byteOrder}"),
+                };
+            }
 			catch (Exception exception)
 			{
 				throw new SensorException(exceptionMessage, exception);

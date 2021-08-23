@@ -22,7 +22,11 @@
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
+#if WINRT_COLOR_TYPE
 using Windows.UI;
+#else
+using System.Drawing;
+#endif
 
 namespace Emmellsoft.IoT.Rpi.SenseHat.Sprites
 {
@@ -91,19 +95,15 @@ namespace Emmellsoft.IoT.Rpi.SenseHat.Sprites
 				bottom = 7;
 			}
 
-			bool leftToRight;
-			bool topToBottom;
-			bool flipAxis;
+            PixelSupport.ConvertDirectionParameters(
+                direction,
+                flipHorizontal,
+                flipVertical,
+                out bool leftToRight,
+                out bool topToBottom,
+                out bool flipAxis);
 
-			PixelSupport.ConvertDirectionParameters(
-				direction,
-				flipHorizontal,
-				flipVertical,
-				out leftToRight,
-				out topToBottom,
-				out flipAxis);
-
-			int xStart;
+            int xStart;
 			int xStep;
 			int yStart;
 			int yStep;
@@ -190,19 +190,15 @@ namespace Emmellsoft.IoT.Rpi.SenseHat.Sprites
 				offsetY = 8 + (offsetY % 8);
 			}
 
-			bool leftToRight;
-			bool topToBottom;
-			bool flipAxis;
+            PixelSupport.ConvertDirectionParameters(
+                direction,
+                flipHorizontal,
+                flipVertical,
+                out bool leftToRight,
+                out bool topToBottom,
+                out bool flipAxis);
 
-			PixelSupport.ConvertDirectionParameters(
-				direction,
-				flipHorizontal,
-				flipVertical,
-				out leftToRight,
-				out topToBottom,
-				out flipAxis);
-
-			int xStart;
+            int xStart;
 			int xStep;
 			int yStart;
 			int yStep;

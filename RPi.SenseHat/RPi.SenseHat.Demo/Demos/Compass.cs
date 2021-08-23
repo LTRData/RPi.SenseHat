@@ -22,8 +22,8 @@
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-using Windows.Foundation;
-using Windows.UI;
+using System.Drawing;
+using Point = System.Drawing.Point;
 using Emmellsoft.IoT.Rpi.SenseHat;
 
 namespace RPi.SenseHat.Demo.Demos
@@ -46,9 +46,9 @@ namespace RPi.SenseHat.Demo.Demos
 			const double halfCircle = Math.PI;
 			const double fullCircle = Math.PI * 2;
 
-			Color northColor = Colors.Red;
-			Color southColor = Colors.White;
-			Color centerColor = Colors.DarkBlue;
+			Color northColor = Color.Red;
+			Color southColor = Color.White;
+			Color centerColor = Color.DarkBlue;
 
 			TimeSpan mainPageUpdateRate = TimeSpan.FromSeconds(0.5);
 			DateTime nextMainPageUpdate = DateTime.Now.Add(mainPageUpdateRate);
@@ -94,8 +94,8 @@ namespace RPi.SenseHat.Demo.Demos
 		private static Point GetPixelCoordinate(double angle)
 		{
 			return new Point(
-				Math.Round(Math.Cos(angle) * 3.5 + 3.5),
-				Math.Round(Math.Sin(angle) * 3.5 + 3.5));
+				(int)Math.Round(Math.Cos(angle) * 3.5 + 3.5),
+				(int)Math.Round(Math.Sin(angle) * 3.5 + 3.5));
 		}
 	}
 }

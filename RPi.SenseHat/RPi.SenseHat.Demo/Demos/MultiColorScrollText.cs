@@ -23,7 +23,7 @@
 
 using System;
 using System.Collections.Generic;
-using Windows.UI;
+using System.Drawing;
 using Emmellsoft.IoT.Rpi.SenseHat;
 using Emmellsoft.IoT.Rpi.SenseHat.Fonts;
 using Emmellsoft.IoT.Rpi.SenseHat.Fonts.MultiColor;
@@ -47,9 +47,9 @@ namespace RPi.SenseHat.Demo.Demos
 		{
 			// Create the font from the image.
 			MultiColorFont font = MultiColorFont.LoadFromImage(
-				new Uri("ms-appx:///Assets/ColorFont.png"),
+				NativePixelSupport.GetPixels(new Uri("ms-appx:///Assets/ColorFont.png")).Result,
 				" ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖÉÜabcdefghijklmnopqrstuvwxyzåäöéü0123456789.,?!\"#$%&-+*:;/\\<>()'`=",
-				Color.FromArgb(0xFF, 0xFF, 0x00, 0xFF)).Result;
+				Color.FromArgb(0xFF, 0xFF, 0x00, 0xFF));
 
 			// Get the characters to scroll.
 			IEnumerable<MultiColorCharacter> characters = font.GetChars(_scrollText);

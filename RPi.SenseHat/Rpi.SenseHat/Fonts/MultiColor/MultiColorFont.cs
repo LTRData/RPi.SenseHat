@@ -24,7 +24,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-#if NETFX_CORE
+#if WINRT_COLOR_TYPE
 using Windows.UI;
 #else
 using System.Drawing;
@@ -37,16 +37,6 @@ namespace Emmellsoft.IoT.Rpi.SenseHat.Fonts.MultiColor
 		public MultiColorFont(IEnumerable<MultiColorCharacter> chars)
 			: base(chars)
 		{
-		}
-
-		public static async Task<MultiColorFont> LoadFromImage(
-			Uri fontImageUri,
-			string symbols,
-			Color? transparencyColor = null)
-		{
-			Color[,] pixels = await PixelSupport.GetPixels(fontImageUri).ConfigureAwait(false);
-
-			return LoadFromImage(pixels, symbols, transparencyColor);
 		}
 
 		public static MultiColorFont LoadFromImage(

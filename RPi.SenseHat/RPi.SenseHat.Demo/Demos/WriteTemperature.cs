@@ -22,7 +22,7 @@
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-using Windows.UI;
+using System.Drawing;
 using Emmellsoft.IoT.Rpi.SenseHat;
 using Emmellsoft.IoT.Rpi.SenseHat.Fonts.SingleColor;
 
@@ -73,7 +73,7 @@ namespace RPi.SenseHat.Demo.Demos
 					}
 
 					display.Clear();
-					tinyFont.Write(display, text, Colors.White);
+					TinyFont.Write(display, text, Color.White);
 					display.Update();
 
 					SetScreenText?.Invoke($"{temperatureValue:0.0} {unitText}"); // Update the MainPage (if it's utilized; i.e. not null).
@@ -89,40 +89,20 @@ namespace RPi.SenseHat.Demo.Demos
 			}
 		}
 
-		private static double ConvertTemperatureValue(TemperatureUnit unit, double temperatureInCelcius)
-		{
-			switch (unit)
-			{
-				case TemperatureUnit.Celcius:
-					return temperatureInCelcius;
+        private static double ConvertTemperatureValue(TemperatureUnit unit, double temperatureInCelcius) => unit switch
+        {
+            TemperatureUnit.Celcius => temperatureInCelcius,
+            TemperatureUnit.Fahrenheit => temperatureInCelcius * 9 / 5 + 32,
+            TemperatureUnit.Kelvin => temperatureInCelcius + 273.15,
+            _ => throw new ArgumentOutOfRangeException(),
+        };
 
-				case TemperatureUnit.Fahrenheit:
-					return temperatureInCelcius * 9 / 5 + 32;
-
-				case TemperatureUnit.Kelvin:
-					return temperatureInCelcius + 273.15;
-
-				default:
-					throw new ArgumentOutOfRangeException();
-			}
-		}
-
-		private static string GetUnitText(TemperatureUnit unit)
-		{
-			switch (unit)
-			{
-				case TemperatureUnit.Celcius:
-					return "\u00B0C"; // Where "\u00B0" is the degree-symbol.
-
-				case TemperatureUnit.Fahrenheit:
-					return "\u00B0F"; // Where "\u00B0" is the degree-symbol.
-
-				case TemperatureUnit.Kelvin:
-					return "K";
-
-				default:
-					throw new ArgumentOutOfRangeException();
-			}
-		}
-	}
+        private static string GetUnitText(TemperatureUnit unit) => unit switch
+        {
+            TemperatureUnit.Celcius => "\u00B0C",// Where "\u00B0" is the degree-symbol.
+            TemperatureUnit.Fahrenheit => "\u00B0F",// Where "\u00B0" is the degree-symbol.
+            TemperatureUnit.Kelvin => "K",
+            _ => throw new ArgumentOutOfRangeException(),
+        };
+    }
 }

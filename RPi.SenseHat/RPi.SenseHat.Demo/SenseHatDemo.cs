@@ -29,7 +29,7 @@ namespace RPi.SenseHat.Demo
 {
 	public abstract class SenseHatDemo
 	{
-		private readonly ManualResetEventSlim _waitEvent = new ManualResetEventSlim(false);
+        private readonly ManualResetEventSlim _waitEvent = new(initialState: false);
 
 		protected SenseHatDemo(ISenseHat senseHat, Action<string> setScreenText = null)
 		{

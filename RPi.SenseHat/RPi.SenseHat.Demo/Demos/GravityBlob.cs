@@ -22,7 +22,7 @@
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-using Windows.UI;
+using System.Drawing;
 using Emmellsoft.IoT.Rpi.SenseHat;
 using RichardsTech.Sensors;
 

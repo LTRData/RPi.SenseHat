@@ -22,7 +22,7 @@
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-using Windows.UI;
+using System.Drawing;
 using Emmellsoft.IoT.Rpi.SenseHat;
 
 namespace RPi.SenseHat.Demo.Demos
@@ -32,7 +32,7 @@ namespace RPi.SenseHat.Demo.Demos
     /// </summary>
     public class JoystickPixel : SenseHatDemo
     {
-        private readonly Color[] _colors = { Colors.Red, Colors.Green, Colors.Blue, Colors.Cyan, Colors.Magenta, Colors.Yellow, Colors.White };
+        private readonly Color[] _colors = { Color.Red, Color.Green, Color.Blue, Color.Cyan, Color.Magenta, Color.Yellow, Color.White };
         private bool _lastPressingEnter;
         private int _colorIndex;
 

@@ -23,8 +23,7 @@
 
 using System;
 using System.Threading.Tasks;
-using Windows.Devices.Enumeration;
-using Windows.Devices.I2c;
+using System.Device.I2c;
 
 namespace RichardsTech.Sensors.Devices.LSM9DS1
 {
@@ -57,9 +56,10 @@ namespace RichardsTech.Sensors.Devices.LSM9DS1
 
 		public override void Dispose()
 		{
-			base.Dispose();
 			_accelGyroI2CDevice.Dispose();
 			_magI2CDevice.Dispose();
+			base.Dispose();
+			GC.SuppressFinalize(this);
 		}
 
 		protected override async Task<bool> InitDeviceAsync()
@@ -85,27 +85,8 @@ namespace RichardsTech.Sensors.Devices.LSM9DS1
 		{
 			try
 			{
-				string aqsFilter = I2cDevice.GetDeviceSelector("I2C1");
-
-				DeviceInformationCollection collection = await DeviceInformation.FindAllAsync(aqsFilter);
-				if (collection.Count == 0)
-				{
-					throw new SensorException("I2C device not found");
-				}
-
-				I2cConnectionSettings accelGyroI2CSettings = new I2cConnectionSettings(_accelGyroI2CAddress)
-				{
-					BusSpeed = I2cBusSpeed.FastMode
-				};
-
-				_accelGyroI2CDevice = await I2cDevice.FromIdAsync(collection[0].Id, accelGyroI2CSettings);
-
-				I2cConnectionSettings magI2CSettings = new I2cConnectionSettings(_magI2CAddress)
-				{
-					BusSpeed = I2cBusSpeed.FastMode
-				};
-
-				_magI2CDevice = await I2cDevice.FromIdAsync(collection[0].Id, magI2CSettings);
+				_accelGyroI2CDevice = await Task.Run(() => I2cDevice.Create(new(1, _accelGyroI2CAddress)));
+				_magI2CDevice = await Task.Run(() => I2cDevice.Create(new(1, _magI2CAddress)));
 			}
 			catch (Exception exception)
 			{
@@ -182,29 +163,15 @@ namespace RichardsTech.Sensors.Devices.LSM9DS1
 
 			SampleInterval = (long)1000000 / SampleRate;
 
-			switch (_config.GyroBandwidthCode)
-			{
-				case GyroBandwidthCode.BandwidthCode0:
-					ctrl1 |= 0x00;
-					break;
-
-				case GyroBandwidthCode.BandwidthCode1:
-					ctrl1 |= 0x01;
-					break;
-
-				case GyroBandwidthCode.BandwidthCode2:
-					ctrl1 |= 0x02;
-					break;
-
-				case GyroBandwidthCode.BandwidthCode3:
-					ctrl1 |= 0x03;
-					break;
-
-				default:
-					throw new SensorException($"Illegal LSM9DS1 gyro BW code {_config.GyroBandwidthCode}");
-			}
-
-			switch (_config.GyroFullScaleRange)
+            ctrl1 |= _config.GyroBandwidthCode switch
+            {
+                GyroBandwidthCode.BandwidthCode0 => 0x00,
+                GyroBandwidthCode.BandwidthCode1 => 0x01,
+                GyroBandwidthCode.BandwidthCode2 => 0x02,
+                GyroBandwidthCode.BandwidthCode3 => 0x03,
+                _ => throw new SensorException($"Illegal LSM9DS1 gyro BW code {_config.GyroBandwidthCode}"),
+            };
+            switch (_config.GyroFullScaleRange)
 			{
 				case GyroFullScaleRange.Range245:
 					ctrl1 |= 0x00;
@@ -260,29 +227,15 @@ namespace RichardsTech.Sensors.Devices.LSM9DS1
 
 			byte ctrl6 = (byte)(accelSampleRateValue << 5);
 
-			switch (_config.AccelFullScaleRange)
-			{
-				case AccelFullScaleRange.Range2g:
-					_accelerationScale = 0.000061;
-					break;
-
-				case AccelFullScaleRange.Range4g:
-					_accelerationScale = 0.000122;
-					break;
-
-				case AccelFullScaleRange.Range8g:
-					_accelerationScale = 0.000244;
-					break;
-
-				case AccelFullScaleRange.Range16g:
-					_accelerationScale = 0.000732;
-					break;
-
-				default:
-					throw new SensorException($"Illegal LSM9DS1 accel FSR code {_config.AccelFullScaleRange}");
-			}
-
-			ctrl6 |= (byte)((accelLowPassFilterValue) | (accelSampleRateValue << 3));
+            _accelerationScale = _config.AccelFullScaleRange switch
+            {
+                AccelFullScaleRange.Range2g => 0.000061,
+                AccelFullScaleRange.Range4g => 0.000122,
+                AccelFullScaleRange.Range8g => 0.000244,
+                AccelFullScaleRange.Range16g => 0.000732,
+                _ => throw new SensorException($"Illegal LSM9DS1 accel FSR code {_config.AccelFullScaleRange}"),
+            };
+            ctrl6 |= (byte)((accelLowPassFilterValue) | (accelSampleRateValue << 3));
 
 			I2CSupport.Write(_accelGyroI2CDevice, LSM9DS1Defines.CTRL6, ctrl6, "Failed to set LSM9DS1 accel CTRL6");
 		}

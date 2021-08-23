@@ -23,7 +23,7 @@
 
 using System;
 using System.Collections.Generic;
-using Windows.UI;
+using System.Drawing;
 using Emmellsoft.IoT.Rpi.SenseHat;
 using Emmellsoft.IoT.Rpi.SenseHat.Fonts;
 using Emmellsoft.IoT.Rpi.SenseHat.Fonts.SingleColor;
@@ -69,7 +69,7 @@ namespace RPi.SenseHat.Demo.Demos
 			IEnumerable<SingleColorCharacter> characters = font.GetChars(_scrollText);
 
 			// Create the character renderer.
-			SingleColorCharacterRenderer characterRenderer = new SingleColorCharacterRenderer(GetCharacterColor);
+			SingleColorCharacterRenderer characterRenderer = new(GetCharacterColor);
 
 			// Create the text scroller.
 			var textScroller = new TextScroller<SingleColorCharacter>(
@@ -121,7 +121,7 @@ namespace RPi.SenseHat.Demo.Demos
 			switch (_currentMode)
 			{
 				case RenderMode.YellowOnBlue:
-					SenseHat.Display.Fill(Colors.Blue);
+					SenseHat.Display.Fill(Color.Blue);
 					break;
 
 				case RenderMode.BlackOnStaticRainbow:
@@ -135,11 +135,11 @@ namespace RPi.SenseHat.Demo.Demos
 					break;
 
 				case RenderMode.StaticRainbowOnBlack:
-					SenseHat.Display.Fill(Colors.Black);
+					SenseHat.Display.Fill(Color.Black);
 					break;
 
 				case RenderMode.MovingRainbowOnBlack:
-					SenseHat.Display.Fill(Colors.Black);
+					SenseHat.Display.Fill(Color.Black);
 					break;
 
 				default:
@@ -147,33 +147,17 @@ namespace RPi.SenseHat.Demo.Demos
 			}
 		}
 
-		private Color GetCharacterColor(SingleColorCharacterRendererPixelMap pixelMap)
-		{
-			switch (_currentMode)
-			{
-				case RenderMode.YellowOnBlue:
-					return Colors.Yellow;
+        private Color GetCharacterColor(SingleColorCharacterRendererPixelMap pixelMap) => _currentMode switch
+        {
+            RenderMode.YellowOnBlue => Color.Yellow,
+            RenderMode.BlackOnStaticRainbow => Color.Black,
+            RenderMode.BlackOnMovingRainbow => Color.Black,
+            RenderMode.StaticRainbowOnBlack => _rainbowColors[pixelMap.DisplayPixelX, pixelMap.DisplayPixelY],// Let the rainbow colors be "pinned" to the display.
+            RenderMode.MovingRainbowOnBlack => _rainbowColors[pixelMap.CharPixelX, pixelMap.CharPixelY],// Let the rainbow colors move with the characters ("restarting" on each character).
+            _ => throw new ArgumentOutOfRangeException(),
+        };
 
-				case RenderMode.BlackOnStaticRainbow:
-					return Colors.Black;
-
-				case RenderMode.BlackOnMovingRainbow:
-					return Colors.Black;
-
-				case RenderMode.StaticRainbowOnBlack:
-					// Let the rainbow colors be "pinned" to the display.
-					return _rainbowColors[pixelMap.DisplayPixelX, pixelMap.DisplayPixelY];
-
-				case RenderMode.MovingRainbowOnBlack:
-					// Let the rainbow colors move with the characters ("restarting" on each character).
-					return _rainbowColors[pixelMap.CharPixelX, pixelMap.CharPixelY];
-
-				default:
-					throw new ArgumentOutOfRangeException();
-			}
-		}
-
-		private static IEnumerable<byte> FontBytes
+        private static IEnumerable<byte> FontBytes
 		{
 			get
 			{

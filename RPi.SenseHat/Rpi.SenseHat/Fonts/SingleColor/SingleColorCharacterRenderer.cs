@@ -22,7 +22,7 @@
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-#if NETFX_CORE
+#if WINRT_COLOR_TYPE
 using Windows.UI;
 #else
 using System.Drawing;

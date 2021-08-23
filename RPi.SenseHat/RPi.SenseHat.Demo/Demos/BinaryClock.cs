@@ -4,14 +4,14 @@
 ////////////////////////////////////////////////////////////////////////////
 using Emmellsoft.IoT.Rpi.SenseHat;
 using System;
-using Windows.UI;
+using System.Drawing;
 
 namespace RPi.SenseHat.Demo.Demos
 {
     public class BinaryClock : SenseHatDemo
     {
-        private readonly Color _activeBitColor = Colors.Red;
-        private readonly Color _inctiveBitColor = Colors.DimGray;
+        private readonly Color _activeBitColor = Color.Red;
+        private readonly Color _inctiveBitColor = Color.DimGray;
 
         public BinaryClock(ISenseHat senseHat, Action<string> setScreenText)
             : base(senseHat, setScreenText)
@@ -51,7 +51,7 @@ namespace RPi.SenseHat.Demo.Demos
                 SenseHat.Display.Screen[x, y] = bitColor;
                 SenseHat.Display.Screen[x + 1, y] = bitColor;
 
-                value = value >> 1;
+                value >>= 1;
             }
         }
     }
