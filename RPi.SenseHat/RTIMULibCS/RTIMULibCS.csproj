@@ -1,18 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup Label="Globals">
-    <SccProjectName>SAK</SccProjectName>
-    <SccProvider>SAK</SccProvider>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccLocalPath>SAK</SccLocalPath>
+  <PropertyGroup>
+    <ProjectGuid>{C91BBCDD-0775-43FD-AB8D-E46FC1B07E14}</ProjectGuid>
+    <TargetFrameworks>netstandard2.0;net6.0-windows10.0.17763;net7.0-windows10.0.17763</TargetFrameworks>
+    <GeneratePackageOnBuild Condition="'$(Configuration)' == 'Release'">true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup>
-    <ProjectGuid>{C91BBCDD-0775-43FD-AB8D-E46FC1B07E14}</ProjectGuid>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <Company>richards-tech, LLC</Company>
+    <Copyright>Copyright © richards-tech, LLC 2015</Copyright>
   </PropertyGroup>
-
+  
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="System.Device.Gpio" Version="1.5.0" />

@@ -1,21 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup Label="Globals">
-    <SccProjectName>SAK</SccProjectName>
-    <SccProvider>SAK</SccProvider>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccLocalPath>SAK</SccLocalPath>
+  <PropertyGroup>
+    <ProjectGuid>{F5C43428-288F-4696-93CD-1088E77DB5BF}</ProjectGuid>
+    <TargetFrameworks>netstandard2.0;net6.0-windows10.0.17763;net7.0-windows10.0.17763</TargetFrameworks>
+    <GeneratePackageOnBuild Condition="'$(Configuration)' == 'Release'">true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup>
-    <ProjectGuid>{F5C43428-288F-4696-93CD-1088E77DB5BF}</ProjectGuid>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <Title>Emmellsoft.IoT.Rpi.SenseHat</Title>
+    <Company>Mattias Larsson</Company>
+    <Product>Emmellsoft.IoT.Rpi.SenseHat</Product>
+    <Copyright>Copyright © Emmellsoft 2015</Copyright>
   </PropertyGroup>
-
+  
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="System.Device.Gpio" Version="1.5.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="*" />
+    <PackageReference Include="System.Device.Gpio" Version="*" />
   </ItemGroup>
 
   <ItemGroup>

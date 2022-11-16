@@ -1,19 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup Label="Globals">
-    <SccProjectName>SAK</SccProjectName>
-    <SccProvider>SAK</SccProvider>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccLocalPath>SAK</SccLocalPath>
-  </PropertyGroup>
-
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net48</TargetFramework>
-    <LangVersion>9.0</LangVersion>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <Title>Emmellsoft.IoT.Rpi.SenseHat.Tools</Title>
+    <Company>Emmellsoft</Company>
+    <Product>Emmellsoft.IoT.Rpi.SenseHat.Tools</Product>
+    <Copyright>Copyright © Emmellsoft 2015</Copyright>
+  </PropertyGroup>
+  
   <ItemGroup>
     <Compile Include="..\Rpi.SenseHat\NativePixelSupport.cs" Link="Linked\NativePixelSupport.cs" />
   </ItemGroup>
