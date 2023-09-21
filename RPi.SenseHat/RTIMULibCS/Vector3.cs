@@ -43,7 +43,10 @@ namespace RichardsTech.Sensors
 			Z = z;
 		}
 
-		public void Zero()
+        public System.Numerics.Vector3 ToSinglePrecisionVector3()
+            => new((float)X, (float)Y, (float)Z);
+
+        public void Zero()
 		{
 			X = 0;
 			Y = 0;
