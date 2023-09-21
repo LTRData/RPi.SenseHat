@@ -3,7 +3,7 @@
 
   <PropertyGroup>
     <ProjectGuid>{F5C43428-288F-4696-93CD-1088E77DB5BF}</ProjectGuid>
-    <TargetFrameworks>netstandard2.0;net6.0-windows10.0.17763;net7.0-windows10.0.17763</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net6.0;net7.0</TargetFrameworks>
     <GeneratePackageOnBuild Condition="'$(Configuration)' == 'Release'">true</GeneratePackageOnBuild>
   </PropertyGroup>
 
