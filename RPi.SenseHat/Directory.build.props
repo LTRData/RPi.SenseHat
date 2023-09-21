@@ -8,6 +8,8 @@
     <PackageId>LTRData.$(MSBuildProjectName)</PackageId>
     <PackageVersion>1.0.1</PackageVersion>
     <PackageOutputPath>$(LocalNuGetPath)</PackageOutputPath>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
 </Project>
