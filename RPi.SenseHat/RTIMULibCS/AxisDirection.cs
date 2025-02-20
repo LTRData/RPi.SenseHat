@@ -21,37 +21,36 @@
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-namespace RichardsTech.Sensors
+namespace RichardsTech.Sensors;
+
+/// <summary>
+/// Direction of axis
+/// </summary>
+public enum AxisDirection
 {
-	/// <summary>
-	/// Direction of axis
-	/// </summary>
-	public enum AxisDirection
-	{
-		Default = 0,
-		XNorthYEast = 0,
-		XEastYSouth,
-		XSouthYEest,
-		XWestYNorth,
-		XNorthYWest,
-		XEastYNorth,
-		XSouthYEast,
-		XWestYSouth,
-		XUpYNorth,
-		XUpYEast,
-		XUpYSouth,
-		XUpYWest,
-		XDownYNorth,
-		XDownYEast,
-		XDownYSouth,
-		XDownYWest,
-		XNorthYUp,
-		XEastYUp,
-		XSouthYUp,
-		XWestYUp,
-		XNorthYDown,
-		XEastYDown,
-		XSouthYDown,
-		XWestYDown,
-	}
+    // Default = 0,
+    XNorthYEast = 0,
+    XEastYSouth,
+    XSouthYEest,
+    XWestYNorth,
+    XNorthYWest,
+    XEastYNorth,
+    XSouthYEast,
+    XWestYSouth,
+    XUpYNorth,
+    XUpYEast,
+    XUpYSouth,
+    XUpYWest,
+    XDownYNorth,
+    XDownYEast,
+    XDownYSouth,
+    XDownYWest,
+    XNorthYUp,
+    XEastYUp,
+    XSouthYUp,
+    XWestYUp,
+    XNorthYDown,
+    XEastYDown,
+    XSouthYDown,
+    XWestYDown,
 }

@@ -21,15 +21,14 @@
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-namespace RichardsTech.Sensors
+namespace RichardsTech.Sensors;
+
+/// <summary>
+/// A generic pressure sensor.
+/// </summary>
+public abstract class PressureSensor : Sensor
 {
-	/// <summary>
-	/// A generic pressure sensor.
-	/// </summary>
-	public abstract class PressureSensor : Sensor
-	{
-		protected PressureSensor()
-		{
-		}
-	}
+    protected PressureSensor()
+    {
+    }
 }

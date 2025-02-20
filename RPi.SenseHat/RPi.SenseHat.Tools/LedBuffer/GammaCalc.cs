@@ -25,100 +25,96 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Emmellsoft.IoT.Rpi.SenseHat.Tools.LedBuffer
+namespace Emmellsoft.IoT.Rpi.SenseHat.Tools.LedBuffer;
+
+public class GammaCalc
 {
-	public class GammaCalc
-	{
-		private const double DefaultGamma = 2.8;
+    private const double DefaultGamma = 2.8;
 
-		public static IEnumerable<double> GetGamma(double gamma = DefaultGamma)
-		{
-			for (int i = 0; i <= 255; i++)
-			{
-				yield return Math.Pow((double)i / 255, gamma);
-			}
-		}
+    public static IEnumerable<double> GetGamma(double gamma = DefaultGamma)
+    {
+        for (int i = 0; i <= 255; i++)
+        {
+            yield return Math.Pow((double)i / 255, gamma);
+        }
+    }
 
-		public static IEnumerable<byte> ScaleToBytes(IEnumerable<double> values)
-		{
-			return values.Select(ScaleToByte);
-		}
+    public static IEnumerable<byte> ScaleToBytes(IEnumerable<double> values) => values.Select(ScaleToByte);
 
-		public static byte ScaleToByte(double value)
-		{
-			int rounded = (int)Math.Round(value * 255);
+    public static byte ScaleToByte(double value)
+    {
+        int rounded = (int)Math.Round(value * 255);
 
-			if ((rounded < 0) || (rounded > 255))
-			{
-				throw new ArgumentException("Not a byte: " + value);
-			}
+        if ((rounded < 0) || (rounded > 255))
+        {
+            throw new ArgumentException("Not a byte: " + value);
+        }
 
-			return (byte)rounded;
-		}
-		
-		public static IEnumerable<byte> Get5BitGamma(double gamma = DefaultGamma)
-		{
-			const double step = 255.0 / 31; // 8 bits -> 5 bits
+        return (byte)rounded;
+    }
 
-			for (int i = 0; i < 32; i++)
-			{
-				byte index = (byte)(i * step);
+    public static IEnumerable<byte> Get5BitGamma(double gamma = DefaultGamma)
+    {
+        const double step = 255.0 / 31; // 8 bits -> 5 bits
 
-				double gammaFactor = Math.Pow((double)index / 255, gamma);
+        for (int i = 0; i < 32; i++)
+        {
+            byte index = (byte)(i * step);
 
-				byte gammaByte = (byte)Math.Min((int)Math.Round(gammaFactor * 255 / 8), 31);
+            double gammaFactor = Math.Pow((double)index / 255, gamma);
 
-				yield return gammaByte;
-			}
-		}
+            byte gammaByte = (byte)Math.Min((int)Math.Round(gammaFactor * 255 / 8), 31);
 
-		public static IEnumerable<byte> GetQuick5BitGamma(double gamma = DefaultGamma)
-		{
-			double[] gammaTable = GetGamma(gamma).ToArray();
+            yield return gammaByte;
+        }
+    }
 
-			const double step = 255.0 / 31; // 8 bits -> 5 bits
+    public static IEnumerable<byte> GetQuick5BitGamma(double gamma = DefaultGamma)
+    {
+        // double[] gammaTable = [.. GetGamma(gamma)];
 
-			for (int i = 0; i < 32; i++)
-			{
-				byte index = (byte)(i * step);
+        const double step = 255.0 / 31; // 8 bits -> 5 bits
 
-				double gammaFactor = Math.Pow((double)index / 255, gamma);
+        for (int i = 0; i < 32; i++)
+        {
+            byte index = (byte)(i * step);
 
-				byte gammaByte = (byte)Math.Min((int)ScaleToByte(gammaFactor / 8), 31);
+            double gammaFactor = Math.Pow((double)index / 255, gamma);
 
-				yield return gammaByte;
-			}
-		}
+            byte gammaByte = (byte)Math.Min((int)ScaleToByte(gammaFactor / 8), 31);
 
-		public static IEnumerable<byte> Get5To8BitInvertedGamma(double gamma = DefaultGamma)
-		{
-			List<double> gammaTable = GetGamma(gamma).ToList();
+            yield return gammaByte;
+        }
+    }
 
-			const double step = 1.0 / 32; // 8 bits -> 5 bits
+    public static IEnumerable<byte> Get5To8BitInvertedGamma(double gamma = DefaultGamma)
+    {
+        List<double> gammaTable = [.. GetGamma(gamma)];
 
-			for (int i = 0; i < 32; i++)
-			{
-				double want = i * step;
+        const double step = 1.0 / 32; // 8 bits -> 5 bits
 
-				double? floor = gammaTable.Where(x => x <= want).Select(x => (double?)x).LastOrDefault();
-				double? ceil = gammaTable.Where(x => x >= want).Select(x => (double?)x).FirstOrDefault();
+        for (int i = 0; i < 32; i++)
+        {
+            double want = i * step;
 
-				double floorDiff = floor.HasValue ? Math.Abs(want - floor.Value) : double.MaxValue;
-				double ceilDiff = ceil.HasValue ? Math.Abs(want - ceil.Value) : double.MaxValue;
+            double? floor = gammaTable.Where(x => x <= want).Select(x => (double?)x).LastOrDefault();
+            double? ceil = gammaTable.Where(x => x >= want).Select(x => (double?)x).FirstOrDefault();
 
-				if ((floorDiff <= ceilDiff) && floor.HasValue)
-				{
-					yield return (byte)gammaTable.IndexOf(floor.Value);
-				}
-				else if (ceil.HasValue)
-				{
-					yield return (byte)gammaTable.IndexOf(ceil.Value);
-				}
-				else
-				{
-					throw new Exception();
-				}
-			}
-		}
-	}
+            double floorDiff = floor.HasValue ? Math.Abs(want - floor.Value) : double.MaxValue;
+            double ceilDiff = ceil.HasValue ? Math.Abs(want - ceil.Value) : double.MaxValue;
+
+            if ((floorDiff <= ceilDiff) && floor.HasValue)
+            {
+                yield return (byte)gammaTable.IndexOf(floor.Value);
+            }
+            else if (ceil.HasValue)
+            {
+                yield return (byte)gammaTable.IndexOf(ceil.Value);
+            }
+            else
+            {
+                throw new Exception();
+            }
+        }
+    }
 }

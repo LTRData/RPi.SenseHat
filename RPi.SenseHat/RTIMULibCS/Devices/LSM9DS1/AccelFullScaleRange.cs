@@ -21,13 +21,12 @@
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-namespace RichardsTech.Sensors.Devices.LSM9DS1
+namespace RichardsTech.Sensors.Devices.LSM9DS1;
+
+public enum AccelFullScaleRange
 {
-	public enum AccelFullScaleRange
-	{
-		Range2g = 0,
-		Range16g = 1,
-		Range4g = 2,
-		Range8g = 3,
-	}
+    Range2g = 0,
+    Range16g = 1,
+    Range4g = 2,
+    Range8g = 3,
 }

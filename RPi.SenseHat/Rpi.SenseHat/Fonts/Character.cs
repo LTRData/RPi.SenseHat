@@ -21,38 +21,29 @@
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-namespace Emmellsoft.IoT.Rpi.SenseHat.Fonts
+namespace Emmellsoft.IoT.Rpi.SenseHat.Fonts;
+
+/// <summary>
+/// An abstract character.
+/// </summary>
+public abstract class Character(char symbol, int width)
 {
-	/// <summary>
-	/// An abstract character.
-	/// </summary>
-	public abstract class Character
-	{
-		protected Character(char symbol, int width)
-		{
-			Symbol = symbol;
-			Width = width;
-		}
 
-		/// <summary>
-		/// The unicode char representing this character.
-		/// </summary>
-		public char Symbol
-		{ get; private set; }
+    /// <summary>
+    /// The unicode char representing this character.
+    /// </summary>
+    public char Symbol
+    { get; private set; } = symbol;
 
-		/// <summary>
-		/// The width in pixels of this character.
-		/// </summary>
-		public int Width
-		{ get; }
+    /// <summary>
+    /// The width in pixels of this character.
+    /// </summary>
+    public int Width
+    { get; } = width;
 
-		/// <summary>
-		/// As string.
-		/// </summary>
-		/// <returns></returns>
-		public override string ToString()
-		{
-			return Symbol.ToString();
-		}
-	}
+    /// <summary>
+    /// As string.
+    /// </summary>
+    /// <returns></returns>
+    public override string ToString() => Symbol.ToString();
 }

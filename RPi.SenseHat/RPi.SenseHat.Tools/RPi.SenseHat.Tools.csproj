@@ -2,6 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <RootNamespace>Emmellsoft.IoT.Rpi.SenseHat.Tools</RootNamespace>
     <OutputType>Exe</OutputType>
     <TargetFramework>net48</TargetFramework>
   </PropertyGroup>

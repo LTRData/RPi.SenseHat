@@ -28,8 +28,8 @@ using Emmellsoft.IoT.Rpi.SenseHat;
 using Emmellsoft.IoT.Rpi.SenseHat.Fonts;
 using Emmellsoft.IoT.Rpi.SenseHat.Fonts.SingleColor;
 
-namespace RPi.SenseHat.Demo.Demos
-{
+namespace RPi.SenseHat.Demo.Demos;
+
 	/// <summary>
 	/// Single color scroll-text.
 	/// Click on the joystick to change drawing mode!
@@ -147,17 +147,17 @@ namespace RPi.SenseHat.Demo.Demos
 			}
 		}
 
-        private Color GetCharacterColor(SingleColorCharacterRendererPixelMap pixelMap) => _currentMode switch
-        {
-            RenderMode.YellowOnBlue => Color.Yellow,
-            RenderMode.BlackOnStaticRainbow => Color.Black,
-            RenderMode.BlackOnMovingRainbow => Color.Black,
-            RenderMode.StaticRainbowOnBlack => _rainbowColors[pixelMap.DisplayPixelX, pixelMap.DisplayPixelY],// Let the rainbow colors be "pinned" to the display.
-            RenderMode.MovingRainbowOnBlack => _rainbowColors[pixelMap.CharPixelX, pixelMap.CharPixelY],// Let the rainbow colors move with the characters ("restarting" on each character).
-            _ => throw new ArgumentOutOfRangeException(),
-        };
+    private Color GetCharacterColor(SingleColorCharacterRendererPixelMap pixelMap) => _currentMode switch
+    {
+        RenderMode.YellowOnBlue => Color.Yellow,
+        RenderMode.BlackOnStaticRainbow => Color.Black,
+        RenderMode.BlackOnMovingRainbow => Color.Black,
+        RenderMode.StaticRainbowOnBlack => _rainbowColors[pixelMap.DisplayPixelX, pixelMap.DisplayPixelY],// Let the rainbow colors be "pinned" to the display.
+        RenderMode.MovingRainbowOnBlack => _rainbowColors[pixelMap.CharPixelX, pixelMap.CharPixelY],// Let the rainbow colors move with the characters ("restarting" on each character).
+        _ => throw new ArgumentOutOfRangeException(),
+    };
 
-        private static IEnumerable<byte> FontBytes
+    private static IEnumerable<byte> FontBytes
 		{
 			get
 			{
@@ -228,4 +228,3 @@ namespace RPi.SenseHat.Demo.Demos
 			}
 		}
 	}
-}

@@ -21,15 +21,14 @@
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-namespace RichardsTech.Sensors
+namespace RichardsTech.Sensors;
+
+/// <summary>
+/// A generic humidity sensor.
+/// </summary>
+public abstract class HumiditySensor : Sensor
 {
-	/// <summary>
-	/// A generic humidity sensor.
-	/// </summary>
-	public abstract class HumiditySensor : Sensor
-	{
-		protected HumiditySensor()
-		{
-		}
-	}
+    protected HumiditySensor()
+    {
+    }
 }

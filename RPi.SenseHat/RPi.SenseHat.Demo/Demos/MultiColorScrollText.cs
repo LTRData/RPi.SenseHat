@@ -28,8 +28,8 @@ using Emmellsoft.IoT.Rpi.SenseHat;
 using Emmellsoft.IoT.Rpi.SenseHat.Fonts;
 using Emmellsoft.IoT.Rpi.SenseHat.Fonts.MultiColor;
 
-namespace RPi.SenseHat.Demo.Demos
-{
+namespace RPi.SenseHat.Demo.Demos;
+
 	/// <summary>
 	/// Multi-color scroll-text.
 	/// </summary>
@@ -89,4 +89,3 @@ namespace RPi.SenseHat.Demo.Demos
 			}
 		}
 	}
-}

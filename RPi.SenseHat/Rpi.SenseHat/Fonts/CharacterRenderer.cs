@@ -21,20 +21,19 @@
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-namespace Emmellsoft.IoT.Rpi.SenseHat.Fonts
+namespace Emmellsoft.IoT.Rpi.SenseHat.Fonts;
+
+/// <summary>
+/// Renderer of a Character.
+/// </summary>
+public abstract class CharacterRenderer<TChar> where TChar : Character
 {
-	/// <summary>
-	/// Renderer of a Character.
-	/// </summary>
-	public abstract class CharacterRenderer<TChar> where TChar : Character
-	{
-		/// <summary>
-		/// Renders a character on the display at the specified offset.
-		/// </summary>
-		/// <param name="display">The display to render to.</param>
-		/// <param name="character">The character to render.</param>
-		/// <param name="offsetX">The X-position of the left-most edge of the character.</param>
-		/// <param name="offsetY">The Y-position of the top-most edge of the character.</param>
-		public abstract void Render(ISenseHatDisplay display, TChar character, int offsetX, int offsetY);
-	}
+    /// <summary>
+    /// Renders a character on the display at the specified offset.
+    /// </summary>
+    /// <param name="display">The display to render to.</param>
+    /// <param name="character">The character to render.</param>
+    /// <param name="offsetX">The X-position of the left-most edge of the character.</param>
+    /// <param name="offsetY">The Y-position of the top-most edge of the character.</param>
+    public abstract void Render(ISenseHatDisplay display, TChar character, int offsetX, int offsetY);
 }

@@ -25,11 +25,11 @@ using System;
 using System.Threading;
 using Emmellsoft.IoT.Rpi.SenseHat;
 
-namespace RPi.SenseHat.Demo
-{
+namespace RPi.SenseHat.Demo;
+
 	public abstract class SenseHatDemo
 	{
-        private readonly ManualResetEventSlim _waitEvent = new(initialState: false);
+    private readonly ManualResetEventSlim _waitEvent = new(initialState: false);
 
 		protected SenseHatDemo(ISenseHat senseHat, Action<string> setScreenText = null)
 		{
@@ -48,4 +48,3 @@ namespace RPi.SenseHat.Demo
 			_waitEvent.Wait(duration);
 		}
 	}
-}

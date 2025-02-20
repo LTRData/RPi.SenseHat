@@ -23,119 +23,99 @@
 
 using System;
 
-namespace RichardsTech.Sensors
+namespace RichardsTech.Sensors;
+
+public struct Vector3(double x, double y, double z)
 {
-	public struct Vector3
-	{
-		public double X
-		{ get; set; }
+    public double X
+    { get; set; } = x;
 
-		public double Y
-		{ get; set; }
+    public double Y
+    { get; set; } = y;
 
-		public double Z
-		{ get; set; }
+    public double Z
+    { get; set; } = z;
 
-		public Vector3(double x, double y, double z)
-		{
-			X = x;
-			Y = y;
-			Z = z;
-		}
+    public readonly System.Numerics.Vector3 ToSinglePrecisionVector3()
+        => new((float)X, (float)Y, (float)Z);
 
-        public System.Numerics.Vector3 ToSinglePrecisionVector3()
-            => new((float)X, (float)Y, (float)Z);
+    public void Zero()
+    {
+        X = 0;
+        Y = 0;
+        Z = 0;
+    }
 
-        public void Zero()
-		{
-			X = 0;
-			Y = 0;
-			Z = 0;
-		}
+    public static Vector3 operator +(Vector3 lhs, Vector3 rhs)
+    {
+        return new Vector3(lhs.X + rhs.X, lhs.Y + rhs.Y, lhs.Z + rhs.Z);
+    }
 
-		public static Vector3 operator +(Vector3 lhs, Vector3 rhs)
-		{
-			return new Vector3(lhs.X + rhs.X, lhs.Y + rhs.Y, lhs.Z + rhs.Z);
-		}
+    public static Vector3 operator -(Vector3 lhs, Vector3 rhs)
+    {
+        return new Vector3(lhs.X - rhs.X, lhs.Y - rhs.Y, lhs.Z - rhs.Z);
+    }
 
-		public static Vector3 operator -(Vector3 lhs, Vector3 rhs)
-		{
-			return new Vector3(lhs.X - rhs.X, lhs.Y - rhs.Y, lhs.Z - rhs.Z);
-		}
+    public static double DotProduct(Vector3 a, Vector3 b) => a.X * b.X + a.Y * b.Y + a.Z * b.Z;
 
-		public static double DotProduct(Vector3 a, Vector3 b)
-		{
-			return a.X * b.X + a.Y * b.Y + a.Z * b.Z;
-		}
+    public static Vector3 CrossProduct(Vector3 a, Vector3 b) => new(a.Y * b.Z - a.Z * b.Y, a.Z * b.X - a.X * b.Z, a.X * b.Y - a.Y * b.X);
 
-		public static Vector3 CrossProduct(Vector3 a, Vector3 b)
-		{
-			return new Vector3(a.Y * b.Z - a.Z * b.Y, a.Z * b.X - a.X * b.Z, a.X * b.Y - a.Y * b.X);
-		}
+    public readonly Vector3 AccelToEuler()
+    {
+        Vector3 normAccel = this;
+        normAccel.Normalize();
 
-		public Vector3 AccelToEuler()
-		{
-			Vector3 normAccel = this;
-			normAccel.Normalize();
+        var rollPitchYaw = new Vector3(
+            Math.Atan2(normAccel.Y, normAccel.Z),
+            -Math.Atan2(normAccel.X, Math.Sqrt(normAccel.Y * normAccel.Y + normAccel.Z * normAccel.Z)),
+            0);
 
-			var rollPitchYaw = new Vector3(
-				Math.Atan2(normAccel.Y, normAccel.Z),
-				-Math.Atan2(normAccel.X, Math.Sqrt(normAccel.Y * normAccel.Y + normAccel.Z * normAccel.Z)),
-				0);
+        return rollPitchYaw;
+    }
 
-			return rollPitchYaw;
-		}
+    public readonly Quaternion AccelToQuaternion()
+    {
+        Vector3 normAccel = this;
+        Vector3 z = new Vector3(0, 0, 1.0);
 
-		public Quaternion AccelToQuaternion()
-		{
-			Vector3 normAccel = this;
-			Vector3 z = new Vector3(0, 0, 1.0);
+        normAccel.Normalize();
 
-			normAccel.Normalize();
+        double angle = Math.Acos(DotProduct(z, normAccel));
+        Vector3 vec = CrossProduct(normAccel, z);
+        vec.Normalize();
 
-			double angle = Math.Acos(DotProduct(z, normAccel));
-			Vector3 vec = CrossProduct(normAccel, z);
-			vec.Normalize();
+        var qPose = new Quaternion();
+        qPose.FromAngleVector(angle, vec);
+        return qPose;
+    }
 
-			var qPose = new Quaternion();
-			qPose.FromAngleVector(angle, vec);
-			return qPose;
-		}
+    public void Normalize()
+    {
+        double length = Math.Sqrt(X * X + Y * Y + Z * Z);
 
-		public void Normalize()
-		{
-			double length = Math.Sqrt(X * X + Y * Y + Z * Z);
+        if ((length == 0) || (length == 1))
+        {
+            return;
+        }
 
-			if ((length == 0) || (length == 1))
-			{
-				return;
-			}
+        X /= length;
+        Y /= length;
+        Z /= length;
+    }
 
-			X /= length;
-			Y /= length;
-			Z /= length;
-		}
+    public readonly double Length() => Math.Sqrt(X * X + Y * Y + Z * Z);
 
-		public double Length()
-		{
-			return Math.Sqrt(X * X + Y * Y + Z * Z);
-		}
+    public readonly Vector3 AsDegrees() => new(
+        X * MathSupport.RadToDegree,
+        Y * MathSupport.RadToDegree,
+        Z * MathSupport.RadToDegree);
 
-		public Vector3 AsDegrees() => new Vector3(
-			X * MathSupport.RadToDegree,
-			Y * MathSupport.RadToDegree,
-			Z * MathSupport.RadToDegree);
+    public override readonly string ToString() => ToString(false);
 
-		public override string ToString()
-		{
-			return ToString(false);
-		}
-
-		public string ToString(bool asDegrees)
-		{
-			return asDegrees
-				? $"roll: {X * MathSupport.RadToDegree:F4}, pitch: {Y * MathSupport.RadToDegree:F4}, yaw: {Z * MathSupport.RadToDegree:F4}"
-				: $"x: {X:F4}, y: {Y:F4}, z: {Z:F4}";
-		}
-	}
+    public readonly string ToString(bool asDegrees)
+    {
+        return asDegrees
+            ? $"roll: {X * MathSupport.RadToDegree:F4}, pitch: {Y * MathSupport.RadToDegree:F4}, yaw: {Z * MathSupport.RadToDegree:F4}"
+            : $"x: {X:F4}, y: {Y:F4}, z: {Z:F4}";
+    }
 }

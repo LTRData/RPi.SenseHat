@@ -24,50 +24,39 @@
 using System;
 using System.Device.I2c;
 
-namespace Emmellsoft.IoT.Rpi.SenseHat
+namespace Emmellsoft.IoT.Rpi.SenseHat;
+
+internal sealed class MainI2CDevice(I2cDevice device) : IDisposable
 {
-	internal sealed class MainI2CDevice : IDisposable
-	{
-		private readonly I2cDevice _device;
+    private readonly I2cDevice _device = device;
 
-		public MainI2CDevice(I2cDevice device)
-		{
-			_device = device;
-		}
+    public void Dispose() => _device.Dispose();
 
-		public void Dispose()
-		{
-			_device.Dispose();
-		}
+    internal byte ReadByte(byte address)
+    {
+        byte[] buffer = [address];
+        byte[] value = new byte[1];
 
-		internal byte ReadByte(byte address)
-		{
-			byte[] buffer = { address };
-			byte[] value = new byte[1];
+        _device.WriteRead(buffer, value);
 
-			_device.WriteRead(buffer, value);
+        return value[0];
+    }
 
-			return value[0];
-		}
+    internal byte[] ReadBytes(byte address, int length)
+    {
+        byte[] values = new byte[length];
+        byte[] buffer = [address];
+        _device.WriteRead(buffer, values);
 
-		internal byte[] ReadBytes(byte address, int length)
-		{
-			byte[] values = new byte[length];
-			byte[] buffer = new byte[1];
-			buffer[0] = address;
+        return values;
+    }
 
-			_device.WriteRead(buffer, values);
+    internal void WriteBytes(byte address, byte[] values)
+    {
+        byte[] buffer = new byte[1 + values.Length];
+        buffer[0] = address;
+        Array.Copy(values, 0, buffer, 1, values.Length);
 
-			return values;
-		}
-
-		internal void WriteBytes(byte address, byte[] values)
-		{
-			byte[] buffer = new byte[1 + values.Length];
-			buffer[0] = address;
-			Array.Copy(values, 0, buffer, 1, values.Length);
-
-			_device.Write(buffer);
-		}
-	}
+        _device.Write(buffer);
+    }
 }

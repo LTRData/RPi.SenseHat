@@ -35,144 +35,143 @@ using System.IO;
 using System.Drawing;
 #endif
 
-namespace Emmellsoft.IoT.Rpi.SenseHat
+namespace Emmellsoft.IoT.Rpi.SenseHat;
+
+public static class PixelSupport
 {
-	public static class PixelSupport
-	{
-		internal static void ConvertDirectionParameters(
-			DisplayDirection direction,
-			bool flipHorizontal,
-			bool flipVertical,
-			out bool leftToRight,
-			out bool topToBottom,
-			out bool flipAxis)
-		{
-			switch (direction)
-			{
-				case DisplayDirection.Deg0:
-					if (!flipHorizontal && !flipVertical)
-					{
-						leftToRight = true;
-						topToBottom = true;
-					}
-					else if (flipHorizontal && !flipVertical)
-					{
-						leftToRight = false;
-						topToBottom = true;
-					}
-					else if (!flipHorizontal /* && flipVertical */)
-					{
-						leftToRight = true;
-						topToBottom = false;
-					}
-					else /* if (flipHorizontal && flipVertical) */
-					{
-						leftToRight = false;
-						topToBottom = false;
-					}
+    internal static void ConvertDirectionParameters(
+        DisplayDirection direction,
+        bool flipHorizontal,
+        bool flipVertical,
+        out bool leftToRight,
+        out bool topToBottom,
+        out bool flipAxis)
+    {
+        switch (direction)
+        {
+            case DisplayDirection.Deg0:
+                if (!flipHorizontal && !flipVertical)
+                {
+                    leftToRight = true;
+                    topToBottom = true;
+                }
+                else if (flipHorizontal && !flipVertical)
+                {
+                    leftToRight = false;
+                    topToBottom = true;
+                }
+                else if (!flipHorizontal /* && flipVertical */)
+                {
+                    leftToRight = true;
+                    topToBottom = false;
+                }
+                else /* if (flipHorizontal && flipVertical) */
+                {
+                    leftToRight = false;
+                    topToBottom = false;
+                }
 
-					flipAxis = false;
-					break;
+                flipAxis = false;
+                break;
 
-				case DisplayDirection.Deg90:
-					if (!flipHorizontal && !flipVertical)
-					{
-						leftToRight = false;
-						topToBottom = true;
-					}
-					else if (flipHorizontal && !flipVertical)
-					{
-						leftToRight = true;
-						topToBottom = true;
-					}
-					else if (!flipHorizontal /* && flipVertical */)
-					{
-						leftToRight = false;
-						topToBottom = false;
-					}
-					else /* if (flipHorizontal && flipVertical) */
-					{
-						leftToRight = true;
-						topToBottom = false;
-					}
+            case DisplayDirection.Deg90:
+                if (!flipHorizontal && !flipVertical)
+                {
+                    leftToRight = false;
+                    topToBottom = true;
+                }
+                else if (flipHorizontal && !flipVertical)
+                {
+                    leftToRight = true;
+                    topToBottom = true;
+                }
+                else if (!flipHorizontal /* && flipVertical */)
+                {
+                    leftToRight = false;
+                    topToBottom = false;
+                }
+                else /* if (flipHorizontal && flipVertical) */
+                {
+                    leftToRight = true;
+                    topToBottom = false;
+                }
 
-					flipAxis = true;
-					break;
+                flipAxis = true;
+                break;
 
-				case DisplayDirection.Deg180:
-					if (!flipHorizontal && !flipVertical)
-					{
-						leftToRight = false;
-						topToBottom = false;
-					}
-					else if (flipHorizontal && !flipVertical)
-					{
-						leftToRight = true;
-						topToBottom = false;
-					}
-					else if (!flipHorizontal /* && flipVertical */)
-					{
-						leftToRight = false;
-						topToBottom = true;
-					}
-					else /* if (flipHorizontal && flipVertical) */
-					{
-						leftToRight = true;
-						topToBottom = true;
-					}
+            case DisplayDirection.Deg180:
+                if (!flipHorizontal && !flipVertical)
+                {
+                    leftToRight = false;
+                    topToBottom = false;
+                }
+                else if (flipHorizontal && !flipVertical)
+                {
+                    leftToRight = true;
+                    topToBottom = false;
+                }
+                else if (!flipHorizontal /* && flipVertical */)
+                {
+                    leftToRight = false;
+                    topToBottom = true;
+                }
+                else /* if (flipHorizontal && flipVertical) */
+                {
+                    leftToRight = true;
+                    topToBottom = true;
+                }
 
-					flipAxis = false;
-					break;
+                flipAxis = false;
+                break;
 
-				case DisplayDirection.Deg270:
-					if (!flipHorizontal && !flipVertical)
-					{
-						leftToRight = true;
-						topToBottom = false;
-					}
-					else if (flipHorizontal && !flipVertical)
-					{
-						leftToRight = false;
-						topToBottom = false;
-					}
-					else if (!flipHorizontal /* && flipVertical */)
-					{
-						leftToRight = true;
-						topToBottom = true;
-					}
-					else /* if (flipHorizontal && flipVertical) */
-					{
-						leftToRight = false;
-						topToBottom = true;
-					}
+            case DisplayDirection.Deg270:
+                if (!flipHorizontal && !flipVertical)
+                {
+                    leftToRight = true;
+                    topToBottom = false;
+                }
+                else if (flipHorizontal && !flipVertical)
+                {
+                    leftToRight = false;
+                    topToBottom = false;
+                }
+                else if (!flipHorizontal /* && flipVertical */)
+                {
+                    leftToRight = true;
+                    topToBottom = true;
+                }
+                else /* if (flipHorizontal && flipVertical) */
+                {
+                    leftToRight = false;
+                    topToBottom = true;
+                }
 
-					flipAxis = true;
-					break;
+                flipAxis = true;
+                break;
 
-				default:
-					throw new ArgumentOutOfRangeException(nameof(direction), direction, null);
-			}
-		}
+            default:
+                throw new ArgumentOutOfRangeException(nameof(direction), direction, null);
+        }
+    }
 
-		public static Color[,] Convert1DTo2D(Color[] pixels)
-		{
-			if (pixels.Length != 64)
-			{
-				throw new ArgumentException("The pixel array must be 64 bytes long (i.e. 8x8).", nameof(pixels));
-			}
+    public static Color[,] Convert1DTo2D(Color[] pixels)
+    {
+        if (pixels.Length != 64)
+        {
+            throw new ArgumentException("The pixel array must be 64 bytes long (i.e. 8x8).", nameof(pixels));
+        }
 
-			var pixels2D = new Color[8, 8];
+        var pixels2D = new Color[8, 8];
 
-			int i = 0;
-			for (int y = 0; y < 8; y++)
-			{
-				for (int x = 0; x < 8; x++)
-				{
-					pixels2D[x, y] = pixels[i++];
-				}
-			}
+        int i = 0;
+        for (int y = 0; y < 8; y++)
+        {
+            for (int x = 0; x < 8; x++)
+            {
+                pixels2D[x, y] = pixels[i++];
+            }
+        }
 
-			return pixels2D;
-		}
-	}
+        return pixels2D;
+    }
 }

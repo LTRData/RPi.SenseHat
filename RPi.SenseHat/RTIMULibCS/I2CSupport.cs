@@ -24,125 +24,124 @@
 using System;
 using System.Device.I2c;
 
-namespace RichardsTech.Sensors
+namespace RichardsTech.Sensors;
+
+internal static class I2CSupport
 {
-	internal static class I2CSupport
-	{
-		public static void Write(I2cDevice device, byte reg, byte command, string exceptionMessage)
-		{
-			try
-			{
-				byte[] buffer = { reg, command };
+    public static void Write(I2cDevice device, byte reg, byte command, string exceptionMessage)
+    {
+        try
+        {
+            byte[] buffer = [reg, command];
 
-				device.Write(buffer);
-			}
-			catch (Exception exception)
-			{
-				throw new SensorException(exceptionMessage, exception);
-			}
-		}
+            device.Write(buffer);
+        }
+        catch (Exception exception)
+        {
+            throw new SensorException(exceptionMessage, exception);
+        }
+    }
 
-		public static byte Read8Bits(I2cDevice device, byte reg, string exceptionMessage)
-		{
-			try
-			{
-				byte[] addr = { reg };
+    public static byte Read8Bits(I2cDevice device, byte reg, string exceptionMessage)
+    {
+        try
+        {
+            byte[] addr = [reg];
 
-				byte[] data = new byte[1];
+            byte[] data = new byte[1];
 
-				device.WriteRead(addr, data);
-				return data[0];
-			}
-			catch (Exception exception)
-			{
-				throw new SensorException(exceptionMessage, exception);
-			}
-		}
+            device.WriteRead(addr, data);
+            return data[0];
+        }
+        catch (Exception exception)
+        {
+            throw new SensorException(exceptionMessage, exception);
+        }
+    }
 
-		public static UInt16 Read16Bits(I2cDevice device, byte reg, ByteOrder byteOrder, string exceptionMessage)
-		{
-			try
-			{
-				byte[] addr = { reg };
+    public static ushort Read16Bits(I2cDevice device, byte reg, ByteOrder byteOrder, string exceptionMessage)
+    {
+        try
+        {
+            byte[] addr = [reg];
 
-				byte[] data = new byte[2];
+            byte[] data = new byte[2];
 
-				device.WriteRead(addr, data);
+            device.WriteRead(addr, data);
 
-                return byteOrder switch
-                {
-                    ByteOrder.BigEndian => (UInt16)((data[0] << 8) | data[1]),
-                    ByteOrder.LittleEndian => (UInt16)((data[1] << 8) | data[0]),
-                    _ => throw new SensorException($"Unsupported byte order {byteOrder}"),
-                };
-            }
-			catch (Exception exception)
-			{
-				throw new SensorException(exceptionMessage, exception);
-			}
-		}
+            return byteOrder switch
+            {
+                ByteOrder.BigEndian => (ushort)((data[0] << 8) | data[1]),
+                ByteOrder.LittleEndian => (ushort)((data[1] << 8) | data[0]),
+                _ => throw new SensorException($"Unsupported byte order {byteOrder}"),
+            };
+        }
+        catch (Exception exception)
+        {
+            throw new SensorException(exceptionMessage, exception);
+        }
+    }
 
-		public static UInt32 Read24Bits(I2cDevice device, byte reg, ByteOrder byteOrder, string exceptionMessage)
-		{
-			try
-			{
-				byte[] addr = { reg };
+    public static uint Read24Bits(I2cDevice device, byte reg, ByteOrder byteOrder, string exceptionMessage)
+    {
+        try
+        {
+            byte[] addr = [reg];
 
-				byte[] data = new byte[3];
+            byte[] data = new byte[3];
 
-				device.WriteRead(addr, data);
+            device.WriteRead(addr, data);
 
-                return byteOrder switch
-                {
-                    ByteOrder.BigEndian => (UInt32)((data[0] << 16) | (data[1] << 8) | data[2]),
-                    ByteOrder.LittleEndian => (UInt32)((data[2] << 16) | (data[1] << 8) | data[0]),
-                    _ => throw new SensorException($"Unsupported byte order {byteOrder}"),
-                };
-            }
-			catch (Exception exception)
-			{
-				throw new SensorException(exceptionMessage, exception);
-			}
-		}
+            return byteOrder switch
+            {
+                ByteOrder.BigEndian => (uint)((data[0] << 16) | (data[1] << 8) | data[2]),
+                ByteOrder.LittleEndian => (uint)((data[2] << 16) | (data[1] << 8) | data[0]),
+                _ => throw new SensorException($"Unsupported byte order {byteOrder}"),
+            };
+        }
+        catch (Exception exception)
+        {
+            throw new SensorException(exceptionMessage, exception);
+        }
+    }
 
-		public static UInt32 Read32Bits(I2cDevice device, byte reg, ByteOrder byteOrder, string exceptionMessage)
-		{
-			try
-			{
-				byte[] addr = { reg };
+    public static uint Read32Bits(I2cDevice device, byte reg, ByteOrder byteOrder, string exceptionMessage)
+    {
+        try
+        {
+            byte[] addr = [reg];
 
-				byte[] data = new byte[4];
+            byte[] data = new byte[4];
 
-				device.WriteRead(addr, data);
+            device.WriteRead(addr, data);
 
-                return byteOrder switch
-                {
-                    ByteOrder.BigEndian => (UInt32)((data[0] << 24) | (data[1] << 16) | (data[2] << 8) | data[3]),
-                    ByteOrder.LittleEndian => (UInt32)((data[3] << 24) | (data[2] << 16) | (data[1] << 8) | data[0]),
-                    _ => throw new SensorException($"Unsupported byte order {byteOrder}"),
-                };
-            }
-			catch (Exception exception)
-			{
-				throw new SensorException(exceptionMessage, exception);
-			}
-		}
+            return byteOrder switch
+            {
+                ByteOrder.BigEndian => (uint)((data[0] << 24) | (data[1] << 16) | (data[2] << 8) | data[3]),
+                ByteOrder.LittleEndian => (uint)((data[3] << 24) | (data[2] << 16) | (data[1] << 8) | data[0]),
+                _ => throw new SensorException($"Unsupported byte order {byteOrder}"),
+            };
+        }
+        catch (Exception exception)
+        {
+            throw new SensorException(exceptionMessage, exception);
+        }
+    }
 
-		public static byte[] ReadBytes(I2cDevice device, byte reg, int count, string exceptionMessage)
-		{
-			try
-			{
-				byte[] addr = { reg };
+    public static byte[] ReadBytes(I2cDevice device, byte reg, int count, string exceptionMessage)
+    {
+        try
+        {
+            byte[] addr = [reg];
 
-				byte[] data = new byte[count];
+            byte[] data = new byte[count];
 
-				device.WriteRead(addr, data);
-				return data;
-			}
-			catch (Exception exception)
-			{
-				throw new SensorException(exceptionMessage, exception);
-			}
-		}
-	}
+            device.WriteRead(addr, data);
+            return data;
+        }
+        catch (Exception exception)
+        {
+            throw new SensorException(exceptionMessage, exception);
+        }
+    }
 }

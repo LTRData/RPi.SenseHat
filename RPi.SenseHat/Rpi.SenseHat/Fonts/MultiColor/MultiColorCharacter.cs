@@ -28,41 +28,40 @@ using Windows.UI;
 using System.Drawing;
 #endif
 
-namespace Emmellsoft.IoT.Rpi.SenseHat.Fonts.MultiColor
+namespace Emmellsoft.IoT.Rpi.SenseHat.Fonts.MultiColor;
+
+/// <summary>
+/// A color font character.
+/// </summary>
+public class MultiColorCharacter : Character
 {
-	/// <summary>
-	/// A color font character.
-	/// </summary>
-	public class MultiColorCharacter : Character
-	{
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="symbol">The unicode character.</param>
-		/// <param name="pixels">The pixels array. Must not be larger than 8x8 pixels.</param>
-		/// <param name="transparencyColor">The color that represents transparency.</param>
-		public MultiColorCharacter(char symbol, Color[,] pixels, Color? transparencyColor = null)
-			: base(symbol, pixels.GetLength(0))
-		{
-			if (pixels.GetLength(1) > 8)
-			{
-				throw new ArgumentException("The pixels array must not be taller than 8 pixels!");
-			}
+    /// <summary>
+    /// Constructor.
+    /// </summary>
+    /// <param name="symbol">The unicode character.</param>
+    /// <param name="pixels">The pixels array. Must not be larger than 8x8 pixels.</param>
+    /// <param name="transparencyColor">The color that represents transparency.</param>
+    public MultiColorCharacter(char symbol, Color[,] pixels, Color? transparencyColor = null)
+        : base(symbol, pixels.GetLength(0))
+    {
+        if (pixels.GetLength(1) > 8)
+        {
+            throw new ArgumentException("The pixels array must not be taller than 8 pixels!");
+        }
 
-			Pixels = pixels;
-			TransparencyColor = transparencyColor;
-		}
+        Pixels = pixels;
+        TransparencyColor = transparencyColor;
+    }
 
-		/// <summary>
-		/// The pixels array.
-		/// </summary>
-		public Color[,] Pixels
-		{ get; }
+    /// <summary>
+    /// The pixels array.
+    /// </summary>
+    public Color[,] Pixels
+    { get; }
 
-		/// <summary>
-		/// The color that represents transparency.
-		/// </summary>
-		public Color? TransparencyColor
-		{ get; }
-	}
+    /// <summary>
+    /// The color that represents transparency.
+    /// </summary>
+    public Color? TransparencyColor
+    { get; }
 }

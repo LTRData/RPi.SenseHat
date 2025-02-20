@@ -23,96 +23,95 @@
 
 using System;
 
-namespace RichardsTech.Sensors
+namespace RichardsTech.Sensors;
+
+/// <summary>
+/// The various values from a sensor reading.
+/// </summary>
+public struct SensorReadings
 {
-	/// <summary>
-	/// The various values from a sensor reading.
-	/// </summary>
-	public struct SensorReadings
-	{
-		/// <summary>
-		/// Sample timestamp
-		/// </summary>
-		public DateTime Timestamp;
+    /// <summary>
+    /// Sample timestamp
+    /// </summary>
+    public DateTime Timestamp;
 
-		/// <summary>
-		/// True if fusion pose valid
-		/// </summary>
-		public bool FusionPoseValid;
+    /// <summary>
+    /// True if fusion pose valid
+    /// </summary>
+    public bool FusionPoseValid;
 
-		/// <summary>
-		/// The fusion pose
-		/// </summary>
-		public Vector3 FusionPose;
+    /// <summary>
+    /// The fusion pose
+    /// </summary>
+    public Vector3 FusionPose;
 
-		/// <summary>
-		/// True if the fusion quaternion is valid
-		/// </summary>
-		public bool FusionQPoseValid;
+    /// <summary>
+    /// True if the fusion quaternion is valid
+    /// </summary>
+    public bool FusionQPoseValid;
 
-		/// <summary>
-		/// The fusion quaternion
-		/// </summary>
-		public Quaternion FusionQPose;
+    /// <summary>
+    /// The fusion quaternion
+    /// </summary>
+    public Quaternion FusionQPose;
 
-		/// <summary>
-		/// True if gyro data is valid
-		/// </summary>
-		public bool GyroValid;
+    /// <summary>
+    /// True if gyro data is valid
+    /// </summary>
+    public bool GyroValid;
 
-		/// <summary>
-		/// Gyro data in radians/sec
-		/// </summary>
-		public Vector3 Gyro;
+    /// <summary>
+    /// Gyro data in radians/sec
+    /// </summary>
+    public Vector3 Gyro;
 
-		/// <summary>
-		/// True if accel data valid
-		/// </summary>
-		public bool AccelerationValid;
+    /// <summary>
+    /// True if accel data valid
+    /// </summary>
+    public bool AccelerationValid;
 
-		/// <summary>
-		/// Acceleration data in g
-		/// </summary>
-		public Vector3 Acceleration;
+    /// <summary>
+    /// Acceleration data in g
+    /// </summary>
+    public Vector3 Acceleration;
 
-		/// <summary>
-		/// True if mag data valid
-		/// </summary>
-		public bool MagneticFieldValid;
+    /// <summary>
+    /// True if mag data valid
+    /// </summary>
+    public bool MagneticFieldValid;
 
-		/// <summary>
-		/// Magnetic field vector in uT
-		/// </summary>
-		public Vector3 MagneticField;
+    /// <summary>
+    /// Magnetic field vector in uT
+    /// </summary>
+    public Vector3 MagneticField;
 
-		/// <summary>
-		/// True if pressure data valid
-		/// </summary>
-		public bool PressureValid;
+    /// <summary>
+    /// True if pressure data valid
+    /// </summary>
+    public bool PressureValid;
 
-		/// <summary>
-		/// Pressure in hPa
-		/// </summary>
-		public double Pressure;
+    /// <summary>
+    /// Pressure in hPa
+    /// </summary>
+    public double Pressure;
 
-		/// <summary>
-		/// True if temperature data valid
-		/// </summary>
-		public bool TemperatureValid;
+    /// <summary>
+    /// True if temperature data valid
+    /// </summary>
+    public bool TemperatureValid;
 
-		/// <summary>
-		/// Temperature in degree C
-		/// </summary>
-		public double Temperature;
+    /// <summary>
+    /// Temperature in degree C
+    /// </summary>
+    public double Temperature;
 
-		/// <summary>
-		/// True if humidity data valid
-		/// </summary>
-		public bool HumidityValid;
+    /// <summary>
+    /// True if humidity data valid
+    /// </summary>
+    public bool HumidityValid;
 
-		/// <summary>
-		/// Relative humidity in %RH
-		/// </summary>
-		public double Humidity;
-	}
+    /// <summary>
+    /// Relative humidity in %RH
+    /// </summary>
+    public double Humidity;
 }

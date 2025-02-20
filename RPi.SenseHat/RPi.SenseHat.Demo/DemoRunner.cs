@@ -25,8 +25,8 @@ using System;
 using System.Threading.Tasks;
 using Emmellsoft.IoT.Rpi.SenseHat;
 
-namespace RPi.SenseHat.Demo
-{
+namespace RPi.SenseHat.Demo;
+
 	/// <summary>
 	/// Runs a demo.
 	/// </summary>
@@ -50,4 +50,3 @@ namespace RPi.SenseHat.Demo
 			}).ConfigureAwait(false);
 		}
 	}
-}

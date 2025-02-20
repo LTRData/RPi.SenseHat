@@ -26,8 +26,8 @@ using System.Drawing;
 using Emmellsoft.IoT.Rpi.SenseHat;
 using Emmellsoft.IoT.Rpi.SenseHat.Fonts.SingleColor;
 
-namespace RPi.SenseHat.Demo.Demos
-{
+namespace RPi.SenseHat.Demo.Demos;
+
 	/// <summary>
 	/// Is it only me or does it show some unusual high temperature? :-S
 	/// </summary>
@@ -89,20 +89,19 @@ namespace RPi.SenseHat.Demo.Demos
 			}
 		}
 
-        private static double ConvertTemperatureValue(TemperatureUnit unit, double temperatureInCelcius) => unit switch
-        {
-            TemperatureUnit.Celcius => temperatureInCelcius,
-            TemperatureUnit.Fahrenheit => temperatureInCelcius * 9 / 5 + 32,
-            TemperatureUnit.Kelvin => temperatureInCelcius + 273.15,
-            _ => throw new ArgumentOutOfRangeException(),
-        };
+    private static double ConvertTemperatureValue(TemperatureUnit unit, double temperatureInCelcius) => unit switch
+    {
+        TemperatureUnit.Celcius => temperatureInCelcius,
+        TemperatureUnit.Fahrenheit => temperatureInCelcius * 9 / 5 + 32,
+        TemperatureUnit.Kelvin => temperatureInCelcius + 273.15,
+        _ => throw new ArgumentOutOfRangeException(),
+    };
 
-        private static string GetUnitText(TemperatureUnit unit) => unit switch
-        {
-            TemperatureUnit.Celcius => "\u00B0C",// Where "\u00B0" is the degree-symbol.
-            TemperatureUnit.Fahrenheit => "\u00B0F",// Where "\u00B0" is the degree-symbol.
-            TemperatureUnit.Kelvin => "K",
-            _ => throw new ArgumentOutOfRangeException(),
-        };
-    }
+    private static string GetUnitText(TemperatureUnit unit) => unit switch
+    {
+        TemperatureUnit.Celcius => "\u00B0C",// Where "\u00B0" is the degree-symbol.
+        TemperatureUnit.Fahrenheit => "\u00B0F",// Where "\u00B0" is the degree-symbol.
+        TemperatureUnit.Kelvin => "K",
+        _ => throw new ArgumentOutOfRangeException(),
+    };
 }

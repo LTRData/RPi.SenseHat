@@ -28,55 +28,54 @@ using Windows.UI;
 using System.Drawing;
 #endif
 
-namespace Emmellsoft.IoT.Rpi.SenseHat.Sprites
+namespace Emmellsoft.IoT.Rpi.SenseHat.Sprites;
+
+public class SpriteMap
 {
-	public class SpriteMap
-	{
-		public SpriteMap(Color[,] pixels)
-		{
-			if (((pixels.GetLength(0) % 8) != 0) || ((pixels.GetLength(1) % 8) != 0))
-			{
-				throw new ArgumentException("Expecting an image with sides of mutiple of 8 pixels");
-			}
+    public SpriteMap(Color[,] pixels)
+    {
+        if (((pixels.GetLength(0) % 8) != 0) || ((pixels.GetLength(1) % 8) != 0))
+        {
+            throw new ArgumentException("Expecting an image with sides of mutiple of 8 pixels");
+        }
 
-			Pixels = pixels;
+        Pixels = pixels;
 
-			SpriteCountHorizontal = Pixels.GetLength(0) / 8;
-			SpriteCountVertical = Pixels.GetLength(1) / 8;
-		}
+        SpriteCountHorizontal = Pixels.GetLength(0) / 8;
+        SpriteCountVertical = Pixels.GetLength(1) / 8;
+    }
 
-		internal Color[,] Pixels
-		{ get; }
+    internal Color[,] Pixels
+    { get; }
 
-		public int SpriteCountHorizontal
-		{ get; }
+    public int SpriteCountHorizontal
+    { get; }
 
-		public int SpriteCountVertical
-		{ get; }
+    public int SpriteCountVertical
+    { get; }
 
-		public Sprite GetSprite(int index)
-		{
-			int xIndex = index % 8;
-			int yIndex = index / 8;
+    public Sprite GetSprite(int index)
+    {
+        int xIndex = index % 8;
+        int yIndex = index / 8;
 
-			if ((xIndex < 0) || (xIndex >= SpriteCountHorizontal) ||
-				(yIndex < 0) || (yIndex >= SpriteCountVertical))
-			{
-				throw new IndexOutOfRangeException("The sprite index is out of range!");
-			}
+        if ((xIndex < 0) || (xIndex >= SpriteCountHorizontal) ||
+            (yIndex < 0) || (yIndex >= SpriteCountVertical))
+        {
+            throw new IndexOutOfRangeException("The sprite index is out of range!");
+        }
 
-			return new Sprite(this, xIndex, yIndex);
-		}
+        return new Sprite(this, xIndex, yIndex);
+    }
 
-		public Sprite GetSprite(int xIndex, int yIndex)
-		{
-			if ((xIndex < 0) || (xIndex >= SpriteCountHorizontal) ||
-				(yIndex < 0) || (yIndex >= SpriteCountVertical))
-			{
-				throw new IndexOutOfRangeException("The sprite index is out of range!");
-			}
+    public Sprite GetSprite(int xIndex, int yIndex)
+    {
+        if ((xIndex < 0) || (xIndex >= SpriteCountHorizontal) ||
+            (yIndex < 0) || (yIndex >= SpriteCountVertical))
+        {
+            throw new IndexOutOfRangeException("The sprite index is out of range!");
+        }
 
-			return new Sprite(this, xIndex, yIndex);
-		}
-	}
+        return new Sprite(this, xIndex, yIndex);
+    }
 }

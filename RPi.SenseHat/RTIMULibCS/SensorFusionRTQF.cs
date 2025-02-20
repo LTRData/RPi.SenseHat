@@ -23,117 +23,122 @@
 
 using System;
 
-namespace RichardsTech.Sensors
+namespace RichardsTech.Sensors;
+
+public class SensorFusionRTQF : SensorFusion
 {
-    public class SensorFusionRTQF : SensorFusion
+    public SensorFusionRTQF()
     {
-        public SensorFusionRTQF()
+    }
+
+    private void Predict()
+    {
+        if (!EnableGyro || !Gyro.HasValue)
         {
+            return;
         }
 
-        private void Predict()
+        double qs = StateQ.Scalar;
+        double qx = StateQ.X;
+        double qy = StateQ.Y;
+        double qz = StateQ.Z;
+
+        double x2 = Gyro.Value.X / 2.0;
+        double y2 = Gyro.Value.Y / 2.0;
+        double z2 = Gyro.Value.Z / 2.0;
+
+        // Predict new state
+
+        double timeDeltaSeconds = TimeDelta.TotalSeconds;
+
+        StateQ.Scalar = qs + (-x2 * qx - y2 * qy - z2 * qz) * timeDeltaSeconds;
+        StateQ.X = qx + (x2 * qs + z2 * qy - y2 * qz) * timeDeltaSeconds;
+        StateQ.Y = qy + (y2 * qs - z2 * qx + x2 * qz) * timeDeltaSeconds;
+        StateQ.Z = qz + (z2 * qs + y2 * qx - x2 * qy) * timeDeltaSeconds;
+
+        StateQ.Normalize();
+    }
+
+    private void Update()
+    {
+        if (!EnableMagneticField && !EnableAcceleration)
         {
-            if (!EnableGyro || !Gyro.HasValue) {
-                return;
-            }
-
-            double qs = StateQ.Scalar;
-            double qx = StateQ.X;
-            double qy = StateQ.Y;
-            double qz = StateQ.Z;
-
-            double x2 = Gyro.Value.X / 2.0;
-            double y2 = Gyro.Value.Y / 2.0;
-            double z2 = Gyro.Value.Z / 2.0;
-
-            // Predict new state
-
-            double timeDeltaSeconds = TimeDelta.TotalSeconds;
-
-            StateQ.Scalar = qs + (-x2 * qx - y2 * qy - z2 * qz) * timeDeltaSeconds;
-            StateQ.X = qx + (x2 * qs + z2 * qy - y2 * qz) * timeDeltaSeconds;
-            StateQ.Y = qy + (y2 * qs - z2 * qx + x2 * qz) * timeDeltaSeconds;
-            StateQ.Z = qz + (z2 * qs + y2 * qx - x2 * qy) * timeDeltaSeconds;
-
-            StateQ.Normalize();
+            return;
         }
 
-        private void Update()
+        // calculate rotation delta
+
+        Quaternion rotationDelta = StateQ.Conjugate() * MeasuredQPose;
+        rotationDelta.Normalize();
+
+        // take it to the power (0 to 1) to give the desired amount of correction
+
+        double theta = Math.Acos(rotationDelta.Scalar);
+
+        double sinPowerTheta = Math.Sin(theta * SlerpPower);
+        double cosPowerTheta = Math.Cos(theta * SlerpPower);
+
+        Vector3 rotationUnitVector = new Vector3(rotationDelta.X, rotationDelta.Y, rotationDelta.Z);
+        rotationUnitVector.Normalize();
+
+        Quaternion rotationPower = new Quaternion(cosPowerTheta,
+            sinPowerTheta * rotationUnitVector.X,
+            sinPowerTheta * rotationUnitVector.Y,
+            sinPowerTheta * rotationUnitVector.Z);
+        rotationPower.Normalize();
+
+        //  multiple this by predicted value to get result
+
+        StateQ *= rotationPower;
+        StateQ.Normalize();
+    }
+
+    internal override void ProcessNewImuReadings(ref SensorReadings imuReadings)
+    {
+        SampleNumber++;
+
+        Gyro = EnableGyro && imuReadings.GyroValid
+            ? imuReadings.Gyro
+            : null;
+
+        Acceleration = EnableAcceleration && imuReadings.AccelerationValid
+            ? imuReadings.Acceleration
+            : null;
+
+        MagneticField = EnableMagneticField && imuReadings.MagneticFieldValid
+            ? imuReadings.MagneticField
+            : null;
+
+        if (FirstTime)
         {
-            if (!EnableMagneticField && !EnableAcceleration) {
-                return;
-            }
+            LastFusionTime = imuReadings.Timestamp;
+            CalculatePose(Acceleration, MagneticField, CompassAdjDeclination);
 
-            // calculate rotation delta
+            //  initialize the poses
 
-            Quaternion rotationDelta = StateQ.Conjugate() * MeasuredQPose;
-            rotationDelta.Normalize();
-
-            // take it to the power (0 to 1) to give the desired amount of correction
-
-            double theta = Math.Acos(rotationDelta.Scalar);
-
-            double sinPowerTheta = Math.Sin(theta * SlerpPower);
-            double cosPowerTheta = Math.Cos(theta * SlerpPower);
-
-            Vector3 rotationUnitVector = new Vector3(rotationDelta.X, rotationDelta.Y, rotationDelta.Z);
-            rotationUnitVector.Normalize();
-
-            Quaternion rotationPower = new Quaternion(cosPowerTheta,
-                sinPowerTheta * rotationUnitVector.X,
-                sinPowerTheta * rotationUnitVector.Y,
-                sinPowerTheta * rotationUnitVector.Z);
-            rotationPower.Normalize();
-
-            //  multiple this by predicted value to get result
-
-            StateQ *= rotationPower;
-            StateQ.Normalize();
+            StateQ.FromEuler(MeasuredPose);
+            FusionQPose = StateQ;
+            FusionPose = MeasuredPose;
+            FirstTime = false;
         }
-
-        internal override void ProcessNewImuReadings(ref SensorReadings imuReadings)
+        else
         {
-            SampleNumber++;
-
-            Gyro = EnableGyro && imuReadings.GyroValid
-                ? (Vector3?)imuReadings.Gyro
-                : null;
-
-            Acceleration = EnableAcceleration && imuReadings.AccelerationValid
-                ? (Vector3?)imuReadings.Acceleration
-                : null;
-
-            MagneticField = EnableMagneticField && imuReadings.MagneticFieldValid
-                ? (Vector3?)imuReadings.MagneticField
-                : null;
-
-            if (FirstTime) {
-                LastFusionTime = imuReadings.Timestamp;
+            TimeDelta = imuReadings.Timestamp - LastFusionTime;
+            if (TimeDelta > TimeSpan.Zero)
+            {
                 CalculatePose(Acceleration, MagneticField, CompassAdjDeclination);
-
-                //  initialize the poses
-
-                StateQ.FromEuler(MeasuredPose);
+                Predict();
+                Update();
+                StateQ.ToEuler(out FusionPose);
                 FusionQPose = StateQ;
-                FusionPose = MeasuredPose;
-                FirstTime = false;
-            } else {
-                TimeDelta = imuReadings.Timestamp - LastFusionTime;
-                if (TimeDelta > TimeSpan.Zero) {
-                    CalculatePose(Acceleration, MagneticField, CompassAdjDeclination);
-                    Predict();
-                    Update();
-                    StateQ.ToEuler(out FusionPose);
-                    FusionQPose = StateQ;
-                }
-
-                LastFusionTime = imuReadings.Timestamp;
             }
 
-            imuReadings.FusionPoseValid = true;
-            imuReadings.FusionQPoseValid = true;
-            imuReadings.FusionPose = FusionPose;
-            imuReadings.FusionQPose = FusionQPose;
+            LastFusionTime = imuReadings.Timestamp;
         }
+
+        imuReadings.FusionPoseValid = true;
+        imuReadings.FusionQPoseValid = true;
+        imuReadings.FusionPose = FusionPose;
+        imuReadings.FusionQPose = FusionQPose;
     }
 }

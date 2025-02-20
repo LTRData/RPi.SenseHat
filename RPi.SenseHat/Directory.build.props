@@ -6,7 +6,7 @@
     <OutputPath>..\$(Configuration)\</OutputPath>
     <LangVersion>Latest</LangVersion>
     <PackageId>LTRData.$(MSBuildProjectName)</PackageId>
-    <PackageVersion>1.0.1</PackageVersion>
+    <PackageVersion>1.0.2</PackageVersion>
     <PackageOutputPath>$(LocalNuGetPath)</PackageOutputPath>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>

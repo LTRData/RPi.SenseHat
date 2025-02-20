@@ -27,72 +27,71 @@ using Windows.UI;
 using System.Drawing;
 #endif
 
-namespace Emmellsoft.IoT.Rpi.SenseHat.Fonts.MultiColor
+namespace Emmellsoft.IoT.Rpi.SenseHat.Fonts.MultiColor;
+
+public class MultiColorCharacterRenderer : CharacterRenderer<MultiColorCharacter>
 {
-	public class MultiColorCharacterRenderer : CharacterRenderer<MultiColorCharacter>
-	{
-		public override void Render(
-			ISenseHatDisplay display,
-			MultiColorCharacter character,
-			int offsetX,
-			int offsetY)
-		{
-			int charWidth = character.Pixels.GetLength(0);
-			int charHeight = character.Pixels.GetLength(1);
+    public override void Render(
+        ISenseHatDisplay display,
+        MultiColorCharacter character,
+        int offsetX,
+        int offsetY)
+    {
+        int charWidth = character.Pixels.GetLength(0);
+        int charHeight = character.Pixels.GetLength(1);
 
-			int right = offsetX + charWidth - 1;
-			int bottom = offsetY + charHeight - 1;
+        int right = offsetX + charWidth - 1;
+        int bottom = offsetY + charHeight - 1;
 
-			if ((offsetY > 7) || (bottom < 0) || (offsetX > 7) || (right < 0))
-			{
-				return;
-			}
+        if ((offsetY > 7) || (bottom < 0) || (offsetX > 7) || (right < 0))
+        {
+            return;
+        }
 
-			int charPixelXInit = 0;
-			int charPixelYInit = 0;
+        int charPixelXInit = 0;
+        int charPixelYInit = 0;
 
-			if (offsetX < 0)
-			{
-				charPixelXInit -= offsetX;
-				offsetX = 0;
-			}
+        if (offsetX < 0)
+        {
+            charPixelXInit -= offsetX;
+            offsetX = 0;
+        }
 
-			if (offsetY < 0)
-			{
-				charPixelYInit -= offsetY;
-				offsetY = 0;
-			}
+        if (offsetY < 0)
+        {
+            charPixelYInit -= offsetY;
+            offsetY = 0;
+        }
 
-			if (right > 7)
-			{
-				right = 7;
-			}
+        if (right > 7)
+        {
+            right = 7;
+        }
 
-			if (bottom > 7)
-			{
-				bottom = 7;
-			}
+        if (bottom > 7)
+        {
+            bottom = 7;
+        }
 
-			int charPixelY = charPixelYInit;
+        int charPixelY = charPixelYInit;
 
-			for (int screenY = offsetY; screenY <= bottom; screenY++)
-			{
-				int charPixelX = charPixelXInit;
+        for (int screenY = offsetY; screenY <= bottom; screenY++)
+        {
+            int charPixelX = charPixelXInit;
 
-				for (int screenX = offsetX; screenX <= right; screenX++)
-				{
-					Color charColor = character.Pixels[charPixelX, charPixelY];
+            for (int screenX = offsetX; screenX <= right; screenX++)
+            {
+                Color charColor = character.Pixels[charPixelX, charPixelY];
 
-					if (charColor != character.TransparencyColor)
-					{
-						display.Screen[screenX, screenY] = charColor;
-					}
+                if (charColor != character.TransparencyColor)
+                {
+                    display.Screen[screenX, screenY] = charColor;
+                }
 
-					charPixelX++;
-				}
+                charPixelX++;
+            }
 
-				charPixelY++;
-			}
-		}
-	}
+            charPixelY++;
+        }
+    }
 }

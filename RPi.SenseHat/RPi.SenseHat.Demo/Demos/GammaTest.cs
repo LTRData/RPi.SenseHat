@@ -26,8 +26,8 @@ using System.Linq;
 using System.Drawing;
 using Emmellsoft.IoT.Rpi.SenseHat;
 
-namespace RPi.SenseHat.Demo.Demos
-{
+namespace RPi.SenseHat.Demo.Demos;
+
 	/// <summary>
 	/// Tries out different gamma settings for the LED display. Use the joystick to play around.
 	/// </summary>
@@ -122,25 +122,25 @@ namespace RPi.SenseHat.Demo.Demos
 			}
 		}
 
-        private static void GetNextColorComponent(ref ColorComponents colorComponents) => colorComponents = colorComponents switch
-        {
-            ColorComponents.All => ColorComponents.Red,
-            ColorComponents.Red => ColorComponents.Green,
-            ColorComponents.Green => ColorComponents.Blue,
-            ColorComponents.Blue => ColorComponents.All,
-            _ => throw new ArgumentOutOfRangeException(nameof(colorComponents), colorComponents, null),
-        };
+    private static void GetNextColorComponent(ref ColorComponents colorComponents) => colorComponents = colorComponents switch
+    {
+        ColorComponents.All => ColorComponents.Red,
+        ColorComponents.Red => ColorComponents.Green,
+        ColorComponents.Green => ColorComponents.Blue,
+        ColorComponents.Blue => ColorComponents.All,
+        _ => throw new ArgumentOutOfRangeException(nameof(colorComponents), colorComponents, null),
+    };
 
-        private static void GetPrevColorComponent(ref ColorComponents colorComponents) => colorComponents = colorComponents switch
-        {
-            ColorComponents.All => ColorComponents.Blue,
-            ColorComponents.Red => ColorComponents.All,
-            ColorComponents.Green => ColorComponents.Red,
-            ColorComponents.Blue => ColorComponents.Green,
-            _ => throw new ArgumentOutOfRangeException(nameof(colorComponents), colorComponents, null),
-        };
+    private static void GetPrevColorComponent(ref ColorComponents colorComponents) => colorComponents = colorComponents switch
+    {
+        ColorComponents.All => ColorComponents.Blue,
+        ColorComponents.Red => ColorComponents.All,
+        ColorComponents.Green => ColorComponents.Red,
+        ColorComponents.Blue => ColorComponents.Green,
+        _ => throw new ArgumentOutOfRangeException(nameof(colorComponents), colorComponents, null),
+    };
 
-        private static void StepUpGamma(ref double gamma)
+    private static void StepUpGamma(ref double gamma)
 		{
 			gamma += 0.1;
 			if (gamma > 5)
@@ -169,14 +169,14 @@ namespace RPi.SenseHat.Demo.Demos
 				.Select(x => (byte)(x << 3)) // Scale up to 8 bits.
 				.ToArray();
 
-            Color getColor(byte intensity) =>
-                Color.FromArgb(
-                    255,
-                    showRed ? intensity : (byte)0,
-                    showGreen ? intensity : (byte)0,
-                    showBlue ? intensity : (byte)0);
+        Color getColor(byte intensity) =>
+            Color.FromArgb(
+                255,
+                showRed ? intensity : (byte)0,
+                showGreen ? intensity : (byte)0,
+                showBlue ? intensity : (byte)0);
 
-            for (int x = 0; x < 8; x++)
+        for (int x = 0; x < 8; x++)
 			{
 				SenseHat.Display.Screen[x, 0] = getColor(intensities[x]);
 				SenseHat.Display.Screen[x, 1] = getColor(intensities[15 - x]);
@@ -189,4 +189,3 @@ namespace RPi.SenseHat.Demo.Demos
 			}
 		}
 	}
-}

@@ -21,31 +21,30 @@
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-namespace Emmellsoft.IoT.Rpi.SenseHat
+namespace Emmellsoft.IoT.Rpi.SenseHat;
+
+/// <summary>
+/// The direction of the display.
+/// </summary>
+public enum DisplayDirection
 {
-	/// <summary>
-	/// The direction of the display.
-	/// </summary>
-	public enum DisplayDirection
-	{
-		/// <summary>
-		/// Default. No rotation.
-		/// </summary>
-		Deg0,
+    /// <summary>
+    /// Default. No rotation.
+    /// </summary>
+    Deg0,
 
-		/// <summary>
-		/// Rotated 90 degrees clockwise.
-		/// </summary>
-		Deg90,
+    /// <summary>
+    /// Rotated 90 degrees clockwise.
+    /// </summary>
+    Deg90,
 
-		/// <summary>
-		/// Rotated 180 degrees.
-		/// </summary>
-		Deg180,
+    /// <summary>
+    /// Rotated 180 degrees.
+    /// </summary>
+    Deg180,
 
-		/// <summary>
-		/// Rotated 90 degrees counterclockwise.
-		/// </summary>
-		Deg270,
-	}
+    /// <summary>
+    /// Rotated 90 degrees counterclockwise.
+    /// </summary>
+    Deg270,
 }

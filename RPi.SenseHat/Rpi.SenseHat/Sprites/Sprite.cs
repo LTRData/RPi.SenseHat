@@ -28,259 +28,258 @@ using Windows.UI;
 using System.Drawing;
 #endif
 
-namespace Emmellsoft.IoT.Rpi.SenseHat.Sprites
+namespace Emmellsoft.IoT.Rpi.SenseHat.Sprites;
+
+public class Sprite
 {
-	public class Sprite
-	{
-		private readonly SpriteMap _spriteMap;
-		private readonly int _spriteXIndex;
-		private readonly int _spriteYIndex;
+    private readonly SpriteMap _spriteMap;
+    private readonly int _spriteXIndex;
+    private readonly int _spriteYIndex;
 
-		internal Sprite(SpriteMap spriteMap, int spriteXIndex, int spriteYIndex)
-		{
-			_spriteMap = spriteMap;
-			_spriteXIndex = spriteXIndex;
-			_spriteYIndex = spriteYIndex;
-		}
+    internal Sprite(SpriteMap spriteMap, int spriteXIndex, int spriteYIndex)
+    {
+        _spriteMap = spriteMap;
+        _spriteXIndex = spriteXIndex;
+        _spriteYIndex = spriteYIndex;
+    }
 
-		public void Draw(
-			ISenseHatDisplay display,
-			int offsetX,
-			int offsetY,
-			bool transparent,
-			DisplayDirection direction,
-			bool flipHorizontal,
-			bool flipVertical)
-		{
-			int right = offsetX + 7;
-			int bottom = offsetY + 7;
+    public void Draw(
+        ISenseHatDisplay display,
+        int offsetX,
+        int offsetY,
+        bool transparent,
+        DisplayDirection direction,
+        bool flipHorizontal,
+        bool flipVertical)
+    {
+        int right = offsetX + 7;
+        int bottom = offsetY + 7;
 
-			if ((offsetY > 7) || (bottom < 0) || (offsetX > 7) || (right < 0))
-			{
-				return;
-			}
+        if ((offsetY > 7) || (bottom < 0) || (offsetX > 7) || (right < 0))
+        {
+            return;
+        }
 
-			int spritePixelX0 = _spriteXIndex * 8;
-			int spritePixelY0 = _spriteYIndex * 8;
+        int spritePixelX0 = _spriteXIndex * 8;
+        int spritePixelY0 = _spriteYIndex * 8;
 
-			int spritePixelXOffset;
-			int spritePixelYOffset;
+        int spritePixelXOffset;
+        int spritePixelYOffset;
 
-			if (offsetX < 0)
-			{
-				spritePixelXOffset = -offsetX;
-				offsetX = 0;
-			}
-			else
-			{
-				spritePixelXOffset = 0;
-			}
+        if (offsetX < 0)
+        {
+            spritePixelXOffset = -offsetX;
+            offsetX = 0;
+        }
+        else
+        {
+            spritePixelXOffset = 0;
+        }
 
-			if (offsetY < 0)
-			{
-				spritePixelYOffset = -offsetY;
-				offsetY = 0;
-			}
-			else
-			{
-				spritePixelYOffset = 0;
-			}
-			if (right > 7)
-			{
-				right = 7;
-			}
+        if (offsetY < 0)
+        {
+            spritePixelYOffset = -offsetY;
+            offsetY = 0;
+        }
+        else
+        {
+            spritePixelYOffset = 0;
+        }
+        if (right > 7)
+        {
+            right = 7;
+        }
 
-			if (bottom > 7)
-			{
-				bottom = 7;
-			}
+        if (bottom > 7)
+        {
+            bottom = 7;
+        }
 
-            PixelSupport.ConvertDirectionParameters(
-                direction,
-                flipHorizontal,
-                flipVertical,
-                out bool leftToRight,
-                out bool topToBottom,
-                out bool flipAxis);
+        PixelSupport.ConvertDirectionParameters(
+            direction,
+            flipHorizontal,
+            flipVertical,
+            out bool leftToRight,
+            out bool topToBottom,
+            out bool flipAxis);
 
-            int xStart;
-			int xStep;
-			int yStart;
-			int yStep;
+        int xStart;
+        int xStep;
+        int yStart;
+        int yStep;
 
-			if (leftToRight)
-			{
-				xStart = 0;
-				xStep = 1;
-			}
-			else
-			{
-				xStart = 7;
-				xStep = -1;
-				spritePixelXOffset = -spritePixelXOffset;
-			}
+        if (leftToRight)
+        {
+            xStart = 0;
+            xStep = 1;
+        }
+        else
+        {
+            xStart = 7;
+            xStep = -1;
+            spritePixelXOffset = -spritePixelXOffset;
+        }
 
-			if (topToBottom)
-			{
-				yStart = 0;
-				yStep = 1;
-			}
-			else
-			{
-				yStart = 7;
-				yStep = -1;
-				spritePixelYOffset = -spritePixelYOffset;
-			}
+        if (topToBottom)
+        {
+            yStart = 0;
+            yStep = 1;
+        }
+        else
+        {
+            yStart = 7;
+            yStep = -1;
+            spritePixelYOffset = -spritePixelYOffset;
+        }
 
-			int spritePixelY = yStart;
+        int spritePixelY = yStart;
 
-			for (int screenY = offsetY; screenY <= bottom; screenY++)
-			{
-				int spritePixelX = xStart;
+        for (int screenY = offsetY; screenY <= bottom; screenY++)
+        {
+            int spritePixelX = xStart;
 
-				for (int screenX = offsetX; screenX <= right; screenX++)
-				{
-					int dX = flipHorizontal
-						? 7 - spritePixelXOffset - spritePixelX
-						: spritePixelXOffset + spritePixelX;
+            for (int screenX = offsetX; screenX <= right; screenX++)
+            {
+                int dX = flipHorizontal
+                    ? 7 - spritePixelXOffset - spritePixelX
+                    : spritePixelXOffset + spritePixelX;
 
-					int dY = flipVertical
-						? 7 - spritePixelYOffset - spritePixelY
-						: spritePixelYOffset + spritePixelY;
+                int dY = flipVertical
+                    ? 7 - spritePixelYOffset - spritePixelY
+                    : spritePixelYOffset + spritePixelY;
 
-					Color spriteColor = flipAxis
-						? _spriteMap.Pixels[spritePixelX0 + dY, spritePixelY0 + dX]
-						: _spriteMap.Pixels[spritePixelX0 + dX, spritePixelY0 + dY];
+                Color spriteColor = flipAxis
+                    ? _spriteMap.Pixels[spritePixelX0 + dY, spritePixelY0 + dX]
+                    : _spriteMap.Pixels[spritePixelX0 + dX, spritePixelY0 + dY];
 
-					if (transparent)
-					{
-						Color screenColor = display.Screen[screenX, screenY];
+                if (transparent)
+                {
+                    Color screenColor = display.Screen[screenX, screenY];
 
-						spriteColor = GetTransparentPixel(screenColor, spriteColor);
-					}
+                    spriteColor = GetTransparentPixel(screenColor, spriteColor);
+                }
 
-					display.Screen[screenX, screenY] = spriteColor;
+                display.Screen[screenX, screenY] = spriteColor;
 
-					spritePixelX += xStep;
-				}
+                spritePixelX += xStep;
+            }
 
-				spritePixelY += yStep;
-			}
-		}
+            spritePixelY += yStep;
+        }
+    }
 
-		public void DrawWrapped(
-			ISenseHatDisplay display,
-			int offsetX,
-			int offsetY,
-			bool transparent,
-			DisplayDirection direction,
-			bool flipHorizontal,
-			bool flipVertical)
-		{
-			int spritePixelX0 = _spriteXIndex * 8;
-			int spritePixelY0 = _spriteYIndex * 8;
+    public void DrawWrapped(
+        ISenseHatDisplay display,
+        int offsetX,
+        int offsetY,
+        bool transparent,
+        DisplayDirection direction,
+        bool flipHorizontal,
+        bool flipVertical)
+    {
+        int spritePixelX0 = _spriteXIndex * 8;
+        int spritePixelY0 = _spriteYIndex * 8;
 
-			if (offsetX < 0)
-			{
-				offsetX = 8 + (offsetX % 8);
-			}
+        if (offsetX < 0)
+        {
+            offsetX = 8 + (offsetX % 8);
+        }
 
-			if (offsetY < 0)
-			{
-				offsetY = 8 + (offsetY % 8);
-			}
+        if (offsetY < 0)
+        {
+            offsetY = 8 + (offsetY % 8);
+        }
 
-            PixelSupport.ConvertDirectionParameters(
-                direction,
-                flipHorizontal,
-                flipVertical,
-                out bool leftToRight,
-                out bool topToBottom,
-                out bool flipAxis);
+        PixelSupport.ConvertDirectionParameters(
+            direction,
+            flipHorizontal,
+            flipVertical,
+            out bool leftToRight,
+            out bool topToBottom,
+            out bool flipAxis);
 
-            int xStart;
-			int xStep;
-			int yStart;
-			int yStep;
+        int xStart;
+        int xStep;
+        int yStart;
+        int yStep;
 
-			if (leftToRight)
-			{
-				xStart = 0;
-				xStep = 1;
-			}
-			else
-			{
-				xStart = 7;
-				xStep = -1;
-				offsetX = 8 - offsetX;
-			}
+        if (leftToRight)
+        {
+            xStart = 0;
+            xStep = 1;
+        }
+        else
+        {
+            xStart = 7;
+            xStep = -1;
+            offsetX = 8 - offsetX;
+        }
 
-			if (topToBottom)
-			{
-				yStart = 0;
-				yStep = 1;
-			}
-			else
-			{
-				yStart = 7;
-				yStep = -1;
-				offsetY = 8 - offsetY;
-			}
+        if (topToBottom)
+        {
+            yStart = 0;
+            yStep = 1;
+        }
+        else
+        {
+            yStart = 7;
+            yStep = -1;
+            offsetY = 8 - offsetY;
+        }
 
-			int spritePixelY = yStart;
+        int spritePixelY = yStart;
 
-			for (int screenY = 0; screenY <= 7; screenY++)
-			{
-				int spritePixelX = xStart;
+        for (int screenY = 0; screenY <= 7; screenY++)
+        {
+            int spritePixelX = xStart;
 
-				for (int screenX = 0; screenX <= 7; screenX++)
-				{
-					int dX = (8 + spritePixelX - offsetX) % 8;
-					int dY = (8 + spritePixelY - offsetY) % 8;
+            for (int screenX = 0; screenX <= 7; screenX++)
+            {
+                int dX = (8 + spritePixelX - offsetX) % 8;
+                int dY = (8 + spritePixelY - offsetY) % 8;
 
-					Color spriteColor = flipAxis
-						? _spriteMap.Pixels[spritePixelX0 + dY, spritePixelY0 + dX]
-						: _spriteMap.Pixels[spritePixelX0 + dX, spritePixelY0 + dY];
+                Color spriteColor = flipAxis
+                    ? _spriteMap.Pixels[spritePixelX0 + dY, spritePixelY0 + dX]
+                    : _spriteMap.Pixels[spritePixelX0 + dX, spritePixelY0 + dY];
 
-					if (transparent)
-					{
-						Color screenColor = display.Screen[screenX, screenY];
+                if (transparent)
+                {
+                    Color screenColor = display.Screen[screenX, screenY];
 
-						spriteColor = GetTransparentPixel(screenColor, spriteColor);
-					}
+                    spriteColor = GetTransparentPixel(screenColor, spriteColor);
+                }
 
-					display.Screen[screenX, screenY] = spriteColor;
+                display.Screen[screenX, screenY] = spriteColor;
 
-					spritePixelX += xStep;
-				}
+                spritePixelX += xStep;
+            }
 
-				spritePixelY += yStep;
-			}
-		}
+            spritePixelY += yStep;
+        }
+    }
 
-		private static Color GetTransparentPixel(Color screenColor, Color spriteColor)
-		{
-			float alpha = spriteColor.A / 255f;
+    private static Color GetTransparentPixel(Color screenColor, Color spriteColor)
+    {
+        float alpha = spriteColor.A / 255f;
 
-			int mergedR = (int)Math.Round(screenColor.R + spriteColor.R * alpha);
-			if (mergedR > 255)
-			{
-				mergedR = 255;
-			}
+        int mergedR = (int)Math.Round(screenColor.R + spriteColor.R * alpha);
+        if (mergedR > 255)
+        {
+            mergedR = 255;
+        }
 
-			int mergedG = (int)Math.Round(screenColor.G + spriteColor.G * alpha);
-			if (mergedG > 255)
-			{
-				mergedG = 255;
-			}
+        int mergedG = (int)Math.Round(screenColor.G + spriteColor.G * alpha);
+        if (mergedG > 255)
+        {
+            mergedG = 255;
+        }
 
-			int mergedB = (int)Math.Round(screenColor.B + spriteColor.B * alpha);
-			if (mergedB > 255)
-			{
-				mergedB = 255;
-			}
+        int mergedB = (int)Math.Round(screenColor.B + spriteColor.B * alpha);
+        if (mergedB > 255)
+        {
+            mergedB = 255;
+        }
 
-			return Color.FromArgb(255, (byte)mergedR, (byte)mergedG, (byte)mergedB);
-		}
-	}
+        return Color.FromArgb(255, (byte)mergedR, (byte)mergedG, (byte)mergedB);
+    }
 }

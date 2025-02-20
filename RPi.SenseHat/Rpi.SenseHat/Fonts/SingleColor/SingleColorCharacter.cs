@@ -21,30 +21,24 @@
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-namespace Emmellsoft.IoT.Rpi.SenseHat.Fonts.SingleColor
-{
-	/// <summary>
-	/// A single color font character.
-	/// </summary>
-	public class SingleColorCharacter : Character
-	{
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="symbol">The unicode character.</param>
-		/// <param name="columns">The pixel columns. One column=one byte where each bit represents a pixel (on=1 or off=0) where the LSB is the topmost pixel.</param>
-		public SingleColorCharacter(char symbol, byte[] columns)
-			: base(symbol, columns.Length)
-		{
-			Columns = columns;
-		}
+namespace Emmellsoft.IoT.Rpi.SenseHat.Fonts.SingleColor;
 
-		/// <summary>
-		/// The pixel columns.
-		/// One column=one byte where each bit represents a pixel (on=1 or off=0)
-		/// where the LSB is the topmost pixel.
-		/// </summary>
-		public byte[] Columns
-		{ get; }
-	}
+/// <summary>
+/// A single color font character.
+/// </summary>
+/// <remarks>
+/// Constructor.
+/// </remarks>
+/// <param name="symbol">The unicode character.</param>
+/// <param name="columns">The pixel columns. One column=one byte where each bit represents a pixel (on=1 or off=0) where the LSB is the topmost pixel.</param>
+public class SingleColorCharacter(char symbol, byte[] columns) : Character(symbol, columns.Length)
+{
+
+    /// <summary>
+    /// The pixel columns.
+    /// One column=one byte where each bit represents a pixel (on=1 or off=0)
+    /// where the LSB is the topmost pixel.
+    /// </summary>
+    public byte[] Columns
+    { get; } = columns;
 }

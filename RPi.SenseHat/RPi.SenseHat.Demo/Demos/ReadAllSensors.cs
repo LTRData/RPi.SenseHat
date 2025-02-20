@@ -26,8 +26,8 @@ using System.Diagnostics;
 using System.Text;
 using Emmellsoft.IoT.Rpi.SenseHat;
 
-namespace RPi.SenseHat.Demo.Demos
-{
+namespace RPi.SenseHat.Demo.Demos;
+
 	public sealed class ReadAllSensors : SenseHatDemo
 	{
 		public ReadAllSensors(ISenseHat senseHat, Action<string> setScreenText)
@@ -70,4 +70,3 @@ namespace RPi.SenseHat.Demo.Demos
 			}
 		}
 	}
-}

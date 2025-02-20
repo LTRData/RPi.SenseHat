@@ -23,20 +23,19 @@
 
 using System;
 
-namespace RichardsTech.Sensors
+namespace RichardsTech.Sensors;
+
+/// <summary>
+/// An exception thrown by the sensor code
+/// </summary>
+public class SensorException : Exception
 {
-	/// <summary>
-	/// An exception thrown by the sensor code
-	/// </summary>
-	public class SensorException : Exception
-	{
-		public SensorException(string message)
-			: base(message)
-		{
-		}
-		public SensorException(string message, Exception innerException)
-			: base(message, innerException)
-		{
-		}
-	}
+    public SensorException(string message)
+        : base(message)
+    {
+    }
+    public SensorException(string message, Exception innerException)
+        : base(message, innerException)
+    {
+    }
 }

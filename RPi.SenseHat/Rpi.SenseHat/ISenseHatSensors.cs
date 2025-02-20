@@ -23,78 +23,77 @@
 
 using RichardsTech.Sensors;
 
-namespace Emmellsoft.IoT.Rpi.SenseHat
+namespace Emmellsoft.IoT.Rpi.SenseHat;
+
+/// <summary>
+/// Interface to the Sense HAT sensors.
+/// </summary>
+public interface ISenseHatSensors
 {
-	/// <summary>
-	/// Interface to the Sense HAT sensors.
-	/// </summary>
-	public interface ISenseHatSensors
-	{
-		/// <summary>
-		/// The current reading of the gyro (in radians/sec).
-		/// Updates by the ImuSensor.
-		/// </summary>
-		Vector3? Gyro
-		{ get; }
+    /// <summary>
+    /// The current reading of the gyro (in radians/sec).
+    /// Updates by the ImuSensor.
+    /// </summary>
+    Vector3? Gyro
+    { get; }
 
-		/// <summary>
-		/// The current reading of the acceleration (in g).
-		/// Updates by the ImuSensor.
-		/// </summary>
-		Vector3? Acceleration
-		{ get; }
+    /// <summary>
+    /// The current reading of the acceleration (in g).
+    /// Updates by the ImuSensor.
+    /// </summary>
+    Vector3? Acceleration
+    { get; }
 
-		/// <summary>
-		/// The current reading of the magnetic field (in µT).
-		/// Updates by the ImuSensor.
-		/// </summary>
-		Vector3? MagneticField
-		{ get; }
+    /// <summary>
+    /// The current reading of the magnetic field (in µT).
+    /// Updates by the ImuSensor.
+    /// </summary>
+    Vector3? MagneticField
+    { get; }
 
-		/// <summary>
-		/// The pose; X=Roll, Y=Pitch, Z=Yaw (in radians)
-		/// Updates by the ImuSensor.
-		/// </summary>
-		Vector3? Pose
-		{ get; }
+    /// <summary>
+    /// The pose; X=Roll, Y=Pitch, Z=Yaw (in radians)
+    /// Updates by the ImuSensor.
+    /// </summary>
+    Vector3? Pose
+    { get; }
 
-		/// <summary>
-		/// The current reading of the [atmospheric] pressure (in hPa).
-		/// Updates by the PressureSensor.
-		/// </summary>
-		double? Pressure
-		{ get; }
+    /// <summary>
+    /// The current reading of the [atmospheric] pressure (in hPa).
+    /// Updates by the PressureSensor.
+    /// </summary>
+    double? Pressure
+    { get; }
 
-		/// <summary>
-		/// The current reading of the temperature (in °C).
-		/// Updates by the HumiditySensor.
-		/// </summary>
-		double? Temperature
-		{ get; }
+    /// <summary>
+    /// The current reading of the temperature (in °C).
+    /// Updates by the HumiditySensor.
+    /// </summary>
+    double? Temperature
+    { get; }
 
-		/// <summary>
-		/// The current reading of the relative humidity (in %RH).
-		/// Updates by the HumiditySensor.
-		/// </summary>
-		double? Humidity
-		{ get; }
+    /// <summary>
+    /// The current reading of the relative humidity (in %RH).
+    /// Updates by the HumiditySensor.
+    /// </summary>
+    double? Humidity
+    { get; }
 
-		/// <summary>
-		/// The IMU sensor (measures Gyro, Acceleration and MagneticField).
-		/// </summary>
-		ImuSensor ImuSensor
-		{ get; }
+    /// <summary>
+    /// The IMU sensor (measures Gyro, Acceleration and MagneticField).
+    /// </summary>
+    ImuSensor ImuSensor
+    { get; }
 
-		/// <summary>
-		/// The Pressure sensor (measures Pressure).
-		/// </summary>
-		PressureSensor PressureSensor
-		{ get; }
+    /// <summary>
+    /// The Pressure sensor (measures Pressure).
+    /// </summary>
+    PressureSensor PressureSensor
+    { get; }
 
-		/// <summary>
-		/// The Humidity sensor (measures Temperature and Humidity).
-		/// </summary>
-		HumiditySensor HumiditySensor
-		{ get; }
-	}
+    /// <summary>
+    /// The Humidity sensor (measures Temperature and Humidity).
+    /// </summary>
+    HumiditySensor HumiditySensor
+    { get; }
 }

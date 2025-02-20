@@ -26,8 +26,8 @@ using System.Drawing;
 using Emmellsoft.IoT.Rpi.SenseHat;
 using Emmellsoft.IoT.Rpi.SenseHat.Sprites;
 
-namespace RPi.SenseHat.Demo.Demos
-{
+namespace RPi.SenseHat.Demo.Demos;
+
 	/// <summary>
 	/// Use the joystick to move Mario. The middle button switches orientation and flipping of the drawing.
 	/// </summary>
@@ -167,4 +167,3 @@ namespace RPi.SenseHat.Demo.Demos
 			}
 		}
 	}
-}

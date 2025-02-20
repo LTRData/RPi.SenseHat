@@ -21,12 +21,11 @@
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-namespace RichardsTech.Sensors.Devices.LSM9DS1
+namespace RichardsTech.Sensors.Devices.LSM9DS1;
+
+public enum GyroFullScaleRange
 {
-	public enum GyroFullScaleRange
-	{
-		Range245 = 0, 
-		Range500 = 1,
-		Range2000 = 2 
-	}
+    Range245 = 0,
+    Range500 = 1,
+    Range2000 = 2
 }

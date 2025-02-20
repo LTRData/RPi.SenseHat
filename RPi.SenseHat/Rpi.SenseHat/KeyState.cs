@@ -21,47 +21,43 @@
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-namespace Emmellsoft.IoT.Rpi.SenseHat
+namespace Emmellsoft.IoT.Rpi.SenseHat;
+
+/// <summary>
+/// The state of a joystick key.
+/// </summary>
+public enum KeyState
 {
-	/// <summary>
-	/// The state of a joystick key.
-	/// </summary>
-	public enum KeyState
-	{
-		/// <summary>
-		/// The key is idling.
-		/// </summary>
-		Released,
+    /// <summary>
+    /// The key is idling.
+    /// </summary>
+    Released,
 
-		/// <summary>
-		/// The key is just pressed.
-		/// </summary>
-		Pressing,
+    /// <summary>
+    /// The key is just pressed.
+    /// </summary>
+    Pressing,
 
-		/// <summary>
-		/// The key is held pressed.
-		/// </summary>
-		Pressed,
+    /// <summary>
+    /// The key is held pressed.
+    /// </summary>
+    Pressed,
 
-		/// <summary>
-		/// The key is just released.
-		/// </summary>
-		Releasing,
-	}
+    /// <summary>
+    /// The key is just released.
+    /// </summary>
+    Releasing,
+}
 
-	/// <summary>
-	/// Extension methods to the KeyState enum.
-	/// </summary>
-	public static class KeyStateExtensions
-	{
-		/// <summary>
-		/// Is the key currently pressed?
-		/// </summary>
-		/// <param name="keyState">The KeyState to check.</param>
-		/// <returns></returns>
-		public static bool IsPressed(this KeyState keyState)
-		{
-			return (keyState == KeyState.Pressed) || (keyState == KeyState.Pressing);
-		}
-	}
+/// <summary>
+/// Extension methods to the KeyState enum.
+/// </summary>
+public static class KeyStateExtensions
+{
+    /// <summary>
+    /// Is the key currently pressed?
+    /// </summary>
+    /// <param name="keyState">The KeyState to check.</param>
+    /// <returns></returns>
+    public static bool IsPressed(this KeyState keyState) => (keyState == KeyState.Pressed) || (keyState == KeyState.Pressing);
 }

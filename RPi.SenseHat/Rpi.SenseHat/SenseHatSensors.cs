@@ -24,103 +24,102 @@
 using System;
 using RichardsTech.Sensors;
 
-namespace Emmellsoft.IoT.Rpi.SenseHat
+namespace Emmellsoft.IoT.Rpi.SenseHat;
+
+internal sealed class SenseHatSensors : ISenseHatSensors, IDisposable
 {
-	internal sealed class SenseHatSensors : ISenseHatSensors, IDisposable
-	{
-		public SenseHatSensors(
-			ImuSensor imuSensor,
-			PressureSensor pressureSensor,
-			HumiditySensor humiditySensor)
-		{
-			ImuSensor = imuSensor;
-			PressureSensor = pressureSensor;
-			HumiditySensor = humiditySensor;
+    public SenseHatSensors(
+        ImuSensor imuSensor,
+        PressureSensor pressureSensor,
+        HumiditySensor humiditySensor)
+    {
+        ImuSensor = imuSensor;
+        PressureSensor = pressureSensor;
+        HumiditySensor = humiditySensor;
 
-			ImuSensor.OnReadingsChanged += (s, e) => ImuReadingsChanged();
-			PressureSensor.OnReadingsChanged += (s, e) => PressureReadingsChanged();
-			HumiditySensor.OnReadingsChanged += (s, e) => HumidityReadingsChanged();
-		}
+        ImuSensor.OnReadingsChanged += (s, e) => ImuReadingsChanged();
+        PressureSensor.OnReadingsChanged += (s, e) => PressureReadingsChanged();
+        HumiditySensor.OnReadingsChanged += (s, e) => HumidityReadingsChanged();
+    }
 
-		void IDisposable.Dispose()
-		{
-			ImuSensor.Dispose();
-			PressureSensor.Dispose();
-			HumiditySensor.Dispose();
-		}
+    void IDisposable.Dispose()
+    {
+        ImuSensor.Dispose();
+        PressureSensor.Dispose();
+        HumiditySensor.Dispose();
+    }
 
-		public Vector3? Gyro
-		{ get; private set; }
+    public Vector3? Gyro
+    { get; private set; }
 
-		public Vector3? Acceleration
-		{ get; private set; }
+    public Vector3? Acceleration
+    { get; private set; }
 
-		public Vector3? MagneticField
-		{ get; private set; }
+    public Vector3? MagneticField
+    { get; private set; }
 
-		public Vector3? Pose
-		{ get; private set; }
+    public Vector3? Pose
+    { get; private set; }
 
-		public double? Pressure
-		{ get; private set; }
+    public double? Pressure
+    { get; private set; }
 
-		public double? Temperature
-		{ get; private set; }
+    public double? Temperature
+    { get; private set; }
 
-		public double? Humidity
-		{ get; private set; }
+    public double? Humidity
+    { get; private set; }
 
-		public ImuSensor ImuSensor
-		{ get; }
+    public ImuSensor ImuSensor
+    { get; }
 
-		public PressureSensor PressureSensor
-		{ get; }
+    public PressureSensor PressureSensor
+    { get; }
 
-		public HumiditySensor HumiditySensor
-		{ get; }
+    public HumiditySensor HumiditySensor
+    { get; }
 
-		private void ImuReadingsChanged()
-		{
-			if (ImuSensor.Readings.GyroValid)
-			{
-				Gyro = ImuSensor.Readings.Gyro;
-			}
+    private void ImuReadingsChanged()
+    {
+        if (ImuSensor.Readings.GyroValid)
+        {
+            Gyro = ImuSensor.Readings.Gyro;
+        }
 
-			if (ImuSensor.Readings.AccelerationValid)
-			{
-				Acceleration = ImuSensor.Readings.Acceleration;
-			}
+        if (ImuSensor.Readings.AccelerationValid)
+        {
+            Acceleration = ImuSensor.Readings.Acceleration;
+        }
 
-			if (ImuSensor.Readings.MagneticFieldValid)
-			{
-				MagneticField = ImuSensor.Readings.MagneticField;
-			}
+        if (ImuSensor.Readings.MagneticFieldValid)
+        {
+            MagneticField = ImuSensor.Readings.MagneticField;
+        }
 
-			if (ImuSensor.Readings.FusionPoseValid)
-			{
-				Pose = ImuSensor.Readings.FusionPose;
-			}
-		}
+        if (ImuSensor.Readings.FusionPoseValid)
+        {
+            Pose = ImuSensor.Readings.FusionPose;
+        }
+    }
 
-		private void PressureReadingsChanged()
-		{
-			if (PressureSensor.Readings.PressureValid)
-			{
-				Pressure = PressureSensor.Readings.Pressure;
-			}
-		}
+    private void PressureReadingsChanged()
+    {
+        if (PressureSensor.Readings.PressureValid)
+        {
+            Pressure = PressureSensor.Readings.Pressure;
+        }
+    }
 
-		private void HumidityReadingsChanged()
-		{
-			if (HumiditySensor.Readings.TemperatureValid)
-			{
-				Temperature = HumiditySensor.Readings.Temperature;
-			}
+    private void HumidityReadingsChanged()
+    {
+        if (HumiditySensor.Readings.TemperatureValid)
+        {
+            Temperature = HumiditySensor.Readings.Temperature;
+        }
 
-			if (HumiditySensor.Readings.HumidityValid)
-			{
-				Humidity = HumiditySensor.Readings.Humidity;
-			}
-		}
-	}
+        if (HumiditySensor.Readings.HumidityValid)
+        {
+            Humidity = HumiditySensor.Readings.Humidity;
+        }
+    }
 }

@@ -25,8 +25,8 @@ using System;
 using System.Drawing;
 using Emmellsoft.IoT.Rpi.SenseHat;
 
-namespace RPi.SenseHat.Demo.Demos
-{
+namespace RPi.SenseHat.Demo.Demos;
+
 	/// <summary>
 	/// Click on the joystick to change drawing mode!
 	/// </summary>
@@ -212,4 +212,3 @@ namespace RPi.SenseHat.Demo.Demos
 				(byte)(Random.Next(2) * 255)));
 		}
 	}
-}

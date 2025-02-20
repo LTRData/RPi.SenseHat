@@ -30,82 +30,76 @@ using Windows.UI;
 using System.Drawing;
 #endif
 
-namespace Emmellsoft.IoT.Rpi.SenseHat.Fonts.MultiColor
+namespace Emmellsoft.IoT.Rpi.SenseHat.Fonts.MultiColor;
+
+public class MultiColorFont(IEnumerable<MultiColorCharacter> chars) : Font<MultiColorCharacter>(chars)
 {
-	public class MultiColorFont : Font<MultiColorCharacter>
-	{
-		public MultiColorFont(IEnumerable<MultiColorCharacter> chars)
-			: base(chars)
-		{
-		}
+    public static MultiColorFont LoadFromImage(
+        Color[,] pixels,
+        string symbols,
+        Color? transparencyColor = null)
+    {
+        int bitmapWidth = pixels.GetLength(0);
+        int bitmapHeight = pixels.GetLength(1);
 
-		public static MultiColorFont LoadFromImage(
-			Color[,] pixels,
-			string symbols,
-			Color? transparencyColor = null)
-		{
-			int bitmapWidth = pixels.GetLength(0);
-			int bitmapHeight = pixels.GetLength(1);
+        if (bitmapHeight > 9)
+        {
+            throw new ArgumentException("The image must not be taller than 9 pixels high!");
+        }
 
-			if (bitmapHeight > 9)
-			{
-				throw new ArgumentException("The image must not be taller than 9 pixels high!");
-			}
+        var chars = new List<MultiColorCharacter>();
 
-			var chars = new List<MultiColorCharacter>();
+        int symbolIndex = 0;
 
-			int symbolIndex = 0;
+        int bitmapX = 0;
+        char currentSymbol = ' ';
+        int charStartX = 0;
 
-			int bitmapX = 0;
-			char currentSymbol = ' ';
-			int charStartX = 0;
+        int charHeight = bitmapHeight - 1;
 
-			int charHeight = bitmapHeight - 1;
+        while (bitmapX < bitmapWidth)
+        {
+            bool isBeginningOfChar = (pixels[bitmapX, 0].A > 128);
+            bool isLastX = (bitmapX == bitmapWidth - 1);
 
-			while (bitmapX < bitmapWidth)
-			{
-				bool isBeginningOfChar = (pixels[bitmapX, 0].A > 128);
-				bool isLastX = (bitmapX == bitmapWidth - 1);
+            if (isBeginningOfChar || isLastX)
+            {
+                if ((bitmapX > 0) || isLastX)
+                {
+                    int charWidth = bitmapX - charStartX;
 
-				if (isBeginningOfChar || isLastX)
-				{
-					if ((bitmapX > 0) || isLastX)
-					{
-						int charWidth = bitmapX - charStartX;
+                    if (isLastX)
+                    {
+                        charWidth++;
+                    }
 
-						if (isLastX)
-						{
-							charWidth++;
-						}
+                    Color[,] charPixels = new Color[charWidth, charHeight];
+                    for (int y = 0; y < charHeight; y++)
+                    {
+                        for (int x = 0; x < charWidth; x++)
+                        {
+                            charPixels[x, y] = pixels[charStartX + x, 1 + y];
+                        }
+                    }
 
-						Color[,] charPixels = new Color[charWidth, charHeight];
-						for (int y = 0; y < charHeight; y++)
-						{
-							for (int x = 0; x < charWidth; x++)
-							{
-								charPixels[x, y] = pixels[charStartX + x, 1 + y];
-							}
-						}
+                    var c = new MultiColorCharacter(currentSymbol, charPixels, transparencyColor);
+                    chars.Add(c);
+                }
 
-						var c = new MultiColorCharacter(currentSymbol, charPixels, transparencyColor);
-						chars.Add(c);
-					}
+                if (symbolIndex < symbols.Length)
+                {
+                    currentSymbol = symbols[symbolIndex++];
+                    charStartX = bitmapX;
+                }
+                else if (bitmapX < bitmapWidth - 1)
+                {
+                    throw new ArgumentException("Too few chars in the symbols-string!");
+                }
+            }
 
-					if (symbolIndex < symbols.Length)
-					{
-						currentSymbol = symbols[symbolIndex++];
-						charStartX = bitmapX;
-					}
-					else if (bitmapX < bitmapWidth - 1)
-					{
-						throw new ArgumentException("Too few chars in the symbols-string!");
-					}
-				}
+            bitmapX++;
+        }
 
-				bitmapX++;
-			}
-
-			return new MultiColorFont(chars);
-		}
-	}
+        return new MultiColorFont(chars);
+    }
 }

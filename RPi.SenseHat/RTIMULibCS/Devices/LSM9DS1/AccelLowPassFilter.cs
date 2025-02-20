@@ -21,13 +21,12 @@
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-namespace RichardsTech.Sensors.Devices.LSM9DS1
+namespace RichardsTech.Sensors.Devices.LSM9DS1;
+
+public enum AccelLowPassFilter
 {
-	public enum AccelLowPassFilter
-	{
-		Freq408Hz = 0,
-		Freq211Hz = 1,
-		Freq105Hz = 2,
-		Freq50Hz = 3
-	}
+    Freq408Hz = 0,
+    Freq211Hz = 1,
+    Freq105Hz = 2,
+    Freq50Hz = 3
 }

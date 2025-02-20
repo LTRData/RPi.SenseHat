@@ -26,8 +26,8 @@ using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 
-namespace RPi.SenseHat.Demo
-{
+namespace RPi.SenseHat.Demo;
+
 	public sealed partial class MainPage : Page
 	{
 		public MainPage()
@@ -48,4 +48,3 @@ namespace RPi.SenseHat.Demo
 				});
 		}
 	}
-}

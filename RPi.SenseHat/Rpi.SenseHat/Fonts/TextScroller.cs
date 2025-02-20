@@ -24,112 +24,111 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Emmellsoft.IoT.Rpi.SenseHat.Fonts
+namespace Emmellsoft.IoT.Rpi.SenseHat.Fonts;
+
+/// <summary>
+/// A simple text scroller.
+/// </summary>
+public class TextScroller<TChar> where TChar : Character
 {
-	/// <summary>
-	/// A simple text scroller.
-	/// </summary>
-	public class TextScroller<TChar> where TChar : Character
-	{
-		private readonly ISenseHatDisplay _display;
-		private readonly CharacterRenderer<TChar> _characterRenderer;
-		private readonly TChar[] _chars;
-		private int _charIndex;
-		private int _charX;
-		private int _initialSpace;
+    private readonly ISenseHatDisplay _display;
+    private readonly CharacterRenderer<TChar> _characterRenderer;
+    private readonly TChar[] _chars;
+    private int _charIndex;
+    private int _charX;
+    private int _initialSpace;
 
-		/// <summary>
-		/// Constructor of the scroller.
-		/// </summary>
-		/// <param name="display">The display to render at.</param>
-		/// <param name="characterRenderer">The character renderer.</param>
-		/// <param name="characters">The characters to scroll.</param>
-		public TextScroller(
-			ISenseHatDisplay display,
-			CharacterRenderer<TChar> characterRenderer,
-			IEnumerable<TChar> characters)
-		{
-			_display = display;
-			_characterRenderer = characterRenderer;
-			_chars = characters.ToArray();
+    /// <summary>
+    /// Constructor of the scroller.
+    /// </summary>
+    /// <param name="display">The display to render at.</param>
+    /// <param name="characterRenderer">The character renderer.</param>
+    /// <param name="characters">The characters to scroll.</param>
+    public TextScroller(
+        ISenseHatDisplay display,
+        CharacterRenderer<TChar> characterRenderer,
+        IEnumerable<TChar> characters)
+    {
+        _display = display;
+        _characterRenderer = characterRenderer;
+        _chars = [.. characters];
 
-			Reset();
-		}
+        Reset();
+    }
 
-		/// <summary>
-		/// The total number of pixels scrolled by.
-		/// </summary>
-		public int ScrollPixelOffset
-		{ get; private set; }
+    /// <summary>
+    /// The total number of pixels scrolled by.
+    /// </summary>
+    public int ScrollPixelOffset
+    { get; private set; }
 
-		/// <summary>
-		/// Make the scroller start over.
-		/// </summary>
-		public void Reset()
-		{
-			_initialSpace = 8;
-			_charIndex = 0;
-			_charX = 0;
-			ScrollPixelOffset = 0;
-		}
+    /// <summary>
+    /// Make the scroller start over.
+    /// </summary>
+    public void Reset()
+    {
+        _initialSpace = 8;
+        _charIndex = 0;
+        _charX = 0;
+        ScrollPixelOffset = 0;
+    }
 
-		/// <summary>
-		/// Scroll one pixel. Returns true if scrolled and false if the scroll is completed.
-		/// </summary>
-		public bool Step()
-		{
-			if (_initialSpace > 0)
-			{
-				ScrollPixelOffset++;
-				_initialSpace--;
-				return true;
-			}
+    /// <summary>
+    /// Scroll one pixel. Returns true if scrolled and false if the scroll is completed.
+    /// </summary>
+    public bool Step()
+    {
+        if (_initialSpace > 0)
+        {
+            ScrollPixelOffset++;
+            _initialSpace--;
+            return true;
+        }
 
-			if (_charIndex >= _chars.Length)
-			{
-				return false;
-			}
+        if (_charIndex >= _chars.Length)
+        {
+            return false;
+        }
 
-			_charX++;
-			ScrollPixelOffset++;
+        _charX++;
+        ScrollPixelOffset++;
 
-			if (_charX < _chars[_charIndex].Width)
-			{
-				return true;
-			}
+        if (_charX < _chars[_charIndex].Width)
+        {
+            return true;
+        }
 
-			_charIndex++;
+        _charIndex++;
 
-			if (_charIndex >= _chars.Length)
-			{
-				return false;
-			}
+        if (_charIndex >= _chars.Length)
+        {
+            return false;
+        }
 
-			_charX = 0;
-			return true;
-		}
+        _charX = 0;
+        return true;
+    }
 
-		/// <summary>
-		/// Renders the scroll to the display.
-		/// </summary>
-		public void Render()
-		{
-			if (_charIndex >= _chars.Length)
-			{
-				return;
-			}
+    /// <summary>
+    /// Renders the scroll to the display.
+    /// </summary>
+    public void Render()
+    {
+        if (_charIndex >= _chars.Length)
+        {
+            return;
+        }
 
-			int x = _initialSpace - _charX;
-			int charIndex = _charIndex;
+        int x = _initialSpace - _charX;
+        int charIndex = _charIndex;
 
-			do
-			{
-				TChar character = _chars[charIndex];
-				_characterRenderer.Render(_display, character, x, 0);
-				x += character.Width;
-				charIndex++;
-			}
-			while ((x < 8) && (charIndex < _chars.Length));
-		}
-	}
+        do
+        {
+            TChar character = _chars[charIndex];
+            _characterRenderer.Render(_display, character, x, 0);
+            x += character.Width;
+            charIndex++;
+        }
+        while ((x < 8) && (charIndex < _chars.Length));
+    }
 }

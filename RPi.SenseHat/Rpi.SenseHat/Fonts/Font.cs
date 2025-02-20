@@ -24,71 +24,65 @@
 using System;
 using System.Collections.Generic;
 
-namespace Emmellsoft.IoT.Rpi.SenseHat.Fonts
+namespace Emmellsoft.IoT.Rpi.SenseHat.Fonts;
+
+/// <summary>
+/// The base class for Font implementations.
+/// </summary>
+/// <typeparam name="TChar"></typeparam>
+public abstract class Font<TChar> where TChar : Character
 {
-	/// <summary>
-	/// The base class for Font implementations.
-	/// </summary>
-	/// <typeparam name="TChar"></typeparam>
-	public abstract class Font<TChar> where TChar : Character
-	{
-		private const char FallbackChar = '?';
-		private readonly Dictionary<char, TChar> _charDict = new Dictionary<char, TChar>();
-		private TChar _fallbackCharacter;
+    private const char FallbackChar = '?';
+    private readonly Dictionary<char, TChar> _charDict = [];
+    private TChar _fallbackCharacter;
 
-		protected Font(IEnumerable<TChar> chars)
-		{
-			InitDictionary(chars);
-		}
+    protected Font(IEnumerable<TChar> chars)
+    {
+        InitDictionary(chars);
+    }
 
-		private void InitDictionary(IEnumerable<TChar> chars)
-		{
-			foreach (TChar c in chars)
-			{
-				if (_charDict.ContainsKey(c.Symbol))
-				{
-					throw new ArgumentException("Duplicate symbol: " + c.Symbol);
-				}
+    private void InitDictionary(IEnumerable<TChar> chars)
+    {
+        foreach (TChar c in chars)
+        {
+            if (_charDict.ContainsKey(c.Symbol))
+            {
+                throw new ArgumentException("Duplicate symbol: " + c.Symbol);
+            }
 
-				_charDict.Add(c.Symbol, c);
-			}
+            _charDict.Add(c.Symbol, c);
+        }
 
-			TChar fallbackCharacter;
-			if (_charDict.TryGetValue(FallbackChar, out fallbackCharacter))
-			{
-				_fallbackCharacter = fallbackCharacter;
-			}
-			else
-			{
-				throw new ArgumentException("Missing fallback-symbol: " + FallbackChar);
-			}
-		}
+        if (_charDict.TryGetValue(FallbackChar, out var fallbackCharacter))
+        {
+            _fallbackCharacter = fallbackCharacter;
+        }
+        else
+        {
+            throw new ArgumentException("Missing fallback-symbol: " + FallbackChar);
+        }
+    }
 
-		/// <summary>
-		/// Get all available characters.
-		/// </summary>
-		/// <returns></returns>
-		public IEnumerable<TChar> GetChars()
-		{
-			return _charDict.Values;
-		}
+    /// <summary>
+    /// Get all available characters.
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerable<TChar> GetChars() => _charDict.Values;
 
-		/// <summary>
-		/// Converts a text string into a set of character objects.
-		/// </summary>
-		/// <param name="text">The text string to convert into font characters.</param>
-		public IEnumerable<TChar> GetChars(string text)
-		{
-			foreach (char symbol in text ?? string.Empty)
-			{
-				TChar c;
-				if (!_charDict.TryGetValue(symbol, out c))
-				{
-					c = _fallbackCharacter;
-				}
+    /// <summary>
+    /// Converts a text string into a set of character objects.
+    /// </summary>
+    /// <param name="text">The text string to convert into font characters.</param>
+    public IEnumerable<TChar> GetChars(string text)
+    {
+        foreach (char symbol in text ?? string.Empty)
+        {
+            if (!_charDict.TryGetValue(symbol, out var c))
+            {
+                c = _fallbackCharacter;
+            }
 
-				yield return c;
-			}
-		}
-	}
+            yield return c;
+        }
+    }
 }

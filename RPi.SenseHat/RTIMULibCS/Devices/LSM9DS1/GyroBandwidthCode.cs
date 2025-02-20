@@ -21,13 +21,12 @@
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-namespace RichardsTech.Sensors.Devices.LSM9DS1
+namespace RichardsTech.Sensors.Devices.LSM9DS1;
+
+public enum GyroBandwidthCode
 {
-	public enum GyroBandwidthCode
-	{
-		BandwidthCode0 = 0,
-		BandwidthCode1 = 1,
-		BandwidthCode2 = 2,
-		BandwidthCode3 = 3
-	}
+    BandwidthCode0 = 0,
+    BandwidthCode1 = 1,
+    BandwidthCode2 = 2,
+    BandwidthCode3 = 3
 }

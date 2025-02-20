@@ -11,11 +11,11 @@ using Windows.UI.Core;
 using System.IO;
 #endif
 
-namespace Emmellsoft.IoT.Rpi.SenseHat
-{
+namespace Emmellsoft.IoT.Rpi.SenseHat;
+
 #if WINDOWS_UWP
 	public static class NativePixelSupport
-    {
+{
 		/// <summary>
 		/// Gets a 2-dimensional pixel array from an image.
 		/// </summary>
@@ -71,33 +71,32 @@ namespace Emmellsoft.IoT.Rpi.SenseHat
 		}
 	}
 #elif NETFRAMEWORK
-	public static class NativePixelSupport
-	{
-		public async static Task<Color[,]> GetPixels(Uri imageUri)
-		{
-			if (imageUri.IsFile)
-			{
-				if (!File.Exists(imageUri.LocalPath))
-				{
-					throw new FileNotFoundException($"File Missing: {imageUri.LocalPath}");
-				}
+public static class NativePixelSupport
+{
+    public async static Task<Color[,]> GetPixels(Uri imageUri)
+    {
+        if (imageUri.IsFile)
+        {
+            if (!File.Exists(imageUri.LocalPath))
+            {
+                throw new FileNotFoundException($"File Missing: {imageUri.LocalPath}");
+            }
 
-				var bitmap = await Task.Run(() => new Bitmap(imageUri.LocalPath));
+            var bitmap = await Task.Run(() => new Bitmap(imageUri.LocalPath));
 
-				Color[,] pixels = new Color[bitmap.Width, bitmap.Height];
-				for (int y = 0; y < bitmap.Height; y++)
-				{
-					for (int x = 0; x < bitmap.Width; x++)
-					{
-						pixels[x, y] = bitmap.GetPixel(x, y);
-					}
-				}
+            Color[,] pixels = new Color[bitmap.Width, bitmap.Height];
+            for (int y = 0; y < bitmap.Height; y++)
+            {
+                for (int x = 0; x < bitmap.Width; x++)
+                {
+                    pixels[x, y] = bitmap.GetPixel(x, y);
+                }
+            }
 
-				return pixels;
-			}
+            return pixels;
+        }
 
-			throw new NotImplementedException();
-		}
-	}
-#endif
+        throw new NotImplementedException();
+    }
 }
+#endif

@@ -24,47 +24,46 @@
 using System;
 using RichardsTech.Sensors;
 
-namespace Emmellsoft.IoT.Rpi.SenseHat
+namespace Emmellsoft.IoT.Rpi.SenseHat;
+
+internal sealed class SenseHat : ISenseHat
 {
-	internal sealed class SenseHat : ISenseHat
-	{
-		private readonly MainI2CDevice _mainI2CDevice;
-		private bool _isDisposed;
+    private readonly MainI2CDevice _mainI2CDevice;
+    private bool _isDisposed;
 
-		public SenseHat(
-			MainI2CDevice mainI2CDevice,
-			ImuSensor imuSensor,
-			PressureSensor pressureSensor,
-			HumiditySensor humiditySensor)
-		{
-			_mainI2CDevice = mainI2CDevice;
+    public SenseHat(
+        MainI2CDevice mainI2CDevice,
+        ImuSensor imuSensor,
+        PressureSensor pressureSensor,
+        HumiditySensor humiditySensor)
+    {
+        _mainI2CDevice = mainI2CDevice;
 
-			Display = new SenseHatDisplay(_mainI2CDevice);
-			Joystick = new SenseHatJoystick(_mainI2CDevice);
-			Sensors = new SenseHatSensors(imuSensor, pressureSensor, humiditySensor);
-		}
+        Display = new SenseHatDisplay(_mainI2CDevice);
+        Joystick = new SenseHatJoystick(_mainI2CDevice);
+        Sensors = new SenseHatSensors(imuSensor, pressureSensor, humiditySensor);
+    }
 
-		public void Dispose()
-		{
-			if (_isDisposed)
-			{
-				return;
-			}
+    public void Dispose()
+    {
+        if (_isDisposed)
+        {
+            return;
+        }
 
-			_mainI2CDevice.Dispose();
-			((IDisposable)Sensors).Dispose();
-			_isDisposed = true;
-		}
+        _mainI2CDevice.Dispose();
+        ((IDisposable)Sensors).Dispose();
+        _isDisposed = true;
+    }
 
-		public byte FirmwareVersion => _mainI2CDevice.ReadByte(0xf1);
+    public byte FirmwareVersion => _mainI2CDevice.ReadByte(0xf1);
 
-		public ISenseHatDisplay Display
-		{ get; }
+    public ISenseHatDisplay Display
+    { get; }
 
-		public ISenseHatJoystick Joystick
-		{ get; }
+    public ISenseHatJoystick Joystick
+    { get; }
 
-		public ISenseHatSensors Sensors
-		{ get; }
-	}
+    public ISenseHatSensors Sensors
+    { get; }
 }

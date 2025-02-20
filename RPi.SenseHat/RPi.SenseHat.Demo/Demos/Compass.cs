@@ -26,8 +26,8 @@ using System.Drawing;
 using Point = System.Drawing.Point;
 using Emmellsoft.IoT.Rpi.SenseHat;
 
-namespace RPi.SenseHat.Demo.Demos
-{
+namespace RPi.SenseHat.Demo.Demos;
+
 	/// <summary>
 	/// Note! You must calibrate the magnetic sensor by moving the Raspberry Pi device around in an 'eight' figure a few seconds at startup!
 	/// </summary>
@@ -98,4 +98,3 @@ namespace RPi.SenseHat.Demo.Demos
 				(int)Math.Round(Math.Sin(angle) * 3.5 + 3.5));
 		}
 	}
-}
