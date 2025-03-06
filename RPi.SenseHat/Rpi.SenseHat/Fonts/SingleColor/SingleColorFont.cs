@@ -49,14 +49,14 @@ public class SingleColorFont(IEnumerable<SingleColorCharacter> chars) : Font<Sin
         var chars = new List<SingleColorCharacter>();
         var charColumns = new List<byte>();
 
-        int index = 0;
-        bool isBeginningOfChar = true;
-        bool isEscaped = false;
-        char currentSymbol = ' ';
+        var index = 0;
+        var isBeginningOfChar = true;
+        var isEscaped = false;
+        var currentSymbol = ' ';
 
         while (index < bytesArray.Length)
         {
-            byte b = bytesArray[index];
+            var b = bytesArray[index];
             if (isBeginningOfChar)
             {
                 if (index > 0)
@@ -96,10 +96,10 @@ public class SingleColorFont(IEnumerable<SingleColorCharacter> chars) : Font<Sin
             }
             else
             {
-                int mask = 1;
+                var mask = 1;
                 byte column = 0;
 
-                for (int y = 1; y <= 8; y++)
+                for (var y = 1; y <= 8; y++)
                 {
                     if ((b & mask) == mask)
                     {
@@ -131,9 +131,9 @@ public class SingleColorFont(IEnumerable<SingleColorCharacter> chars) : Font<Sin
     /// </summary>
     public IEnumerable<byte> Serialize()
     {
-        bool isFirstChar = true;
+        var isFirstChar = true;
 
-        foreach (SingleColorCharacter character in GetChars())
+        foreach (var character in GetChars())
         {
             if (isFirstChar)
             {
@@ -146,7 +146,7 @@ public class SingleColorFont(IEnumerable<SingleColorCharacter> chars) : Font<Sin
                 yield return 0x00;
             }
 
-            byte[] charBytes = Encoding.Unicode.GetBytes([character.Symbol]);
+            var charBytes = Encoding.Unicode.GetBytes([character.Symbol]);
             if (charBytes.Length != 2)
             {
                 throw new ArgumentException("Unexpected number of bytes in unicode character!");
@@ -155,7 +155,7 @@ public class SingleColorFont(IEnumerable<SingleColorCharacter> chars) : Font<Sin
             yield return charBytes[0];
             yield return charBytes[1];
 
-            foreach (byte column in character.Columns)
+            foreach (var column in character.Columns)
             {
                 if (column == 0xFF) // Needs escaping to separate from beginning of "Next char marker".
                 {

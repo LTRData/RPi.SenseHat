@@ -50,15 +50,15 @@ public static class SenseHatFactory
         return _getSenseHatTask;
     }
 
-    public async static Task<ISenseHat> OpenSenseHatAsync()
+    public static async Task<ISenseHat> OpenSenseHatAsync()
     {
-        MainI2CDevice mainI2CDevice = await CreateDisplayJoystickI2CDevice().ConfigureAwait(false);
+        var mainI2CDevice = await CreateDisplayJoystickI2CDevice().ConfigureAwait(false);
 
-        ImuSensor imuSensor = await CreateImuSensor().ConfigureAwait(false);
+        var imuSensor = await CreateImuSensor().ConfigureAwait(false);
 
-        PressureSensor pressureSensor = await CreatePressureSensor().ConfigureAwait(false);
+        var pressureSensor = await CreatePressureSensor().ConfigureAwait(false);
 
-        HumiditySensor humiditySensor = await CreateHumiditySensor().ConfigureAwait(false);
+        var humiditySensor = await CreateHumiditySensor().ConfigureAwait(false);
 
         return new SenseHat(mainI2CDevice, imuSensor, pressureSensor, humiditySensor);
     }

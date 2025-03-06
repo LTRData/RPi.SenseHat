@@ -52,16 +52,16 @@ public class Sprite
         bool flipHorizontal,
         bool flipVertical)
     {
-        int right = offsetX + 7;
-        int bottom = offsetY + 7;
+        var right = offsetX + 7;
+        var bottom = offsetY + 7;
 
         if ((offsetY > 7) || (bottom < 0) || (offsetX > 7) || (right < 0))
         {
             return;
         }
 
-        int spritePixelX0 = _spriteXIndex * 8;
-        int spritePixelY0 = _spriteYIndex * 8;
+        var spritePixelX0 = _spriteXIndex * 8;
+        var spritePixelY0 = _spriteYIndex * 8;
 
         int spritePixelXOffset;
         int spritePixelYOffset;
@@ -99,9 +99,9 @@ public class Sprite
             direction,
             flipHorizontal,
             flipVertical,
-            out bool leftToRight,
-            out bool topToBottom,
-            out bool flipAxis);
+            out var leftToRight,
+            out var topToBottom,
+            out var flipAxis);
 
         int xStart;
         int xStep;
@@ -132,29 +132,29 @@ public class Sprite
             spritePixelYOffset = -spritePixelYOffset;
         }
 
-        int spritePixelY = yStart;
+        var spritePixelY = yStart;
 
-        for (int screenY = offsetY; screenY <= bottom; screenY++)
+        for (var screenY = offsetY; screenY <= bottom; screenY++)
         {
-            int spritePixelX = xStart;
+            var spritePixelX = xStart;
 
-            for (int screenX = offsetX; screenX <= right; screenX++)
+            for (var screenX = offsetX; screenX <= right; screenX++)
             {
-                int dX = flipHorizontal
+                var dX = flipHorizontal
                     ? 7 - spritePixelXOffset - spritePixelX
                     : spritePixelXOffset + spritePixelX;
 
-                int dY = flipVertical
+                var dY = flipVertical
                     ? 7 - spritePixelYOffset - spritePixelY
                     : spritePixelYOffset + spritePixelY;
 
-                Color spriteColor = flipAxis
+                var spriteColor = flipAxis
                     ? _spriteMap.Pixels[spritePixelX0 + dY, spritePixelY0 + dX]
                     : _spriteMap.Pixels[spritePixelX0 + dX, spritePixelY0 + dY];
 
                 if (transparent)
                 {
-                    Color screenColor = display.Screen[screenX, screenY];
+                    var screenColor = display.Screen[screenX, screenY];
 
                     spriteColor = GetTransparentPixel(screenColor, spriteColor);
                 }
@@ -177,8 +177,8 @@ public class Sprite
         bool flipHorizontal,
         bool flipVertical)
     {
-        int spritePixelX0 = _spriteXIndex * 8;
-        int spritePixelY0 = _spriteYIndex * 8;
+        var spritePixelX0 = _spriteXIndex * 8;
+        var spritePixelY0 = _spriteYIndex * 8;
 
         if (offsetX < 0)
         {
@@ -194,9 +194,9 @@ public class Sprite
             direction,
             flipHorizontal,
             flipVertical,
-            out bool leftToRight,
-            out bool topToBottom,
-            out bool flipAxis);
+            out var leftToRight,
+            out var topToBottom,
+            out var flipAxis);
 
         int xStart;
         int xStep;
@@ -227,24 +227,24 @@ public class Sprite
             offsetY = 8 - offsetY;
         }
 
-        int spritePixelY = yStart;
+        var spritePixelY = yStart;
 
-        for (int screenY = 0; screenY <= 7; screenY++)
+        for (var screenY = 0; screenY <= 7; screenY++)
         {
-            int spritePixelX = xStart;
+            var spritePixelX = xStart;
 
-            for (int screenX = 0; screenX <= 7; screenX++)
+            for (var screenX = 0; screenX <= 7; screenX++)
             {
-                int dX = (8 + spritePixelX - offsetX) % 8;
-                int dY = (8 + spritePixelY - offsetY) % 8;
+                var dX = (8 + spritePixelX - offsetX) % 8;
+                var dY = (8 + spritePixelY - offsetY) % 8;
 
-                Color spriteColor = flipAxis
+                var spriteColor = flipAxis
                     ? _spriteMap.Pixels[spritePixelX0 + dY, spritePixelY0 + dX]
                     : _spriteMap.Pixels[spritePixelX0 + dX, spritePixelY0 + dY];
 
                 if (transparent)
                 {
-                    Color screenColor = display.Screen[screenX, screenY];
+                    var screenColor = display.Screen[screenX, screenY];
 
                     spriteColor = GetTransparentPixel(screenColor, spriteColor);
                 }
@@ -260,21 +260,21 @@ public class Sprite
 
     private static Color GetTransparentPixel(Color screenColor, Color spriteColor)
     {
-        float alpha = spriteColor.A / 255f;
+        var alpha = spriteColor.A / 255f;
 
-        int mergedR = (int)Math.Round(screenColor.R + spriteColor.R * alpha);
+        var mergedR = (int)Math.Round(screenColor.R + spriteColor.R * alpha);
         if (mergedR > 255)
         {
             mergedR = 255;
         }
 
-        int mergedG = (int)Math.Round(screenColor.G + spriteColor.G * alpha);
+        var mergedG = (int)Math.Round(screenColor.G + spriteColor.G * alpha);
         if (mergedG > 255)
         {
             mergedG = 255;
         }
 
-        int mergedB = (int)Math.Round(screenColor.B + spriteColor.B * alpha);
+        var mergedB = (int)Math.Round(screenColor.B + spriteColor.B * alpha);
         if (mergedB > 255)
         {
             mergedB = 255;

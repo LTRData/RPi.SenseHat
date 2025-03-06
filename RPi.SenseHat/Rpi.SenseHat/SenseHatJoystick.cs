@@ -32,9 +32,9 @@ internal sealed class SenseHatJoystick(MainI2CDevice mainI2CDevice) : ISenseHatJ
 
     public bool Update()
     {
-        byte state = _mainI2CDevice.ReadByte(0xf2);
+        var state = _mainI2CDevice.ReadByte(0xf2);
 
-        bool hasChanged = false;
+        var hasChanged = false;
 
         LeftKey = GetKeyState(LeftKey, (state & 0x10) > 0, ref hasChanged);
         RightKey = GetKeyState(RightKey, (state & 0x02) > 0, ref hasChanged);

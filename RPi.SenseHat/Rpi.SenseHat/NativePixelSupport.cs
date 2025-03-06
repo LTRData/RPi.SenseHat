@@ -73,7 +73,7 @@ public static class NativePixelSupport
 #elif NETFRAMEWORK
 public static class NativePixelSupport
 {
-    public async static Task<Color[,]> GetPixels(Uri imageUri)
+    public static async Task<Color[,]> GetPixels(Uri imageUri)
     {
         if (imageUri.IsFile)
         {
@@ -84,10 +84,10 @@ public static class NativePixelSupport
 
             var bitmap = await Task.Run(() => new Bitmap(imageUri.LocalPath));
 
-            Color[,] pixels = new Color[bitmap.Width, bitmap.Height];
-            for (int y = 0; y < bitmap.Height; y++)
+            var pixels = new Color[bitmap.Width, bitmap.Height];
+            for (var y = 0; y < bitmap.Height; y++)
             {
-                for (int x = 0; x < bitmap.Width; x++)
+                for (var x = 0; x < bitmap.Width; x++)
                 {
                     pixels[x, y] = bitmap.GetPixel(x, y);
                 }

@@ -50,16 +50,16 @@ public class SingleColorCharacterRenderer(Func<SingleColorCharacterRendererPixel
     /// <param name="offsetY">The Y-position of the top-most edge of the character.</param>
     public override void Render(ISenseHatDisplay display, SingleColorCharacter character, int offsetX, int offsetY)
     {
-        int right = offsetX + character.Columns.Length - 1;
-        int bottom = offsetY + 7;
+        var right = offsetX + character.Columns.Length - 1;
+        var bottom = offsetY + 7;
 
         if ((offsetY > 7) || (bottom < 0) || (offsetX > 7) || (right < 0))
         {
             return;
         }
 
-        int columnIndex = 0;
-        int maskInit = 1;
+        var columnIndex = 0;
+        var maskInit = 1;
         var pixelMap = new SingleColorCharacterRendererPixelMap
         {
             Character = character,
@@ -67,7 +67,7 @@ public class SingleColorCharacterRenderer(Func<SingleColorCharacterRendererPixel
             DisplayOffsetY = offsetY
         };
 
-        int charPixelYInit = 0;
+        var charPixelYInit = 0;
 
         if (offsetX < 0)
         {
@@ -94,16 +94,16 @@ public class SingleColorCharacterRenderer(Func<SingleColorCharacterRendererPixel
         }
 
         pixelMap.DisplayPixelX = 0;
-        for (int screenX = offsetX; screenX <= right; screenX++)
+        for (var screenX = offsetX; screenX <= right; screenX++)
         {
-            int mask = maskInit;
+            var mask = maskInit;
 
-            byte column = character.Columns[columnIndex++];
+            var column = character.Columns[columnIndex++];
 
             pixelMap.CharPixelY = charPixelYInit;
             pixelMap.DisplayPixelY = 0;
 
-            for (int screenY = offsetY; screenY <= bottom; screenY++)
+            for (var screenY = offsetY; screenY <= bottom; screenY++)
             {
                 if ((column & mask) == mask)
                 {

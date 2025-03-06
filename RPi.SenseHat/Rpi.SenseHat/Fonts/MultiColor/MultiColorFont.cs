@@ -23,7 +23,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 #if WINRT_COLOR_TYPE
 using Windows.UI;
 #else
@@ -39,8 +38,8 @@ public class MultiColorFont(IEnumerable<MultiColorCharacter> chars) : Font<Multi
         string symbols,
         Color? transparencyColor = null)
     {
-        int bitmapWidth = pixels.GetLength(0);
-        int bitmapHeight = pixels.GetLength(1);
+        var bitmapWidth = pixels.GetLength(0);
+        var bitmapHeight = pixels.GetLength(1);
 
         if (bitmapHeight > 9)
         {
@@ -49,24 +48,24 @@ public class MultiColorFont(IEnumerable<MultiColorCharacter> chars) : Font<Multi
 
         var chars = new List<MultiColorCharacter>();
 
-        int symbolIndex = 0;
+        var symbolIndex = 0;
 
-        int bitmapX = 0;
-        char currentSymbol = ' ';
-        int charStartX = 0;
+        var bitmapX = 0;
+        var currentSymbol = ' ';
+        var charStartX = 0;
 
-        int charHeight = bitmapHeight - 1;
+        var charHeight = bitmapHeight - 1;
 
         while (bitmapX < bitmapWidth)
         {
-            bool isBeginningOfChar = (pixels[bitmapX, 0].A > 128);
-            bool isLastX = (bitmapX == bitmapWidth - 1);
+            var isBeginningOfChar = (pixels[bitmapX, 0].A > 128);
+            var isLastX = (bitmapX == bitmapWidth - 1);
 
             if (isBeginningOfChar || isLastX)
             {
                 if ((bitmapX > 0) || isLastX)
                 {
-                    int charWidth = bitmapX - charStartX;
+                    var charWidth = bitmapX - charStartX;
 
                     if (isLastX)
                     {
@@ -74,9 +73,9 @@ public class MultiColorFont(IEnumerable<MultiColorCharacter> chars) : Font<Multi
                     }
 
                     var charPixels = new Color[charWidth, charHeight];
-                    for (int y = 0; y < charHeight; y++)
+                    for (var y = 0; y < charHeight; y++)
                     {
-                        for (int x = 0; x < charWidth; x++)
+                        for (var x = 0; x < charWidth; x++)
                         {
                             charPixels[x, y] = pixels[charStartX + x, 1 + y];
                         }

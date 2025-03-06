@@ -22,7 +22,6 @@
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System.Drawing;
-using System.Linq;
 
 namespace Emmellsoft.IoT.Rpi.SenseHat.Tools.LedBuffer;
 
@@ -34,10 +33,10 @@ public static class LedBufferSupport
 
         byte[] senseHatInverseGammaTable = [.. GammaCalc.Get5To8BitInvertedGamma(senseHatGamma)];
 
-        int bufferIndex = 0;
-        for (int y = 0; y < 8; y++)
+        var bufferIndex = 0;
+        for (var y = 0; y < 8; y++)
         {
-            for (int x = 0; x < 8; x++)
+            for (var x = 0; x < 8; x++)
             {
                 var r = senseHatInverseGammaTable[buffer[bufferIndex]];
                 var g = senseHatInverseGammaTable[buffer[bufferIndex + 8]];
@@ -55,16 +54,16 @@ public static class LedBufferSupport
 
     public static byte[] PixelsToBuffer(Color[,] pixels, double senseHatGamma)
     {
-        byte[] buffer = new byte[8 * 8 * 3]; // (3 for R,G,B)
+        var buffer = new byte[8 * 8 * 3]; // (3 for R,G,B)
 
         byte[] senseHatGammaTable = [.. GammaCalc.Get5BitGamma(senseHatGamma)];
 
-        int index = 0;
-        for (int y = 0; y < 8; y++)
+        var index = 0;
+        for (var y = 0; y < 8; y++)
         {
-            for (int x = 0; x < 8; x++)
+            for (var x = 0; x < 8; x++)
             {
-                Color color = pixels[x, y];
+                var color = pixels[x, y];
 
                 buffer[index] = senseHatGammaTable[color.R >> 3];
                 buffer[index + 8] = senseHatGammaTable[color.G >> 3];

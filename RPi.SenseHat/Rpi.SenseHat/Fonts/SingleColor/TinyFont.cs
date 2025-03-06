@@ -22,7 +22,6 @@
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-using System.Linq;
 #if WINRT_COLOR_TYPE
 using Windows.UI;
 #else
@@ -79,8 +78,8 @@ public class TinyFont
 
         var characterRenderer = new SingleColorCharacterRenderer(pixelMap => color);
 
-        int x = 0;
-        foreach (SingleColorCharacter character in chars)
+        var x = 0;
+        foreach (var character in chars)
         {
             characterRenderer.Render(display, character, x, offsetY);
 

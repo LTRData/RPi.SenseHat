@@ -43,7 +43,7 @@ public abstract class Font<TChar> where TChar : Character
 
     private void InitDictionary(IEnumerable<TChar> chars)
     {
-        foreach (TChar c in chars)
+        foreach (var c in chars)
         {
             if (_charDict.ContainsKey(c.Symbol))
             {
@@ -75,7 +75,7 @@ public abstract class Font<TChar> where TChar : Character
     /// <param name="text">The text string to convert into font characters.</param>
     public IEnumerable<TChar> GetChars(string text)
     {
-        foreach (char symbol in text ?? string.Empty)
+        foreach (var symbol in text ?? string.Empty)
         {
             if (!_charDict.TryGetValue(symbol, out var c))
             {

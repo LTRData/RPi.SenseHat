@@ -241,18 +241,18 @@ public static class RotationTest
             yStep = -1;
         }
 
-        char[,] processed = new char[2, 2];
+        var processed = new char[2, 2];
         processed[0, 0] = '!';
         processed[1, 0] = '!';
         processed[0, 1] = '!';
         processed[1, 1] = '!';
 
-        int toY = 0;
+        var toY = 0;
 
-        for (int y = yStart; y != yStop; y += yStep)
+        for (var y = yStart; y != yStop; y += yStep)
         {
-            int toX = 0;
-            for (int x = xStart; x != xStop; x += xStep)
+            var toX = 0;
+            for (var x = xStart; x != xStop; x += xStep)
             {
                 processed[toX, toY] = flipAxis ? map[y, x] : map[x, y];
                 toX++;

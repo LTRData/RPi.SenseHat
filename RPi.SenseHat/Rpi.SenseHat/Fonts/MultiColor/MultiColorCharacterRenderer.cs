@@ -37,19 +37,19 @@ public class MultiColorCharacterRenderer : CharacterRenderer<MultiColorCharacter
         int offsetX,
         int offsetY)
     {
-        int charWidth = character.Pixels.GetLength(0);
-        int charHeight = character.Pixels.GetLength(1);
+        var charWidth = character.Pixels.GetLength(0);
+        var charHeight = character.Pixels.GetLength(1);
 
-        int right = offsetX + charWidth - 1;
-        int bottom = offsetY + charHeight - 1;
+        var right = offsetX + charWidth - 1;
+        var bottom = offsetY + charHeight - 1;
 
         if ((offsetY > 7) || (bottom < 0) || (offsetX > 7) || (right < 0))
         {
             return;
         }
 
-        int charPixelXInit = 0;
-        int charPixelYInit = 0;
+        var charPixelXInit = 0;
+        var charPixelYInit = 0;
 
         if (offsetX < 0)
         {
@@ -73,15 +73,15 @@ public class MultiColorCharacterRenderer : CharacterRenderer<MultiColorCharacter
             bottom = 7;
         }
 
-        int charPixelY = charPixelYInit;
+        var charPixelY = charPixelYInit;
 
-        for (int screenY = offsetY; screenY <= bottom; screenY++)
+        for (var screenY = offsetY; screenY <= bottom; screenY++)
         {
-            int charPixelX = charPixelXInit;
+            var charPixelX = charPixelXInit;
 
-            for (int screenX = offsetX; screenX <= right; screenX++)
+            for (var screenX = offsetX; screenX <= right; screenX++)
             {
-                Color charColor = character.Pixels[charPixelX, charPixelY];
+                var charColor = character.Pixels[charPixelX, charPixelY];
 
                 if (charColor != character.TransparencyColor)
                 {

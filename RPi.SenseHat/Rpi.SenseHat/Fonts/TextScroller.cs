@@ -22,7 +22,6 @@
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Emmellsoft.IoT.Rpi.SenseHat.Fonts;
 
@@ -119,12 +118,12 @@ public class TextScroller<TChar> where TChar : Character
             return;
         }
 
-        int x = _initialSpace - _charX;
-        int charIndex = _charIndex;
+        var x = _initialSpace - _charX;
+        var charIndex = _charIndex;
 
         do
         {
-            TChar character = _chars[charIndex];
+            var character = _chars[charIndex];
             _characterRenderer.Render(_display, character, x, 0);
             x += character.Width;
             charIndex++;

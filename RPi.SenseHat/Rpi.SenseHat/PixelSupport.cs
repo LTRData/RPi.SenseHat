@@ -22,8 +22,6 @@
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-using System.Threading;
-using System.Threading.Tasks;
 #if WINDOWS_UWP
 using Windows.ApplicationModel.Core;
 using Windows.Graphics.Imaging;
@@ -31,7 +29,6 @@ using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI;
 #else
-using System.IO;
 using System.Drawing;
 #endif
 
@@ -163,10 +160,10 @@ public static class PixelSupport
 
         var pixels2D = new Color[8, 8];
 
-        int i = 0;
-        for (int y = 0; y < 8; y++)
+        var i = 0;
+        for (var y = 0; y < 8; y++)
         {
-            for (int x = 0; x < 8; x++)
+            for (var x = 0; x < 8; x++)
             {
                 pixels2D[x, y] = pixels[i++];
             }

@@ -56,8 +56,8 @@ public class SpriteMap
 
     public Sprite GetSprite(int index)
     {
-        int xIndex = index % 8;
-        int yIndex = index / 8;
+        var xIndex = index % 8;
+        var yIndex = index / 8;
 
         if ((xIndex < 0) || (xIndex >= SpriteCountHorizontal) ||
             (yIndex < 0) || (yIndex >= SpriteCountVertical))

@@ -21,16 +21,15 @@
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using Emmellsoft.IoT.Rpi.SenseHat.Fonts.MultiColor;
+using Emmellsoft.IoT.Rpi.SenseHat.Tools.Font;
+using Emmellsoft.IoT.Rpi.SenseHat.Tools.LedBuffer;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Emmellsoft.IoT.Rpi.SenseHat.Fonts.MultiColor;
-using Emmellsoft.IoT.Rpi.SenseHat.Fonts.SingleColor;
-using Emmellsoft.IoT.Rpi.SenseHat.Tools.Font;
-using Emmellsoft.IoT.Rpi.SenseHat.Tools.LedBuffer;
 
 namespace Emmellsoft.IoT.Rpi.SenseHat.Tools;
 
@@ -53,7 +52,7 @@ public static class Program
         var path = Path.GetFullPath(Path.Combine(dir ?? string.Empty, relativeImagePath));
         var fontImageUri = new Uri(path);
 
-        MultiColorFont font = MultiColorFont.LoadFromImage(NativePixelSupport.GetPixels(fontImageUri).Result, symbols, Color.Transparent);
+        var font = MultiColorFont.LoadFromImage(NativePixelSupport.GetPixels(fontImageUri).Result, symbols, Color.Transparent);
         var chars = font.GetChars().ToArray();
         var widths = chars.Select(c => c.Width).ToArray();
     }
@@ -63,11 +62,11 @@ public static class Program
         var bitmap = new Bitmap(@"Font\BWFont.png");
         const string chars = " ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖÉÜabcdefghijklmnopqrstuvwxyzåäöéü0123456789.,?!\"#$%&-+*:;/\\<>()'`=";
 
-        SingleColorFont singleColorFont = SingleColorFontBuilder.GetSingleColorFont(bitmap, chars);
+        var singleColorFont = SingleColorFontBuilder.GetSingleColorFont(bitmap, chars);
         byte[] fontBytes = [.. singleColorFont.Serialize()];
         var fontBytesAsCode = ToCSharp(fontBytes);
 
-        Tuple<string, Bitmap> tuple = SingleColorFontBuilder.GetFontBitmap(fontBytes);
+        var tuple = SingleColorFontBuilder.GetFontBitmap(fontBytes);
         tuple.Item2.Save(@"Font\BWFont_recreated.png");
     }
 
@@ -76,7 +75,7 @@ public static class Program
         var bitmap = new Bitmap(@"Font\TinyBWFont.png");
         const string chars = " 0123456789ABCDEF+-%*=.:!?/\\'";
 
-        SingleColorFont tinyFont = SingleColorFontBuilder.GetSingleColorFont(bitmap, chars);
+        var tinyFont = SingleColorFontBuilder.GetSingleColorFont(bitmap, chars);
         byte[] fontBytes = [.. tinyFont.Serialize()];
         var fontBytesAsCode = ToCSharp(fontBytes);
     }
@@ -91,22 +90,22 @@ public static class Program
                 0x12, 0x14, 0x15, 0x17, 0x19, 0x1B, 0x1D, 0x1F
             ];
 
-        double senseHatGamma = FindBestGammaMatch.Best5BitGammaMatch(originalGamma, 2, 3, 0.01);
+        var senseHatGamma = FindBestGammaMatch.Best5BitGammaMatch(originalGamma, 2, 3, 0.01);
 
         byte[] senseHatGammaTable = [.. GammaCalc.Get5BitGamma(senseHatGamma)];
-        string senseHatGammaTableAsCode = ToCSharp(senseHatGammaTable);
+        var senseHatGammaTableAsCode = ToCSharp(senseHatGammaTable);
 
         byte[] senseHatInverseGammaTable = [.. GammaCalc.Get5To8BitInvertedGamma(senseHatGamma)];
-        string senseHatInverseGammaTableAsCode = ToCSharp(senseHatInverseGammaTable);
+        var senseHatInverseGammaTableAsCode = ToCSharp(senseHatInverseGammaTable);
 
 
 
-        Color[,] initalPixels = LedBufferSupport.BufferToPixels(LedBufferSupport.GetInitialLedBuffer(), senseHatGamma);
-        string initalPixelsAsCode = ToCSharp(initalPixels);
+        var initalPixels = LedBufferSupport.BufferToPixels(LedBufferSupport.GetInitialLedBuffer(), senseHatGamma);
+        var initalPixelsAsCode = ToCSharp(initalPixels);
 
-        byte[] initialBufferRecreated = LedBufferSupport.PixelsToBuffer(initalPixels, senseHatGamma);
-        string initialBufferRecreatedAsCode = ToCSharp(initialBufferRecreated);
-        string originalInitialBufferAsCode = ToCSharp(LedBufferSupport.GetInitialLedBuffer());
+        var initialBufferRecreated = LedBufferSupport.PixelsToBuffer(initalPixels, senseHatGamma);
+        var initialBufferRecreatedAsCode = ToCSharp(initialBufferRecreated);
+        var originalInitialBufferAsCode = ToCSharp(LedBufferSupport.GetInitialLedBuffer());
 
         var xxx = initialBufferRecreatedAsCode + "\r\n" + originalInitialBufferAsCode;
 
@@ -124,14 +123,14 @@ public static class Program
             text.AppendLine("Color[] colors = new[]");
             text.AppendLine("{");
 
-            for (int y = 0; y < 8; y++)
+            for (var y = 0; y < 8; y++)
             {
                 text.Append("\t");
 
-                for (int x = 0; x < 8; x++)
+                for (var x = 0; x < 8; x++)
                 {
-                    int argb = pixels[x, y].ToArgb();
-                    int rgb = argb & 0x00FFFFFF;
+                    var argb = pixels[x, y].ToArgb();
+                    var rgb = argb & 0x00FFFFFF;
                     text.Append("0x" + rgb.ToString("X6"));
 
                     if ((x < 7) || (y < 7))
@@ -152,12 +151,12 @@ public static class Program
             text.AppendLine("Color[,] colors = new Color[,]");
             text.AppendLine("{");
 
-            for (int y = 0; y < 8; y++)
+            for (var y = 0; y < 8; y++)
             {
                 text.Append("\t{ ");
-                for (int x = 0; x < 8; x++)
+                for (var x = 0; x < 8; x++)
                 {
-                    Color color = pixels[x, y];
+                    var color = pixels[x, y];
 
                     if (x > 0)
                     {

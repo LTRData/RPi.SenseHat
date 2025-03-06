@@ -21,8 +21,6 @@
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using System.Linq;
-
 namespace Emmellsoft.IoT.Rpi.SenseHat.Tools.LedBuffer;
 
 public static class FindBestGammaMatch
@@ -32,14 +30,14 @@ public static class FindBestGammaMatch
         var gammaValue = start;
 
         double bestMatchGammaValue = 0;
-        int bestMatchGammaFailCount = int.MaxValue;
+        var bestMatchGammaFailCount = int.MaxValue;
 
         do
         {
             byte[] myGamma = [.. GammaCalc.Get5BitGamma(gammaValue)];
 
-            int failCount = 0;
-            for (int i = 0; i < myGamma.Length; i++)
+            var failCount = 0;
+            for (var i = 0; i < myGamma.Length; i++)
             {
                 if (myGamma[i] != wantedGammaTable[i])
                 {

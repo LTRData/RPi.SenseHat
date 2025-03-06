@@ -21,12 +21,12 @@
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using Emmellsoft.IoT.Rpi.SenseHat.Fonts.SingleColor;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using Emmellsoft.IoT.Rpi.SenseHat.Fonts.SingleColor;
 
 namespace Emmellsoft.IoT.Rpi.SenseHat.Tools.Font;
 
@@ -39,15 +39,15 @@ public static class SingleColorFontBuilder
             throw new ArgumentException("The bitmap should be 8 pixels high plus one control-pixel at the top (i.e. 9 pixels).");
         }
 
-        int x = 0;
-        int charIndex = -1;
+        var x = 0;
+        var charIndex = -1;
 
         var charList = new List<SingleColorCharacter>();
         var charColumns = new List<byte>();
 
         do
         {
-            byte controlPixelAlpha = bitmap.GetPixel(x, 0).A;
+            var controlPixelAlpha = bitmap.GetPixel(x, 0).A;
             if (controlPixelAlpha > 128)
             {
                 // Next character starts!
@@ -55,7 +55,7 @@ public static class SingleColorFontBuilder
                 if (charIndex > -1)
                 {
                     // Handle the previous one!
-                    SingleColorCharacter c = new SingleColorCharacter(chars[charIndex], [.. charColumns]);
+                    var c = new SingleColorCharacter(chars[charIndex], [.. charColumns]);
                     charList.Add(c);
                 }
 
@@ -68,10 +68,10 @@ public static class SingleColorFontBuilder
                 }
             }
 
-            int fontColumnByte = 0;
-            for (int y = 8; y >= 1; y--)
+            var fontColumnByte = 0;
+            for (var y = 8; y >= 1; y--)
             {
-                byte fontPixelAlpha = bitmap.GetPixel(x, y).A;
+                var fontPixelAlpha = bitmap.GetPixel(x, y).A;
 
                 if (fontPixelAlpha > 128)
                 {
@@ -97,7 +97,7 @@ public static class SingleColorFontBuilder
 
         if (charIndex > -1)
         {
-            SingleColorCharacter c = new SingleColorCharacter(chars[charIndex], [.. charColumns]);
+            var c = new SingleColorCharacter(chars[charIndex], [.. charColumns]);
             charList.Add(c);
         }
 
@@ -114,23 +114,23 @@ public static class SingleColorFontBuilder
             throw new ArgumentException("Zero width image!");
         }
 
-        Bitmap bitmap = new Bitmap(width, 9);
+        var bitmap = new Bitmap(width, 9);
         var chars = new StringBuilder();
 
-        for (int i = 0; i < width; i++)
+        for (var i = 0; i < width; i++)
         {
             bitmap.SetPixel(i, 0, Color.Transparent);
         }
 
-        int x = 0;
+        var x = 0;
 
-        int index = 0;
-        bool isBeginningOfChar = true;
-        bool isEscaped = false;
+        var index = 0;
+        var isBeginningOfChar = true;
+        var isEscaped = false;
 
         while (index < bytesArray.Length)
         {
-            byte b = bytesArray[index];
+            var b = bytesArray[index];
             if (isBeginningOfChar)
             {
                 // Needs 2 bytes for Unicode
@@ -139,7 +139,7 @@ public static class SingleColorFontBuilder
                     throw new ArgumentException("Beginning of char at the end!");
                 }
 
-                char c = Encoding.Unicode.GetString(bytesArray, index, 2).First();
+                var c = Encoding.Unicode.GetString(bytesArray, index, 2).First();
 
                 chars.Append(c);
 
@@ -167,9 +167,9 @@ public static class SingleColorFontBuilder
             }
             else
             {
-                int mask = 1;
+                var mask = 1;
 
-                for (int y = 1; y <= 8; y++)
+                for (var y = 1; y <= 8; y++)
                 {
                     if ((b & mask) == mask)
                     {
@@ -195,15 +195,15 @@ public static class SingleColorFontBuilder
 
     private static int MessureBitmapWidth(byte[] bytesArray)
     {
-        int width = 0;
+        var width = 0;
 
-        int index = 0;
-        bool isBeginningOfChar = true;
-        bool isEscaped = false;
+        var index = 0;
+        var isBeginningOfChar = true;
+        var isEscaped = false;
 
         while (index < bytesArray.Length)
         {
-            byte b = bytesArray[index];
+            var b = bytesArray[index];
             if (isBeginningOfChar)
             {
                 // Needs 2 bytes for Unicode

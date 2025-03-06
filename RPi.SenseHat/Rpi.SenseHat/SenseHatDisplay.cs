@@ -23,7 +23,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 #if WINRT_COLOR_TYPE
 using Windows.UI;
 #else
@@ -153,9 +152,9 @@ internal sealed class SenseHatDisplay : ISenseHatDisplay
 
     public void Fill(Color color)
     {
-        for (int y = 0; y < 8; y++)
+        for (var y = 0; y < 8; y++)
         {
-            for (int x = 0; x < 8; x++)
+            for (var x = 0; x < 8; x++)
             {
                 Screen[x, y] = color;
             }
@@ -185,9 +184,9 @@ internal sealed class SenseHatDisplay : ISenseHatDisplay
             offsetY = 8 + (offsetY % 8);
         }
 
-        for (int y = 0; y < 8; y++)
+        for (var y = 0; y < 8; y++)
         {
-            for (int x = 0; x < 8; x++)
+            for (var x = 0; x < 8; x++)
             {
                 Screen[(x + offsetX) % 8, (y + offsetY) % 8] = colors[x, y];
             }
@@ -217,10 +216,10 @@ internal sealed class SenseHatDisplay : ISenseHatDisplay
             offsetY = 8 + (offsetY % 8);
         }
 
-        int i = 0;
-        for (int y = 0; y < 8; y++)
+        var i = 0;
+        for (var y = 0; y < 8; y++)
         {
-            for (int x = 0; x < 8; x++)
+            for (var x = 0; x < 8; x++)
             {
                 Screen[(x + offsetX) % 8, (y + offsetY) % 8] = colors[i++];
             }
@@ -240,9 +239,9 @@ internal sealed class SenseHatDisplay : ISenseHatDisplay
             throw new ArgumentException("My pixel matrix must be 8x8.");
         }
 
-        for (int y = 0; y < 8; y++)
+        for (var y = 0; y < 8; y++)
         {
-            for (int x = 0; x < 8; x++)
+            for (var x = 0; x < 8; x++)
             {
                 colors[x, y] = Screen[x, y];
             }
@@ -262,10 +261,10 @@ internal sealed class SenseHatDisplay : ISenseHatDisplay
             throw new ArgumentException("My pixel matrix must be 8x8.");
         }
 
-        int i = 0;
-        for (int y = 0; y < 8; y++)
+        var i = 0;
+        for (var y = 0; y < 8; y++)
         {
-            for (int x = 0; x < 8; x++)
+            for (var x = 0; x < 8; x++)
             {
                 colors[i++] = Screen[x, y];
             }
@@ -306,12 +305,12 @@ internal sealed class SenseHatDisplay : ISenseHatDisplay
 
         Span<byte> buffer = stackalloc byte[8 * 8 * 3];
 
-        int index = 0;
-        for (int y = _yStart; y != _yStop; y += _yStep)
+        var index = 0;
+        for (var y = _yStart; y != _yStop; y += _yStep)
         {
-            for (int x = _xStart; x != _xStop; x += _xStep)
+            for (var x = _xStart; x != _xStop; x += _xStep)
             {
-                Color color = _getPixel(x, y);
+                var color = _getPixel(x, y);
 
                 buffer[index] = _redGammaTable[ScaleTo5Bit(color.R)];
                 buffer[index + 8] = _greenGammaTable[ScaleTo5Bit(color.G)];
@@ -332,7 +331,7 @@ internal sealed class SenseHatDisplay : ISenseHatDisplay
 
     private static byte ScaleTo5Bit(byte byteValue)
     {
-        int fiveBit = byteValue >> 3;
+        var fiveBit = byteValue >> 3;
 
         if ((fiveBit < 0x1b) && ((byteValue & 0x04) == 0x04))
         {
@@ -348,9 +347,9 @@ internal sealed class SenseHatDisplay : ISenseHatDisplay
             _direction,
             _flipHorizontal,
             _flipVertical,
-            out bool leftToRight,
-            out bool topToBottom,
-            out bool flipAxis);
+            out var leftToRight,
+            out var topToBottom,
+            out var flipAxis);
 
         if (leftToRight)
         {
@@ -387,13 +386,13 @@ internal sealed class SenseHatDisplay : ISenseHatDisplay
     {
         const double step = 255.0 / 31; // 8 bits -> 5 bits
 
-        for (int i = 0; i <= 31; i++)
+        for (var i = 0; i <= 31; i++)
         {
-            byte index = (byte)(i * step);
+            var index = (byte)(i * step);
 
-            double gammaFactor = Math.Pow(index / 255.0, gamma);
+            var gammaFactor = Math.Pow(index / 255.0, gamma);
 
-            byte gammaByte = (byte)Math.Min((int)Math.Round(gammaFactor * 255.0 / 8.0), 31);
+            var gammaByte = (byte)Math.Min((int)Math.Round(gammaFactor * 255.0 / 8.0), 31);
 
             yield return gammaByte;
         }

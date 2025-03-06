@@ -59,5 +59,5 @@ public static class KeyStateExtensions
     /// </summary>
     /// <param name="keyState">The KeyState to check.</param>
     /// <returns></returns>
-    public static bool IsPressed(this KeyState keyState) => (keyState == KeyState.Pressed) || (keyState == KeyState.Pressing);
+    public static bool IsPressed(this KeyState keyState) => keyState is KeyState.Pressed or KeyState.Pressing;
 }

@@ -33,7 +33,7 @@ public class GammaCalc
 
     public static IEnumerable<double> GetGamma(double gamma = DefaultGamma)
     {
-        for (int i = 0; i <= 255; i++)
+        for (var i = 0; i <= 255; i++)
         {
             yield return Math.Pow((double)i / 255, gamma);
         }
@@ -43,9 +43,9 @@ public class GammaCalc
 
     public static byte ScaleToByte(double value)
     {
-        int rounded = (int)Math.Round(value * 255);
+        var rounded = (int)Math.Round(value * 255);
 
-        if ((rounded < 0) || (rounded > 255))
+        if (rounded is < 0 or > 255)
         {
             throw new ArgumentException("Not a byte: " + value);
         }
@@ -57,13 +57,13 @@ public class GammaCalc
     {
         const double step = 255.0 / 31; // 8 bits -> 5 bits
 
-        for (int i = 0; i < 32; i++)
+        for (var i = 0; i < 32; i++)
         {
-            byte index = (byte)(i * step);
+            var index = (byte)(i * step);
 
-            double gammaFactor = Math.Pow((double)index / 255, gamma);
+            var gammaFactor = Math.Pow((double)index / 255, gamma);
 
-            byte gammaByte = (byte)Math.Min((int)Math.Round(gammaFactor * 255 / 8), 31);
+            var gammaByte = (byte)Math.Min((int)Math.Round(gammaFactor * 255 / 8), 31);
 
             yield return gammaByte;
         }
@@ -75,13 +75,13 @@ public class GammaCalc
 
         const double step = 255.0 / 31; // 8 bits -> 5 bits
 
-        for (int i = 0; i < 32; i++)
+        for (var i = 0; i < 32; i++)
         {
-            byte index = (byte)(i * step);
+            var index = (byte)(i * step);
 
-            double gammaFactor = Math.Pow((double)index / 255, gamma);
+            var gammaFactor = Math.Pow((double)index / 255, gamma);
 
-            byte gammaByte = (byte)Math.Min((int)ScaleToByte(gammaFactor / 8), 31);
+            var gammaByte = (byte)Math.Min((int)ScaleToByte(gammaFactor / 8), 31);
 
             yield return gammaByte;
         }
@@ -93,15 +93,15 @@ public class GammaCalc
 
         const double step = 1.0 / 32; // 8 bits -> 5 bits
 
-        for (int i = 0; i < 32; i++)
+        for (var i = 0; i < 32; i++)
         {
-            double want = i * step;
+            var want = i * step;
 
-            double? floor = gammaTable.Where(x => x <= want).Select(x => (double?)x).LastOrDefault();
-            double? ceil = gammaTable.Where(x => x >= want).Select(x => (double?)x).FirstOrDefault();
+            var floor = gammaTable.Where(x => x <= want).Select(x => (double?)x).LastOrDefault();
+            var ceil = gammaTable.Where(x => x >= want).Select(x => (double?)x).FirstOrDefault();
 
-            double floorDiff = floor.HasValue ? Math.Abs(want - floor.Value) : double.MaxValue;
-            double ceilDiff = ceil.HasValue ? Math.Abs(want - ceil.Value) : double.MaxValue;
+            var floorDiff = floor.HasValue ? Math.Abs(want - floor.Value) : double.MaxValue;
+            var ceilDiff = ceil.HasValue ? Math.Abs(want - ceil.Value) : double.MaxValue;
 
             if ((floorDiff <= ceilDiff) && floor.HasValue)
             {
