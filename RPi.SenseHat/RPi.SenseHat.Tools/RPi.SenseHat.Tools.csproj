@@ -15,7 +15,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <Compile Include="..\Rpi.SenseHat\NativePixelSupport.cs" Link="Linked\NativePixelSupport.cs" />
+    <Compile Include="..\RPi.SenseHat\NativePixelSupport.cs" Link="Linked\NativePixelSupport.cs" />
   </ItemGroup>
 
   <ItemGroup>
