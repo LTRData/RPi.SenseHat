@@ -272,7 +272,12 @@ internal sealed class SenseHatDisplay : ISenseHatDisplay
         }
     }
 
-    public byte[] ReadRaw() => _mainI2CDevice.ReadBytes(0, 192);
+    public byte[] ReadRaw()
+    {
+        var buffer = new byte[192];
+        _mainI2CDevice.ReadBytes(0, buffer);
+        return buffer;
+    }
 
     public void WriteRaw(byte[] rawBuffer)
     {
@@ -299,7 +304,7 @@ internal sealed class SenseHatDisplay : ISenseHatDisplay
             throw new ArgumentException("My pixel matrix must be 8x8.");
         }
 
-        byte[] buffer = new byte[8 * 8 * 3];
+        Span<byte> buffer = stackalloc byte[8 * 8 * 3];
 
         int index = 0;
         for (int y = _yStart; y != _yStop; y += _yStep)

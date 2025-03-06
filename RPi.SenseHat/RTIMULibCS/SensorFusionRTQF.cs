@@ -38,18 +38,18 @@ public class SensorFusionRTQF : SensorFusion
             return;
         }
 
-        double qs = StateQ.Scalar;
-        double qx = StateQ.X;
-        double qy = StateQ.Y;
-        double qz = StateQ.Z;
+        var qs = StateQ.Scalar;
+        var qx = StateQ.X;
+        var qy = StateQ.Y;
+        var qz = StateQ.Z;
 
-        double x2 = Gyro.Value.X / 2.0;
-        double y2 = Gyro.Value.Y / 2.0;
-        double z2 = Gyro.Value.Z / 2.0;
+        var x2 = Gyro.Value.X / 2.0;
+        var y2 = Gyro.Value.Y / 2.0;
+        var z2 = Gyro.Value.Z / 2.0;
 
         // Predict new state
 
-        double timeDeltaSeconds = TimeDelta.TotalSeconds;
+        var timeDeltaSeconds = TimeDelta.TotalSeconds;
 
         StateQ.Scalar = qs + (-x2 * qx - y2 * qy - z2 * qz) * timeDeltaSeconds;
         StateQ.X = qx + (x2 * qs + z2 * qy - y2 * qz) * timeDeltaSeconds;
@@ -68,20 +68,20 @@ public class SensorFusionRTQF : SensorFusion
 
         // calculate rotation delta
 
-        Quaternion rotationDelta = StateQ.Conjugate() * MeasuredQPose;
+        var rotationDelta = StateQ.Conjugate() * MeasuredQPose;
         rotationDelta.Normalize();
 
         // take it to the power (0 to 1) to give the desired amount of correction
 
-        double theta = Math.Acos(rotationDelta.Scalar);
+        var theta = Math.Acos(rotationDelta.Scalar);
 
-        double sinPowerTheta = Math.Sin(theta * SlerpPower);
-        double cosPowerTheta = Math.Cos(theta * SlerpPower);
+        var sinPowerTheta = Math.Sin(theta * SlerpPower);
+        var cosPowerTheta = Math.Cos(theta * SlerpPower);
 
-        Vector3 rotationUnitVector = new Vector3(rotationDelta.X, rotationDelta.Y, rotationDelta.Z);
+        var rotationUnitVector = new Vector3(rotationDelta.X, rotationDelta.Y, rotationDelta.Z);
         rotationUnitVector.Normalize();
 
-        Quaternion rotationPower = new Quaternion(cosPowerTheta,
+        var rotationPower = new Quaternion(cosPowerTheta,
             sinPowerTheta * rotationUnitVector.X,
             sinPowerTheta * rotationUnitVector.Y,
             sinPowerTheta * rotationUnitVector.Z);

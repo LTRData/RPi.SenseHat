@@ -27,26 +27,26 @@ using Emmellsoft.IoT.Rpi.SenseHat;
 
 namespace RPi.SenseHat.Demo;
 
-	/// <summary>
-	/// Runs a demo.
-	/// </summary>
-	public static class DemoRunner
-	{
-		/// <summary>
-		/// Call this (for example) from the constructor of the MainPage.
-		/// Example:
-		/// <code>DemoRunner.Run(senseHat => new Demos.DiscoLights(senseHat));</code>
-		/// </summary>
-		/// <param name="createDemo">The demo to run.</param>
-		public static void Run(Func<ISenseHat, SenseHatDemo> createDemo)
-		{
-			Task.Run(async () =>
-			{
-				ISenseHat senseHat = await SenseHatFactory.GetSenseHat().ConfigureAwait(false);
+/// <summary>
+/// Runs a demo.
+/// </summary>
+public static class DemoRunner
+{
+    /// <summary>
+    /// Call this (for example) from the constructor of the MainPage.
+    /// Example:
+    /// <code>DemoRunner.Run(senseHat => new Demos.DiscoLights(senseHat));</code>
+    /// </summary>
+    /// <param name="createDemo">The demo to run.</param>
+    public static void Run(Func<ISenseHat, SenseHatDemo> createDemo)
+    {
+        Task.Run(async () =>
+        {
+            ISenseHat senseHat = await SenseHatFactory.GetSenseHat().ConfigureAwait(false);
 
-				SenseHatDemo demo = createDemo(senseHat);
+            SenseHatDemo demo = createDemo(senseHat);
 
-				demo.Run();
-			}).ConfigureAwait(false);
-		}
-	}
+            demo.Run();
+        }).ConfigureAwait(false);
+    }
+}

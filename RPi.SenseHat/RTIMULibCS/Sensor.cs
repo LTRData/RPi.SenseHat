@@ -65,7 +65,7 @@ public abstract class Sensor : IDisposable
             return;
         }
 
-        bool initiated = await InitDeviceAsync();
+        var initiated = await InitDeviceAsync();
 
         if (initiated)
         {

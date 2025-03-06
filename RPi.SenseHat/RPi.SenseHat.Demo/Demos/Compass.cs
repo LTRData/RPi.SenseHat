@@ -28,73 +28,68 @@ using Emmellsoft.IoT.Rpi.SenseHat;
 
 namespace RPi.SenseHat.Demo.Demos;
 
-	/// <summary>
-	/// Note! You must calibrate the magnetic sensor by moving the Raspberry Pi device around in an 'eight' figure a few seconds at startup!
-	/// </summary>
-	public class Compass : SenseHatDemo
-	{
-		public Compass(ISenseHat senseHat, Action<string> setScreenText)
-			: base(senseHat, setScreenText)
-		{
-		}
+/// <summary>
+/// Note! You must calibrate the magnetic sensor by moving the Raspberry Pi device around in an 'eight' figure a few seconds at startup!
+/// </summary>
+public class Compass(ISenseHat senseHat, Action<string> setScreenText) : SenseHatDemo(senseHat, setScreenText)
+{
+    public override void Run()
+    {
+        SenseHat.Display.Clear();
+        SenseHat.Display.Update();
 
-		public override void Run()
-		{
-			SenseHat.Display.Clear();
-			SenseHat.Display.Update();
+        const double halfCircle = Math.PI;
+        const double fullCircle = Math.PI * 2;
 
-			const double halfCircle = Math.PI;
-			const double fullCircle = Math.PI * 2;
+        Color northColor = Color.Red;
+        Color southColor = Color.White;
+        Color centerColor = Color.DarkBlue;
 
-			Color northColor = Color.Red;
-			Color southColor = Color.White;
-			Color centerColor = Color.DarkBlue;
+        TimeSpan mainPageUpdateRate = TimeSpan.FromSeconds(0.5);
+        DateTime nextMainPageUpdate = DateTime.Now.Add(mainPageUpdateRate);
 
-			TimeSpan mainPageUpdateRate = TimeSpan.FromSeconds(0.5);
-			DateTime nextMainPageUpdate = DateTime.Now.Add(mainPageUpdateRate);
+        while (true)
+        {
+            SenseHat.Sensors.ImuSensor.Update();
 
-			while (true)
-			{
-				SenseHat.Sensors.ImuSensor.Update();
+            if (SenseHat.Sensors.Pose.HasValue)
+            {
+                double northAngle = SenseHat.Sensors.Pose.Value.Z;
+                if (northAngle < 0)
+                {
+                    northAngle += fullCircle;
+                }
 
-				if (SenseHat.Sensors.Pose.HasValue)
-				{
-					double northAngle = SenseHat.Sensors.Pose.Value.Z;
-					if (northAngle < 0)
-					{
-						northAngle += fullCircle;
-					}
+                northAngle = fullCircle - northAngle;
+                double southAngle = northAngle + halfCircle;
 
-					northAngle = fullCircle - northAngle;
-					double southAngle = northAngle + halfCircle;
+                Point northPoint = GetPixelCoordinate(northAngle);
+                Point southPoint = GetPixelCoordinate(southAngle);
 
-					Point northPoint = GetPixelCoordinate(northAngle);
-					Point southPoint = GetPixelCoordinate(southAngle);
+                SenseHat.Display.Clear();
+                SenseHat.Display.Screen[(int)northPoint.X, (int)northPoint.Y] = northColor;
+                SenseHat.Display.Screen[(int)southPoint.X, (int)southPoint.Y] = southColor;
+                SenseHat.Display.Screen[3, 3] = centerColor;
+                SenseHat.Display.Screen[4, 3] = centerColor;
+                SenseHat.Display.Screen[3, 4] = centerColor;
+                SenseHat.Display.Screen[4, 4] = centerColor;
+                SenseHat.Display.Update();
 
-					SenseHat.Display.Clear();
-					SenseHat.Display.Screen[(int)northPoint.X, (int)northPoint.Y] = northColor;
-					SenseHat.Display.Screen[(int)southPoint.X, (int)southPoint.Y] = southColor;
-					SenseHat.Display.Screen[3, 3] = centerColor;
-					SenseHat.Display.Screen[4, 3] = centerColor;
-					SenseHat.Display.Screen[3, 4] = centerColor;
-					SenseHat.Display.Screen[4, 4] = centerColor;
-					SenseHat.Display.Update();
+                if ((SetScreenText != null) && nextMainPageUpdate <= DateTime.Now)
+                {
+                    SetScreenText($"{northAngle / fullCircle * 360:0}");
+                    nextMainPageUpdate = DateTime.Now.Add(mainPageUpdateRate);
+                }
+            }
 
-					if ((SetScreenText != null) && nextMainPageUpdate <= DateTime.Now)
-					{
-						SetScreenText($"{northAngle / fullCircle * 360:0}");
-						nextMainPageUpdate = DateTime.Now.Add(mainPageUpdateRate);
-					}
-				}
+            Sleep(TimeSpan.FromMilliseconds(2));
+        }
+    }
 
-				Sleep(TimeSpan.FromMilliseconds(2));
-			}
-		}
-
-		private static Point GetPixelCoordinate(double angle)
-		{
-			return new Point(
-				(int)Math.Round(Math.Cos(angle) * 3.5 + 3.5),
-				(int)Math.Round(Math.Sin(angle) * 3.5 + 3.5));
-		}
-	}
+    private static Point GetPixelCoordinate(double angle)
+    {
+        return new Point(
+            (int)Math.Round(Math.Cos(angle) * 3.5 + 3.5),
+            (int)Math.Round(Math.Sin(angle) * 3.5 + 3.5));
+    }
+}

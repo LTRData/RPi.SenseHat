@@ -30,62 +30,56 @@ using Emmellsoft.IoT.Rpi.SenseHat.Fonts.MultiColor;
 
 namespace RPi.SenseHat.Demo.Demos;
 
-	/// <summary>
-	/// Multi-color scroll-text.
-	/// </summary>
-	public class MultiColorScrollText : SenseHatDemo
-	{
-		private readonly string _scrollText;
+/// <summary>
+/// Multi-color scroll-text.
+/// </summary>
+public class MultiColorScrollText(ISenseHat senseHat, string scrollText) : SenseHatDemo(senseHat)
+{
+    private readonly string _scrollText = scrollText;
 
-		public MultiColorScrollText(ISenseHat senseHat, string scrollText)
-			: base(senseHat)
-		{
-			_scrollText = scrollText;
-		}
+    public override void Run()
+    {
+        // Create the font from the image.
+        MultiColorFont font = MultiColorFont.LoadFromImage(
+            NativePixelSupport.GetPixels(new Uri("ms-appx:///Assets/ColorFont.png")).Result,
+            " ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖÉÜabcdefghijklmnopqrstuvwxyzåäöéü0123456789.,?!\"#$%&-+*:;/\\<>()'`=",
+            Color.FromArgb(0xFF, 0xFF, 0x00, 0xFF));
 
-		public override void Run()
-		{
-			// Create the font from the image.
-			MultiColorFont font = MultiColorFont.LoadFromImage(
-				NativePixelSupport.GetPixels(new Uri("ms-appx:///Assets/ColorFont.png")).Result,
-				" ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖÉÜabcdefghijklmnopqrstuvwxyzåäöéü0123456789.,?!\"#$%&-+*:;/\\<>()'`=",
-				Color.FromArgb(0xFF, 0xFF, 0x00, 0xFF));
+        // Get the characters to scroll.
+        IEnumerable<MultiColorCharacter> characters = font.GetChars(_scrollText);
 
-			// Get the characters to scroll.
-			IEnumerable<MultiColorCharacter> characters = font.GetChars(_scrollText);
+        // Choose a background color (or draw your own more complex background!)
+        Color backgroundColor = Color.FromArgb(0xFF, 0x00, 0x20, 0x00);
 
-			// Choose a background color (or draw your own more complex background!)
-			Color backgroundColor = Color.FromArgb(0xFF, 0x00, 0x20, 0x00);
+        // Create the character renderer.
+        var characterRenderer = new MultiColorCharacterRenderer();
 
-			// Create the character renderer.
-			var characterRenderer = new MultiColorCharacterRenderer();
+        // Create the text scroller.
+        var textScroller = new TextScroller<MultiColorCharacter>(
+            SenseHat.Display,
+            characterRenderer,
+            characters);
 
-			// Create the text scroller.
-			var textScroller = new TextScroller<MultiColorCharacter>(
-				SenseHat.Display,
-				characterRenderer,
-				characters);
+        while (true)
+        {
+            // Step the scroller.
+            if (!textScroller.Step())
+            {
+                // Reset the scroller when reaching the end.
+                textScroller.Reset();
+            }
 
-			while (true)
-			{
-				// Step the scroller.
-				if (!textScroller.Step())
-				{
-					// Reset the scroller when reaching the end.
-					textScroller.Reset();
-				}
+            // Clear the display.
+            SenseHat.Display.Fill(backgroundColor);
 
-				// Clear the display.
-				SenseHat.Display.Fill(backgroundColor);
+            // Draw the scroll text.
+            textScroller.Render();
 
-				// Draw the scroll text.
-				textScroller.Render();
+            // Update the physical display.
+            SenseHat.Display.Update();
 
-				// Update the physical display.
-				SenseHat.Display.Update();
-
-				// Pause for a short while.
-				Sleep(TimeSpan.FromMilliseconds(50));
-			}
-		}
-	}
+            // Pause for a short while.
+            Sleep(TimeSpan.FromMilliseconds(50));
+        }
+    }
+}

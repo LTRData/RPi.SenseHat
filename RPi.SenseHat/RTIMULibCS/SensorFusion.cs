@@ -129,10 +129,10 @@ public abstract class SensorFusion
         //  check for quaternion aliasing. If the quaternion has the wrong sign
         //  the filter will be very unhappy.
 
-        int maxIndex = -1;
+        var maxIndex = -1;
         double maxVal = -1000;
 
-        for (int i = 0; i < 4; i++)
+        for (var i = 0; i < 4; i++)
         {
             if (Math.Abs(MeasuredQPose.GetData(i)) > maxVal)
             {
@@ -171,12 +171,12 @@ public abstract class SensorFusion
 
             // create the conjugate of the pose
 
-            Quaternion fusedConjugate = FusionQPose.Conjugate();
+            var fusedConjugate = FusionQPose.Conjugate();
 
             // now do the rotation - takes two steps with qTemp as the intermediate variable
 
-            Quaternion qTemp = Gravity * FusionQPose;
-            Quaternion rotatedGravity = fusedConjugate * qTemp;
+            var qTemp = Gravity * FusionQPose;
+            var rotatedGravity = fusedConjugate * qTemp;
 
             // now adjust the measured accel and change the signs to make sense
 

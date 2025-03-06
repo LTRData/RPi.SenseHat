@@ -28,85 +28,80 @@ using RichardsTech.Sensors;
 
 namespace RPi.SenseHat.Demo.Demos;
 
-	/// <summary>
-	/// The green blob is drawn to the center of the earth! If you hold it upside down it gets angry and turns red. :-O
-	/// </summary>
-	public sealed class GravityBlob : SenseHatDemo
-	{
-		public GravityBlob(ISenseHat senseHat, Action<string> setScreenText)
-			: base(senseHat, setScreenText)
-		{
-		}
+/// <summary>
+/// The green blob is drawn to the center of the earth! If you hold it upside down it gets angry and turns red. :-O
+/// </summary>
+public sealed class GravityBlob(ISenseHat senseHat, Action<string> setScreenText) : SenseHatDemo(senseHat, setScreenText)
+{
+    public override void Run()
+    {
+        TimeSpan mainPageUpdateRate = TimeSpan.FromSeconds(0.5);
+        DateTime nextMainPageUpdate = DateTime.Now.Add(mainPageUpdateRate);
 
-		public override void Run()
-		{
-			TimeSpan mainPageUpdateRate = TimeSpan.FromSeconds(0.5);
-			DateTime nextMainPageUpdate = DateTime.Now.Add(mainPageUpdateRate);
+        while (true)
+        {
+            Sleep(TimeSpan.FromMilliseconds(50));
 
-			while (true)
-			{
-				Sleep(TimeSpan.FromMilliseconds(50));
+            if (!SenseHat.Sensors.ImuSensor.Update())
+            {
+                continue;
+            }
 
-				if (!SenseHat.Sensors.ImuSensor.Update())
-				{
-					continue;
-				}
+            if (!SenseHat.Sensors.Acceleration.HasValue)
+            {
+                continue;
+            }
 
-				if (!SenseHat.Sensors.Acceleration.HasValue)
-				{
-					continue;
-				}
+            Color[,] colors = CreateGravityBlobScreen(SenseHat.Sensors.Acceleration.Value);
 
-				Color[,] colors = CreateGravityBlobScreen(SenseHat.Sensors.Acceleration.Value);
+            SenseHat.Display.CopyColorsToScreen(colors);
 
-				SenseHat.Display.CopyColorsToScreen(colors);
+            SenseHat.Display.Update();
 
-				SenseHat.Display.Update();
+            if ((SetScreenText != null) && nextMainPageUpdate <= DateTime.Now)
+            {
+                SetScreenText($"{SenseHat.Sensors.Acceleration.Value.X:0.00}, {SenseHat.Sensors.Acceleration.Value.Y:0.00}, {SenseHat.Sensors.Acceleration.Value.Z:0.00}");
+                nextMainPageUpdate = DateTime.Now.Add(mainPageUpdateRate);
+            }
+        }
+    }
 
-				if ((SetScreenText != null) && nextMainPageUpdate <= DateTime.Now)
-				{
-					SetScreenText($"{SenseHat.Sensors.Acceleration.Value.X:0.00}, {SenseHat.Sensors.Acceleration.Value.Y:0.00}, {SenseHat.Sensors.Acceleration.Value.Z:0.00}");
-					nextMainPageUpdate = DateTime.Now.Add(mainPageUpdateRate);
-				}
-			}
-		}
+    private static Color[,] CreateGravityBlobScreen(Vector3 vector)
+    {
+        double x0 = (vector.X + 1) * 5.5 - 2;
+        double y0 = (vector.Y + 1) * 5.5 - 2;
 
-		private static Color[,] CreateGravityBlobScreen(Vector3 vector)
-		{
-			double x0 = (vector.X + 1) * 5.5 - 2;
-			double y0 = (vector.Y + 1) * 5.5 - 2;
+        double distScale = 4;
 
-			double distScale = 4;
+        var colors = new Color[8, 8];
 
-			var colors = new Color[8, 8];
+        bool isUpsideDown = vector.Z < 0;
 
-			bool isUpsideDown = vector.Z < 0;
+        for (int y = 0; y < 8; y++)
+        {
+            for (int x = 0; x < 8; x++)
+            {
+                double dx = x0 - x;
+                double dy = y0 - y;
 
-			for (int y = 0; y < 8; y++)
-			{
-				for (int x = 0; x < 8; x++)
-				{
-					double dx = x0 - x;
-					double dy = y0 - y;
+                double dist = Math.Sqrt(dx * dx + dy * dy) / distScale;
+                if (dist > 1)
+                {
+                    dist = 1;
+                }
 
-					double dist = Math.Sqrt(dx * dx + dy * dy) / distScale;
-					if (dist > 1)
-					{
-						dist = 1;
-					}
+                int colorIntensity = (int)Math.Round(255 * (1 - dist));
+                if (colorIntensity > 255)
+                {
+                    colorIntensity = 255;
+                }
 
-					int colorIntensity = (int)Math.Round(255 * (1 - dist));
-					if (colorIntensity > 255)
-					{
-						colorIntensity = 255;
-					}
+                colors[x, y] = isUpsideDown
+                    ? Color.FromArgb(255, (byte)colorIntensity, 0, 0)
+                    : Color.FromArgb(255, 0, (byte)colorIntensity, 0);
+            }
+        }
 
-					colors[x, y] = isUpsideDown
-						? Color.FromArgb(255, (byte)colorIntensity, 0, 0)
-						: Color.FromArgb(255, 0, (byte)colorIntensity, 0);
-				}
-			}
-
-			return colors;
-		}
-	}
+        return colors;
+    }
+}

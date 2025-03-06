@@ -46,15 +46,9 @@ public struct Vector3(double x, double y, double z)
         Z = 0;
     }
 
-    public static Vector3 operator +(Vector3 lhs, Vector3 rhs)
-    {
-        return new Vector3(lhs.X + rhs.X, lhs.Y + rhs.Y, lhs.Z + rhs.Z);
-    }
+    public static Vector3 operator +(Vector3 lhs, Vector3 rhs) => new(lhs.X + rhs.X, lhs.Y + rhs.Y, lhs.Z + rhs.Z);
 
-    public static Vector3 operator -(Vector3 lhs, Vector3 rhs)
-    {
-        return new Vector3(lhs.X - rhs.X, lhs.Y - rhs.Y, lhs.Z - rhs.Z);
-    }
+    public static Vector3 operator -(Vector3 lhs, Vector3 rhs) => new(lhs.X - rhs.X, lhs.Y - rhs.Y, lhs.Z - rhs.Z);
 
     public static double DotProduct(Vector3 a, Vector3 b) => a.X * b.X + a.Y * b.Y + a.Z * b.Z;
 
@@ -62,7 +56,7 @@ public struct Vector3(double x, double y, double z)
 
     public readonly Vector3 AccelToEuler()
     {
-        Vector3 normAccel = this;
+        var normAccel = this;
         normAccel.Normalize();
 
         var rollPitchYaw = new Vector3(
@@ -75,13 +69,13 @@ public struct Vector3(double x, double y, double z)
 
     public readonly Quaternion AccelToQuaternion()
     {
-        Vector3 normAccel = this;
-        Vector3 z = new Vector3(0, 0, 1.0);
+        var normAccel = this;
+        var z = new Vector3(0, 0, 1.0);
 
         normAccel.Normalize();
 
-        double angle = Math.Acos(DotProduct(z, normAccel));
-        Vector3 vec = CrossProduct(normAccel, z);
+        var angle = Math.Acos(DotProduct(z, normAccel));
+        var vec = CrossProduct(normAccel, z);
         vec.Normalize();
 
         var qPose = new Quaternion();
@@ -91,9 +85,9 @@ public struct Vector3(double x, double y, double z)
 
     public void Normalize()
     {
-        double length = Math.Sqrt(X * X + Y * Y + Z * Z);
+        var length = Math.Sqrt(X * X + Y * Y + Z * Z);
 
-        if ((length == 0) || (length == 1))
+        if (length is 0 or 1)
         {
             return;
         }

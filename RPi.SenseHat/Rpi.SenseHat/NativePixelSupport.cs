@@ -14,62 +14,62 @@ using System.IO;
 namespace Emmellsoft.IoT.Rpi.SenseHat;
 
 #if WINDOWS_UWP
-	public static class NativePixelSupport
+public static class NativePixelSupport
 {
-		/// <summary>
-		/// Gets a 2-dimensional pixel array from an image.
-		/// </summary>
-		/// <param name="imageUri">The URI to the image.</param>
-		public static async Task<Color[,]> GetPixels(Uri imageUri)
-		{
-			Color[,] pixels = null;
+    /// <summary>
+    /// Gets a 2-dimensional pixel array from an image.
+    /// </summary>
+    /// <param name="imageUri">The URI to the image.</param>
+    public static async Task<Color[,]> GetPixels(Uri imageUri)
+    {
+        Color[,] pixels = null;
 
-			var pixelsLoadedEvent = new ManualResetEvent(false);
+        var pixelsLoadedEvent = new ManualResetEvent(false);
 
-			await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-			{
-				StorageFile imageFile = await StorageFile.GetFileFromApplicationUriAsync(imageUri);
+        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+        {
+            StorageFile imageFile = await StorageFile.GetFileFromApplicationUriAsync(imageUri);
 
-				using (var imageContent = await imageFile.OpenReadAsync())
-				{
-					BitmapDecoder bitmapDecoder = await BitmapDecoder.CreateAsync(imageContent);
+            using (var imageContent = await imageFile.OpenReadAsync())
+            {
+                BitmapDecoder bitmapDecoder = await BitmapDecoder.CreateAsync(imageContent);
 
-					pixels = new Color[bitmapDecoder.PixelWidth, bitmapDecoder.PixelHeight];
+                pixels = new Color[bitmapDecoder.PixelWidth, bitmapDecoder.PixelHeight];
 
-					PixelDataProvider pixelDataProvider = await bitmapDecoder.GetPixelDataAsync(
-						BitmapPixelFormat.Bgra8,
-						BitmapAlphaMode.Straight,
-						new BitmapTransform(),
-						ExifOrientationMode.IgnoreExifOrientation,
-						ColorManagementMode.DoNotColorManage);
+                PixelDataProvider pixelDataProvider = await bitmapDecoder.GetPixelDataAsync(
+                    BitmapPixelFormat.Bgra8,
+                    BitmapAlphaMode.Straight,
+                    new BitmapTransform(),
+                    ExifOrientationMode.IgnoreExifOrientation,
+                    ColorManagementMode.DoNotColorManage);
 
-					byte[] pixelData = pixelDataProvider.DetachPixelData();
+                byte[] pixelData = pixelDataProvider.DetachPixelData();
 
-					int pixelDataIndex = 0;
-					for (int y = 0; y < bitmapDecoder.PixelHeight; y++)
-					{
-						for (int x = 0; x < bitmapDecoder.PixelWidth; x++)
-						{
-							byte b = pixelData[pixelDataIndex];
-							byte g = pixelData[pixelDataIndex + 1];
-							byte r = pixelData[pixelDataIndex + 2];
-							byte a = pixelData[pixelDataIndex + 3];
+                int pixelDataIndex = 0;
+                for (int y = 0; y < bitmapDecoder.PixelHeight; y++)
+                {
+                    for (int x = 0; x < bitmapDecoder.PixelWidth; x++)
+                    {
+                        byte b = pixelData[pixelDataIndex];
+                        byte g = pixelData[pixelDataIndex + 1];
+                        byte r = pixelData[pixelDataIndex + 2];
+                        byte a = pixelData[pixelDataIndex + 3];
 
-							pixels[x, y] = Color.FromArgb(a, r, g, b);
+                        pixels[x, y] = Color.FromArgb(a, r, g, b);
 
-							pixelDataIndex += 4;
-						}
-					}
-				}
+                        pixelDataIndex += 4;
+                    }
+                }
+            }
 
-				pixelsLoadedEvent.Set();
-			});
+            pixelsLoadedEvent.Set();
+        });
 
-			pixelsLoadedEvent.WaitOne();
+        pixelsLoadedEvent.WaitOne();
 
-			return pixels;
-		}
-	}
+        return pixels;
+    }
+}
 #elif NETFRAMEWORK
 public static class NativePixelSupport
 {

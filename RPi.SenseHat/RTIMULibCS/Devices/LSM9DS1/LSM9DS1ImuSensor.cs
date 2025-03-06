@@ -22,8 +22,8 @@
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
-using System.Threading.Tasks;
 using System.Device.I2c;
+using System.Threading.Tasks;
 
 namespace RichardsTech.Sensors.Devices.LSM9DS1;
 
@@ -103,7 +103,7 @@ public class LSM9DS1ImuSensor : ImuSensor
 
     private void VerifyDeviceAccelGyroId()
     {
-        byte id = I2CSupport.Read8Bits(_accelGyroI2CDevice, LSM9DS1Defines.WHO_AM_I, "Failed to read LSM9DS1 accel/gyro id");
+        var id = I2CSupport.Read8Bits(_accelGyroI2CDevice, LSM9DS1Defines.WHO_AM_I, "Failed to read LSM9DS1 accel/gyro id");
 
         if (id != LSM9DS1Defines.ID)
         {
@@ -113,7 +113,7 @@ public class LSM9DS1ImuSensor : ImuSensor
 
     private void VerifyDeviceMagId()
     {
-        byte id = I2CSupport.Read8Bits(_magI2CDevice, LSM9DS1Defines.MAG_WHO_AM_I, "Failed to read LSM9DS1 mag id");
+        var id = I2CSupport.Read8Bits(_magI2CDevice, LSM9DS1Defines.MAG_WHO_AM_I, "Failed to read LSM9DS1 mag id");
 
         if (id != LSM9DS1Defines.MAG_ID)
         {
@@ -197,13 +197,13 @@ public class LSM9DS1ImuSensor : ImuSensor
 
     private void SetGyroCtrl3()
     {
-        int gyroHighPassFilterCodeValue = (int)_config.GyroHighPassFilterCode;
-        if ((gyroHighPassFilterCodeValue < 0) || (gyroHighPassFilterCodeValue > 9))
+        var gyroHighPassFilterCodeValue = (int)_config.GyroHighPassFilterCode;
+        if (gyroHighPassFilterCodeValue is < 0 or > 9)
         {
             throw new SensorException($"Illegal LSM9DS1 gyro high pass filter code {_config.GyroHighPassFilterCode}");
         }
 
-        byte ctrl3 = (byte)gyroHighPassFilterCodeValue;
+        var ctrl3 = (byte)gyroHighPassFilterCodeValue;
 
         //  Turn on hpf
         ctrl3 |= 0x40;
@@ -213,19 +213,19 @@ public class LSM9DS1ImuSensor : ImuSensor
 
     private void SetAccelCtrl6()
     {
-        int accelSampleRateValue = (int)_config.AccelSampleRate;
-        if ((accelSampleRateValue < 1) || (accelSampleRateValue > 6))
+        var accelSampleRateValue = (int)_config.AccelSampleRate;
+        if (accelSampleRateValue is < 1 or > 6)
         {
             throw new SensorException($"Illegal LSM9DS1 accel sample rate code {_config.AccelSampleRate}");
         }
 
-        int accelLowPassFilterValue = (int)_config.AccelLowPassFilter;
-        if ((accelLowPassFilterValue < 0) || (accelLowPassFilterValue > 3))
+        var accelLowPassFilterValue = (int)_config.AccelLowPassFilter;
+        if (accelLowPassFilterValue is < 0 or > 3)
         {
             throw new SensorException($"Illegal LSM9DS1 accel low pass fiter code {_config.AccelLowPassFilter}");
         }
 
-        byte ctrl6 = (byte)(accelSampleRateValue << 5);
+        var ctrl6 = (byte)(accelSampleRateValue << 5);
 
         _accelerationScale = _config.AccelFullScaleRange switch
         {
@@ -251,14 +251,14 @@ public class LSM9DS1ImuSensor : ImuSensor
 
     private void SetMagCtrl1()
     {
-        int compassSampleRateValue = (int)_config.CompassSampleRate;
+        var compassSampleRateValue = (int)_config.CompassSampleRate;
 
-        if ((compassSampleRateValue < 0) || (compassSampleRateValue > 7))
+        if (compassSampleRateValue is < 0 or > 7)
         {
             throw new SensorException($"Illegal LSM9DS1 compass sample rate code {_config.CompassSampleRate}");
         }
 
-        byte ctrl1 = (byte)(compassSampleRateValue << 2);
+        var ctrl1 = (byte)(compassSampleRateValue << 2);
 
         I2CSupport.Write(_magI2CDevice, LSM9DS1Defines.MAG_CTRL1, ctrl1, "Failed to set LSM9DS1 compass CTRL5");
     }
@@ -309,7 +309,7 @@ public class LSM9DS1ImuSensor : ImuSensor
     /// </summary>
     public override bool Update()
     {
-        byte status = I2CSupport.Read8Bits(_accelGyroI2CDevice, LSM9DS1Defines.STATUS, "Failed to read LSM9DS1 status");
+        var status = I2CSupport.Read8Bits(_accelGyroI2CDevice, LSM9DS1Defines.STATUS, "Failed to read LSM9DS1 status");
 
         if ((status & 0x03) != 0x03)
         {
@@ -317,11 +317,14 @@ public class LSM9DS1ImuSensor : ImuSensor
             return false;
         }
 
-        byte[] gyroData = I2CSupport.ReadBytes(_accelGyroI2CDevice, 0x80 + LSM9DS1Defines.OUT_X_L_G, 6, "Failed to read LSM9DS1 gyro data");
+        Span<byte> gyroData = stackalloc byte[6];
+        I2CSupport.ReadBytes(_accelGyroI2CDevice, 0x80 + LSM9DS1Defines.OUT_X_L_G, gyroData, "Failed to read LSM9DS1 gyro data");
 
-        byte[] accelData = I2CSupport.ReadBytes(_accelGyroI2CDevice, 0x80 + LSM9DS1Defines.OUT_X_L_XL, 6, "Failed to read LSM9DS1 accel data");
+        Span<byte> accelData = stackalloc byte[6];
+        I2CSupport.ReadBytes(_accelGyroI2CDevice, 0x80 + LSM9DS1Defines.OUT_X_L_XL, accelData, "Failed to read LSM9DS1 accel data");
 
-        byte[] magData = I2CSupport.ReadBytes(_magI2CDevice, 0x80 + LSM9DS1Defines.MAG_OUT_X_L, 6, "Failed to read LSM9DS1 compass data");
+        Span<byte> magData = stackalloc byte[6];
+        I2CSupport.ReadBytes(_magI2CDevice, 0x80 + LSM9DS1Defines.MAG_OUT_X_L, magData, "Failed to read LSM9DS1 compass data");
 
         var readings = new SensorReadings
         {

@@ -28,23 +28,23 @@ using Windows.UI.Xaml.Controls;
 
 namespace RPi.SenseHat.Demo;
 
-	public sealed partial class MainPage : Page
-	{
-		public MainPage()
-		{
-			InitializeComponent();
-			DemoRunner.Run(senseHat => DemoSelector.GetDemo(senseHat, SetScreenText));
-		}
+public sealed partial class MainPage : Page
+{
+    public MainPage()
+    {
+        InitializeComponent();
+        DemoRunner.Run(senseHat => DemoSelector.GetDemo(senseHat, SetScreenText));
+    }
 
-		private async void SetScreenText(string text)
-		{
-			await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
-				CoreDispatcherPriority.Normal,
-				() =>
-				{
-					ScreenText.Text = text;
+    private async void SetScreenText(string text)
+    {
+        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+            CoreDispatcherPriority.Normal,
+            () =>
+            {
+                ScreenText.Text = text;
 
-					// Feel free to add more UI stuff here! :-)
-				});
-		}
-	}
+                // Feel free to add more UI stuff here! :-)
+            });
+    }
+}

@@ -46,11 +46,9 @@ internal static class I2CSupport
     {
         try
         {
-            byte[] addr = [reg];
+            Span<byte> data = stackalloc byte[1];
 
-            byte[] data = new byte[1];
-
-            device.WriteRead(addr, data);
+            device.WriteRead([reg], data);
             return data[0];
         }
         catch (Exception exception)
@@ -63,11 +61,9 @@ internal static class I2CSupport
     {
         try
         {
-            byte[] addr = [reg];
+            Span<byte> data = stackalloc byte[2];
 
-            byte[] data = new byte[2];
-
-            device.WriteRead(addr, data);
+            device.WriteRead([reg], data);
 
             return byteOrder switch
             {
@@ -86,11 +82,9 @@ internal static class I2CSupport
     {
         try
         {
-            byte[] addr = [reg];
+            Span<byte> data = stackalloc byte[3];
 
-            byte[] data = new byte[3];
-
-            device.WriteRead(addr, data);
+            device.WriteRead([reg], data);
 
             return byteOrder switch
             {
@@ -109,11 +103,9 @@ internal static class I2CSupport
     {
         try
         {
-            byte[] addr = [reg];
+            Span<byte> data = stackalloc byte[4];
 
-            byte[] data = new byte[4];
-
-            device.WriteRead(addr, data);
+            device.WriteRead([reg], data);
 
             return byteOrder switch
             {
@@ -128,16 +120,11 @@ internal static class I2CSupport
         }
     }
 
-    public static byte[] ReadBytes(I2cDevice device, byte reg, int count, string exceptionMessage)
+    public static void ReadBytes(I2cDevice device, byte reg, Span<byte> data, string exceptionMessage)
     {
         try
         {
-            byte[] addr = [reg];
-
-            byte[] data = new byte[count];
-
-            device.WriteRead(addr, data);
-            return data;
+            device.WriteRead([reg], data);
         }
         catch (Exception exception)
         {

@@ -30,16 +30,11 @@ namespace RPi.SenseHat.Demo.Demos;
 /// <summary>
 /// Use the joystick to move the pixel around.
 /// </summary>
-public class JoystickPixel : SenseHatDemo
+public class JoystickPixel(ISenseHat senseHat, Action<string> setScreenText) : SenseHatDemo(senseHat, setScreenText)
 {
-    private readonly Color[] _colors = { Color.Red, Color.Green, Color.Blue, Color.Cyan, Color.Magenta, Color.Yellow, Color.White };
+    private readonly Color[] _colors = [Color.Red, Color.Green, Color.Blue, Color.Cyan, Color.Magenta, Color.Yellow, Color.White];
     private bool _lastPressingEnter;
     private int _colorIndex;
-
-    public JoystickPixel(ISenseHat senseHat, Action<string> setScreenText)
-        : base(senseHat, setScreenText)
-    {
-    }
 
     public override void Run()
     {

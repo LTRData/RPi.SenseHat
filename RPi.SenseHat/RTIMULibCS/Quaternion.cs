@@ -78,16 +78,13 @@ public struct Quaternion(double scalar, double x, double y, double z)
             qa.Scalar * qb.Z + qa.X * qb.Y - qa.Y * qb.X + qa.Z * qb.Scalar);
     }
 
-    public static Quaternion operator *(Quaternion lhs, double rhs)
-    {
-        return new Quaternion(lhs.Scalar * rhs, lhs.X * rhs, lhs.Y * rhs, lhs.Z * rhs);
-    }
+    public static Quaternion operator *(Quaternion lhs, double rhs) => new(lhs.Scalar * rhs, lhs.X * rhs, lhs.Y * rhs, lhs.Z * rhs);
 
     public void Normalize()
     {
-        double length = Math.Sqrt(Scalar * Scalar + X * X + Y * Y + Z * Z);
+        var length = Math.Sqrt(Scalar * Scalar + X * X + Y * Y + Z * Z);
 
-        if ((length == 0) || (length == 1))
+        if (length is 0 or 1)
         {
             return;
         }
@@ -108,12 +105,12 @@ public struct Quaternion(double scalar, double x, double y, double z)
 
     public void FromEuler(Vector3 vec)
     {
-        double cosX2 = Math.Cos(vec.X / 2.0f);
-        double sinX2 = Math.Sin(vec.X / 2.0f);
-        double cosY2 = Math.Cos(vec.Y / 2.0f);
-        double sinY2 = Math.Sin(vec.Y / 2.0f);
-        double cosZ2 = Math.Cos(vec.Z / 2.0f);
-        double sinZ2 = Math.Sin(vec.Z / 2.0f);
+        var cosX2 = Math.Cos(vec.X / 2.0f);
+        var sinX2 = Math.Sin(vec.X / 2.0f);
+        var cosY2 = Math.Cos(vec.Y / 2.0f);
+        var sinY2 = Math.Sin(vec.Y / 2.0f);
+        var cosZ2 = Math.Cos(vec.Z / 2.0f);
+        var sinZ2 = Math.Sin(vec.Z / 2.0f);
 
         Scalar = cosX2 * cosY2 * cosZ2 + sinX2 * sinY2 * sinZ2;
         X = sinX2 * cosY2 * cosZ2 - cosX2 * sinY2 * sinZ2;
@@ -141,7 +138,7 @@ public struct Quaternion(double scalar, double x, double y, double z)
 
     public void FromAngleVector(double angle, Vector3 vec)
     {
-        double sinHalfTheta = Math.Sin(angle / 2.0);
+        var sinHalfTheta = Math.Sin(angle / 2.0);
         Scalar = Math.Cos(angle / 2.0);
         X = vec.X * sinHalfTheta;
         Y = vec.Y * sinHalfTheta;

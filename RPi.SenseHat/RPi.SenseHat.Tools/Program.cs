@@ -34,9 +34,9 @@ using Emmellsoft.IoT.Rpi.SenseHat.Tools.LedBuffer;
 
 namespace Emmellsoft.IoT.Rpi.SenseHat.Tools;
 
-internal static class Program
+public static class Program
 {
-    static void Main(string[] args)
+    public static void Main()
     {
         ColorFontWork();
         LedBufferWork();

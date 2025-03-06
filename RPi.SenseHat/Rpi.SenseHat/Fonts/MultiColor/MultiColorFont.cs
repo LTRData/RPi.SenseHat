@@ -73,7 +73,7 @@ public class MultiColorFont(IEnumerable<MultiColorCharacter> chars) : Font<Multi
                         charWidth++;
                     }
 
-                    Color[,] charPixels = new Color[charWidth, charHeight];
+                    var charPixels = new Color[charWidth, charHeight];
                     for (int y = 0; y < charHeight; y++)
                     {
                         for (int x = 0; x < charWidth; x++)

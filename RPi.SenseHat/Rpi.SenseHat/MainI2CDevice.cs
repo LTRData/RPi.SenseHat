@@ -24,6 +24,9 @@
 using System;
 using System.Device.I2c;
 
+#pragma warning disable IDE0079 // Remove unnecessary suppression
+#pragma warning disable IDE0057 // Use range operator
+
 namespace Emmellsoft.IoT.Rpi.SenseHat;
 
 internal sealed class MainI2CDevice(I2cDevice device) : IDisposable
@@ -34,28 +37,21 @@ internal sealed class MainI2CDevice(I2cDevice device) : IDisposable
 
     internal byte ReadByte(byte address)
     {
-        byte[] buffer = [address];
-        byte[] value = new byte[1];
+        Span<byte> value = stackalloc byte[1];
 
-        _device.WriteRead(buffer, value);
+        _device.WriteRead([address], value);
 
         return value[0];
     }
 
-    internal byte[] ReadBytes(byte address, int length)
-    {
-        byte[] values = new byte[length];
-        byte[] buffer = [address];
-        _device.WriteRead(buffer, values);
+    internal void ReadBytes(byte address, Span<byte> values)
+        => _device.WriteRead([address], values);
 
-        return values;
-    }
-
-    internal void WriteBytes(byte address, byte[] values)
+    internal void WriteBytes(byte address, Span<byte> values)
     {
-        byte[] buffer = new byte[1 + values.Length];
+        Span<byte> buffer = stackalloc byte[1 + values.Length];
         buffer[0] = address;
-        Array.Copy(values, 0, buffer, 1, values.Length);
+        values.CopyTo(buffer.Slice(1));
 
         _device.Write(buffer);
     }

@@ -8,15 +8,10 @@ using System.Drawing;
 
 namespace RPi.SenseHat.Demo.Demos;
 
-public class BinaryClock : SenseHatDemo
+public class BinaryClock(ISenseHat senseHat, Action<string> setScreenText) : SenseHatDemo(senseHat, setScreenText)
 {
     private readonly Color _activeBitColor = Color.Red;
     private readonly Color _inctiveBitColor = Color.DimGray;
-
-    public BinaryClock(ISenseHat senseHat, Action<string> setScreenText)
-        : base(senseHat, setScreenText)
-    {
-    }
 
     public override void Run()
     {

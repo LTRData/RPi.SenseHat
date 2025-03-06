@@ -28,66 +28,61 @@ using Emmellsoft.IoT.Rpi.SenseHat.Fonts.SingleColor;
 
 namespace RPi.SenseHat.Demo.Demos;
 
-	/// <summary>
-	/// Is it only me or does it show some unusual high temperature? :-S
-	/// </summary>
-	public class WriteTemperature : SenseHatDemo
-	{
-		public WriteTemperature(ISenseHat senseHat, Action<string> setScreenText)
-			: base(senseHat, setScreenText)
-		{
-		}
+/// <summary>
+/// Is it only me or does it show some unusual high temperature? :-S
+/// </summary>
+public class WriteTemperature(ISenseHat senseHat, Action<string> setScreenText) : SenseHatDemo(senseHat, setScreenText)
+{
+    private enum TemperatureUnit
+    {
+        Celcius,
+        Fahrenheit,
+        Kelvin
+    }
 
-		private enum TemperatureUnit
-		{
-			Celcius,
-			Fahrenheit,
-			Kelvin
-		}
+    public override void Run()
+    {
+        var tinyFont = new TinyFont();
 
-		public override void Run()
-		{
-			var tinyFont = new TinyFont();
+        ISenseHatDisplay display = SenseHat.Display;
 
-			ISenseHatDisplay display = SenseHat.Display;
+        TemperatureUnit unit = TemperatureUnit.Celcius; // The wanted temperature unit.
 
-			TemperatureUnit unit = TemperatureUnit.Celcius; // The wanted temperature unit.
+        string unitText = GetUnitText(unit); // Get the unit as a string.
 
-			string unitText = GetUnitText(unit); // Get the unit as a string.
+        while (true)
+        {
+            SenseHat.Sensors.HumiditySensor.Update();
 
-			while (true)
-			{
-				SenseHat.Sensors.HumiditySensor.Update();
+            if (SenseHat.Sensors.Temperature.HasValue)
+            {
+                double temperatureValue = ConvertTemperatureValue(unit, SenseHat.Sensors.Temperature.Value);
 
-				if (SenseHat.Sensors.Temperature.HasValue)
-				{
-					double temperatureValue = ConvertTemperatureValue(unit, SenseHat.Sensors.Temperature.Value);
+                int temperature = (int)Math.Round(temperatureValue);
+                string text = temperature.ToString();
 
-					int temperature = (int)Math.Round(temperatureValue);
-					string text = temperature.ToString();
+                if (text.Length > 2)
+                {
+                    // Too long to fit the display!
+                    text = "**";
+                }
 
-					if (text.Length > 2)
-					{
-						// Too long to fit the display!
-						text = "**";
-					}
+                display.Clear();
+                TinyFont.Write(display, text, Color.White);
+                display.Update();
 
-					display.Clear();
-					TinyFont.Write(display, text, Color.White);
-					display.Update();
+                SetScreenText?.Invoke($"{temperatureValue:0.0} {unitText}"); // Update the MainPage (if it's utilized; i.e. not null).
 
-					SetScreenText?.Invoke($"{temperatureValue:0.0} {unitText}"); // Update the MainPage (if it's utilized; i.e. not null).
-
-					// Sleep quite some time; the temperature usually change quite slowly...
-					Sleep(TimeSpan.FromSeconds(5));
-				}
-				else
-				{
-					// Rapid update until there is a temperature reading.
-					Sleep(TimeSpan.FromSeconds(0.5));
-				}
-			}
-		}
+                // Sleep quite some time; the temperature usually change quite slowly...
+                Sleep(TimeSpan.FromSeconds(5));
+            }
+            else
+            {
+                // Rapid update until there is a temperature reading.
+                Sleep(TimeSpan.FromSeconds(0.5));
+            }
+        }
+    }
 
     private static double ConvertTemperatureValue(TemperatureUnit unit, double temperatureInCelcius) => unit switch
     {

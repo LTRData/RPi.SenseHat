@@ -56,25 +56,25 @@ public static class MathSupport
 
     public static Vector3 PoseFromAccelMag(Vector3 accel, Vector3 mag)
     {
-        Vector3 result = accel.AccelToEuler();
+        var result = accel.AccelToEuler();
 
         //  q.fromEuler(result);
         //  since result.z() is always 0, this can be optimized a little
 
-        double cosX2 = Math.Cos(result.X / 2.0f);
-        double sinX2 = Math.Sin(result.X / 2.0f);
-        double cosY2 = Math.Cos(result.Y / 2.0f);
-        double sinY2 = Math.Sin(result.Y / 2.0f);
+        var cosX2 = Math.Cos(result.X / 2.0f);
+        var sinX2 = Math.Sin(result.X / 2.0f);
+        var cosY2 = Math.Cos(result.Y / 2.0f);
+        var sinY2 = Math.Sin(result.Y / 2.0f);
 
-        Quaternion q = new Quaternion(cosX2 * cosY2, sinX2 * cosY2, cosX2 * sinY2, -sinX2 * sinY2);
-        Quaternion m = new Quaternion(0, mag.X, mag.Y, mag.Z);
+        var q = new Quaternion(cosX2 * cosY2, sinX2 * cosY2, cosX2 * sinY2, -sinX2 * sinY2);
+        var m = new Quaternion(0, mag.X, mag.Y, mag.Z);
 
         m = q * m * q.Conjugate();
         result.Z = -Math.Atan2(m.Y, m.X);
         return result;
     }
 
-    public static Vector3 ConvertToVector(byte[] rawData, double scale, ByteOrder byteOrder)
+    public static Vector3 ConvertToVector(ReadOnlySpan<byte> rawData, double scale, ByteOrder byteOrder)
     {
         return byteOrder switch
         {

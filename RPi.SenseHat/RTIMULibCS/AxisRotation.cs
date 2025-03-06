@@ -83,7 +83,7 @@ public class AxisRotation
         get => _direction;
         set
         {
-            if ((value >= AxisDirection.XNorthYEast) && (value <= AxisDirection.XWestYDown))
+            if (value is >= AxisDirection.XNorthYEast and <= AxisDirection.XWestYDown)
             {
                 _direction = value;
             }
@@ -98,7 +98,7 @@ public class AxisRotation
 
     private void SetConverterFunctions()
     {
-        int axisRotationValue = (int)_direction;
+        var axisRotationValue = (int)_direction;
 
         // Get converter function for the X-value
         if (AxisRotationArray[axisRotationValue, 0] != 0)
@@ -161,7 +161,7 @@ public class AxisRotation
     /// <param name="vector">The vector to rotate.</param>
     public Vector3 Rotate(Vector3 vector)
     {
-        Vector3 original = vector;
+        var original = vector;
 
         vector.X = _xConverter(original);
         vector.Y = _yConverter(original);

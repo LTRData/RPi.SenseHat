@@ -53,7 +53,7 @@ public abstract class ImuSensor : Sensor
 
         AxisRotation = new AxisRotation();
 
-        for (int i = 0; i < 3; i++)
+        for (var i = 0; i < 3; i++)
         {
             _magMax[i] = -1000.0;
             _magMin[i] = 1000.0;
@@ -122,7 +122,7 @@ public abstract class ImuSensor : Sensor
 
     public void SetGyroContinuousLearningAlpha(double alpha)
     {
-        if ((alpha < 0.0) || (alpha >= 1.0))
+        if (alpha is < 0.0 or >= 1.0)
         {
             throw new SensorException("Alpha out of range (0..1 allowed)");
         }
@@ -163,7 +163,7 @@ public abstract class ImuSensor : Sensor
     {
         if (readings.AccelerationValid)
         {
-            Vector3 deltaAccel = _previousAccel;
+            var deltaAccel = _previousAccel;
             deltaAccel -= readings.Acceleration; // compute difference
             _previousAccel = readings.Acceleration;
 
@@ -232,7 +232,7 @@ public abstract class ImuSensor : Sensor
             return;
         }
 
-        bool changed = false;
+        var changed = false;
 
         // see if there is a new max or min
 
@@ -283,7 +283,7 @@ public abstract class ImuSensor : Sensor
         {
             MagCalValid = true;
 
-            for (int i = 0; i < 3; i++)
+            for (var i = 0; i < 3; i++)
             {
                 delta = _magMax[i] - _magMin[i];
                 if ((delta < 30) || (_magMin[i] > 0) || (_magMax[i] < 0))
@@ -298,7 +298,7 @@ public abstract class ImuSensor : Sensor
         {
             _magMaxDelta = -1;
 
-            for (int i = 0; i < 3; i++)
+            for (var i = 0; i < 3; i++)
             {
                 if ((_magMax[i] - _magMin[i]) > _magMaxDelta)
                 {
@@ -311,7 +311,7 @@ public abstract class ImuSensor : Sensor
             _magMaxDelta /= 2.0;
         }
 
-        for (int i = 0; i < 3; i++)
+        for (var i = 0; i < 3; i++)
         {
             delta = (_magMax[i] - _magMin[i]) / 2.0;
             _magCalScale[i] = _magMaxDelta / delta;

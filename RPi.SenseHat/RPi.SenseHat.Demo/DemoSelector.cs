@@ -29,7 +29,7 @@ namespace RPi.SenseHat.Demo;
 
 public static class DemoSelector
 {
-    private static bool AlsoUseHdmiOutput = false; // Set this to true/false whether you have a display connected to the HDMI port of the Raspberry Pi!
+    private static readonly bool AlsoUseHdmiOutput = false; // Set this to true/false whether you have a display connected to the HDMI port of the Raspberry Pi!
 
     public static SenseHatDemo GetDemo(ISenseHat senseHat, Action<string> setScreenText)
     {
