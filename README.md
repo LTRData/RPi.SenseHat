@@ -15,7 +15,7 @@ All project paths below are relative to [RPi.SenseHat](RPi.SenseHat).
 | [RPi.SenseHat.Tools](RPi.SenseHat/RPi.SenseHat.Tools/RPi.SenseHat.Tools.csproj) | Windows development helpers for bitmap fonts, gamma and rotation calculations. | `net10.0-windows` |
 | [RPi.SenseHat.Demo](RPi.SenseHat/RPi.SenseHat.Demo/RPi.SenseHat.Demo.csproj) | Historical Windows IoT/UWP application with display, joystick and sensor examples. | UWP, Windows SDK 10.0.17763.0 |
 
-[Shared package metadata](RPi.SenseHat/Directory.build.props) assigns the library package IDs `LTRData.Rpi.SenseHat` and `LTRData.RTIMULibCS`. The main API retains the `Emmellsoft.IoT.Rpi.SenseHat` namespace. Both libraries reference `System.Device.Gpio` and `Newtonsoft.Json`.
+[Shared package metadata](RPi.SenseHat/Directory.Build.props) assigns the library package IDs `LTRData.Rpi.SenseHat` and `LTRData.RTIMULibCS`. The main API retains the `Emmellsoft.IoT.Rpi.SenseHat` namespace. Both libraries reference `System.Device.Gpio` and `Newtonsoft.Json`.
 
 ## Hardware and runtime
 
@@ -41,14 +41,6 @@ dotnet build RPi.SenseHat/Rpi.SenseHat/Rpi.SenseHat.csproj -c Debug -f net10.0
 ```
 
 Debug avoids the automatic NuGet packaging enabled by the library projects in Release. Release packaging uses all declared target frameworks; the shared properties also allow the package output directory to be set through `LocalNuGetPath`.
-
-**On a case-sensitive filesystem**, explicitly import the shared properties: the tracked filename is `Directory.build.props`, whereas MSBuild automatically searches for `Directory.Build.props`. For example, from the repository root in Bash:
-
-```sh
-dotnet build RPi.SenseHat/Rpi.SenseHat/Rpi.SenseHat.csproj -c Debug -f net10.0 -p:DirectoryBuildPropsPath="$PWD/RPi.SenseHat/Directory.build.props"
-```
-
-See [MSBuild's directory customization documentation](https://learn.microsoft.com/en-us/visualstudio/msbuild/customize-by-directory) for the filename requirement and explicit import property.
 
 Build the library project directly. The solution also contains the historical UWP demo, whose project references cannot consume the current .NET 8–10 library targets. Some solution, demo and tools paths also use different capitalization from the tracked library paths. The full solution is therefore not a portable build entry point.
 
